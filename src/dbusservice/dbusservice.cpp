@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
@@ -26,9 +26,10 @@
 #include <QtDBus/QDBusConnection>
 #include <QtGui/QGuiApplication>
 
-#include "dbusservice_adaptor.h"
+#include "application_adaptor.h"
+#include "dbusservice.h"
 
-namespace Vibe {
+namespace Liri {
 
 class DBusServicePrivate : public QObjectPrivate
 {
@@ -82,7 +83,7 @@ public:
 
 /*!
  * \class DBusService
- * \inmodule VibeCore
+ * \inmodule LiriDBusService
  * \brief Registers the application with D-Bus
  *
  * DBusService allows you to register the application with D-Bus
@@ -136,7 +137,7 @@ public:
  *
  * \code
  * #include <QtGui/QGuiApplication>
- * #include <VibeCore/DBusService>
+ * #include <LiriDBusService/DBusService>
  *
  * int main(int argc, char *argv[])
  * {
@@ -145,7 +146,7 @@ public:
  *     app.setApplicationName(QLatin1String("myapplication"));
  *     app.setDesktopFileName(QLatin1String("org.domain.MyApplication.desktop"));
  *
- *     Vibe::DBusService service(Vibe::DBusService::Single);
+ *     Liri::DBusService service(Liri::DBusService::Single);
  *
  *     // At this point we are sure there is only one instance
  *
@@ -180,7 +181,7 @@ DBusService::DBusService(StartupOptions options, QObject *parent)
 {
     Q_D(DBusService);
 
-    new DBusServiceAdaptor(this);
+    new ApplicationAdaptor(this);
 
     QDBusConnectionInterface *bus = nullptr;
 
@@ -297,4 +298,4 @@ void DBusService::Open(const QStringList &uris, const QVariantMap &platform_data
     Q_EMIT openRequested(QUrl::fromStringList(uris), platform_data);
 }
 
-} // namespace Vibe
+} // namespace Liri

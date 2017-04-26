@@ -16,11 +16,9 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QCommandLineParser>
 
-#include <Vibe/Core/Notification>
+#include <LiriNotifications/Notification>
 
-#include "config.h"
-
-using namespace Vibe;
+using namespace Liri;
 
 #define TR(x) QT_TRANSLATE_NOOP("Command line parser", QLatin1String(x))
 
@@ -28,8 +26,8 @@ int main(int argc, char *argv[])
 {
     // Application
     QCoreApplication app(argc, argv);
-    app.setApplicationName(QLatin1String("Vibe"));
-    app.setApplicationVersion(VIBE_VERSION_STRING);
+    app.setApplicationName(QLatin1String("Notify"));
+    app.setApplicationVersion(LIBLIRI_VERSION);
     app.setOrganizationName(QLatin1String("Liri"));
     app.setOrganizationDomain(QLatin1String("liri.io"));
 

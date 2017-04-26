@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
  *
@@ -25,9 +25,7 @@
 #include <QBasicTimer>
 #include <functional>
 
-#include <Vibe/core/vibe_core_export.h>
-
-class VIBECORE_EXPORT QObjectListModel : public QAbstractListModel
+class QObjectListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_DISABLE_COPY(QObjectListModel)

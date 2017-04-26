@@ -1,5 +1,5 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
  *
@@ -25,7 +25,7 @@
 
 #include <QtCore/QLocale>
 #include <QtCore/QObject>
-#include <Vibe/Core/KFormat>
+#include <LiriCore/kformat.h>
 
 /**
   * Formats is a wrapper around KFormat which provides support for formatting

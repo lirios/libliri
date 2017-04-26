@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
@@ -26,12 +26,12 @@
 
 #include "notification.h"
 #include "notification_p.h"
-#include "notificationsinterface.h"
+#include "notifications_interface.h"
 
 const QString serviceName = QLatin1String("org.freedesktop.Notifications");
 const QString path = QLatin1String("/org/freedesktop/Notifications");
 
-namespace Vibe {
+namespace Liri {
 
 NotificationPrivate::NotificationPrivate()
     : iface(nullptr)
@@ -42,7 +42,7 @@ NotificationPrivate::NotificationPrivate()
 
 /*!
  * \qmltype Notification
- * \inqmlmodule Vibe.Notifications
+ * \inqmlmodule Liri.Notifications
  * \preliminary
  * \brief An object that represents a single notification of an application.
  *
@@ -70,7 +70,7 @@ NotificationPrivate::NotificationPrivate()
 
 /*!
  * \class Notification
- * \inmodule VibeCore
+ * \inmodule LiriNotifications
  * \preliminary
  * \brief An object that represents a single notification of an application.
  *
@@ -111,7 +111,7 @@ Notification::Notification(QObject *parent)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::applicationName
+ * \qmlproperty object Liri::Notifications::Notification::applicationName
  *
  * This property holds the name of the application sending the notification.
  * It's the application's formal name, rather than some sort of ID.
@@ -143,7 +143,7 @@ void Notification::setApplicationName(const QString &name)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::applicationIcon
+ * \qmlproperty object Liri::Notifications::Notification::applicationIcon
  *
  * This property holds the name of the application sending the notification.
  * It's the application's formal name, rather than some sort of ID.
@@ -175,7 +175,7 @@ void Notification::setApplicationIcon(const QString &icon)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::summary
+ * \qmlproperty object Liri::Notifications::Notification::summary
  *
  * This property holds the summary of the notification.
  * It's a single line overview of the notification, it should generally
@@ -207,7 +207,7 @@ void Notification::setSummary(const QString &summary)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::body
+ * \qmlproperty object Liri::Notifications::Notification::body
  *
  * This property holds the body of text.
  * The body can be multi-line and contain XML-based markup that
@@ -255,7 +255,7 @@ void Notification::setBody(const QString &body)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::replacesId
+ * \qmlproperty object Liri::Notifications::Notification::replacesId
  *
  * This property holds the ID of an existing notification that this
  * notification is intended to replace.
@@ -295,7 +295,7 @@ void Notification::setReplacesId(quint32 id)
  */
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::urgency
+ * \qmlproperty object Liri::Notifications::Notification::urgency
  *
  * This property holds the urgency level of the notification.
  * Urgency is a hint, setting it with Notification::setHint() will change
@@ -326,7 +326,7 @@ void Notification::setUrgency(Notification::Urgency urgency)
 }
 
 /*!
- * \qmlproperty object Vibe::Notifications::Notification::timeout
+ * \qmlproperty object Liri::Notifications::Notification::timeout
  *
  * This property holds the timeout in milliseconds since the display of
  * the notification at which the notification should automatically close.
@@ -483,6 +483,6 @@ void Notification::close()
     }
 }
 
-} // namespace Vibe
+} // namespace Liri
 
 #include "moc_notification.cpp"

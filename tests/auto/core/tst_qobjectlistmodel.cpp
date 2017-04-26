@@ -1,10 +1,7 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *
- * Author(s):
- *    Pier Luigi Fiorini
  *
  * $BEGIN_LICENSE:GPL2+$
  *
@@ -26,7 +23,7 @@
 
 #include <QtTest/QtTest>
 
-#include <Vibe/Core/QObjectListModel>
+#include "qobjectlistmodel.h"
 
 class CustomObject : public QObject
 {

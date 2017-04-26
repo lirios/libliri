@@ -1,4 +1,4 @@
-module Vibe.Notifications
-plugin notificationsplugin
-classname NotificationsPlugin
+module Liri.Notifications
+plugin lirinotificationsplugin
+classname LiriNotificationsPlugin
 typeinfo plugins.qmltypes

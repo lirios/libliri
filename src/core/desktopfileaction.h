@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
@@ -26,12 +26,12 @@
 
 #include <QtCore/QObject>
 
-#include <Vibe/core/vibe_core_export.h>
+#include <LiriCore/liricoreglobal.h>
 
-namespace Vibe
+namespace Liri
 {
 
-class VIBECORE_EXPORT DesktopFileAction : public QObject
+class LIRICORE_EXPORT DesktopFileAction : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
@@ -68,4 +68,5 @@ private:
     QString m_iconName;
     QString m_command;
 };
-}
+
+} // namespace Liri

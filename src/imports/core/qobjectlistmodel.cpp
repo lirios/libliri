@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
  *

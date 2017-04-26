@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2014 Bogdan Cuza <bogdan.cuza@hotmail.com>
  * Copyright (C) 2015-2016 Michael Spencer <sonrisesoftware@gmail.com>
@@ -32,7 +32,7 @@
 #include <qt5xdg/xdgdesktopfile.h>
 #include <qt5xdg/xdgdirs.h>
 
-using namespace Vibe;
+using namespace Liri;
 
 const QMap<QString, QString> correctAppIds = {
         {"baobob", "org.gnome.baobob"},           {"cheese", "org.gnome.Cheese"},

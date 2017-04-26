@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
  *
@@ -23,7 +23,7 @@
 
 #include "desktopfileaction.h"
 
-using namespace Vibe;
+using namespace Liri;
 
 DesktopFileAction::DesktopFileAction(const QString &name, const QString &iconName,
                                      const QString &command, QObject *parent)

@@ -1,5 +1,5 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
  *
@@ -21,7 +21,7 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include <QObject>
+#include <QtCore/QObject>
 #include <QtQml/QtQml>
 
 #include "formatter.h"
@@ -34,15 +34,15 @@ static QObject *formatterProvider(QQmlEngine *engine, QJSEngine *jsEngine)
     return new Formatter();
 }
 
-class CorePlugin : public QQmlExtensionPlugin
+class LiriCorePlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
     void registerTypes(const char *uri)
     {
-        // @uri Vibe.Core
-        Q_ASSERT(uri == QStringLiteral("Vibe.Core"));
+        // @uri Liri.Core
+        Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Core"));
 
         qmlRegisterSingletonType<Formatter>(uri, 1, 0, "Formatter", formatterProvider);
     }

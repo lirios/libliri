@@ -1,10 +1,7 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017  Pier Luigi Fiorini  <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:LGPL2.1+$
  *
@@ -26,27 +23,27 @@
 
 #include <QtQml/QtQml>
 
-#include <Vibe/Core/Notification>
+#include <LiriNotifications/Notification>
 
 #include "notifications.h"
 #include "notificationsimageprovider.h"
 
-class NotificationsPlugin : public QQmlExtensionPlugin
+class LiriNotificationsPlugin : public QQmlExtensionPlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
     void registerTypes(const char *uri)
     {
-        // @uri Vibe.Notifications
-        Q_ASSERT(uri == QStringLiteral("Vibe.Notifications"));
+        // @uri Liri.Notifications
+        Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Notifications"));
 
         qmlRegisterSingletonType<Notifications>(uri, 1, 0, "NotificationsService", [](QQmlEngine *engine, QJSEngine *) {
             Notifications *notifications = new Notifications();
             engine->addImageProvider(QStringLiteral("notifications"), new NotificationsImageProvider(notifications->daemon()));
             return static_cast<QObject *>(notifications);
         });
-        qmlRegisterType<Vibe::Notification>(uri, 1, 0, "Notification");
+        qmlRegisterType<Liri::Notification>(uri, 1, 0, "Notification");
     }
 };
 

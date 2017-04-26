@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2014 Bogdan Cuza <bogdan.cuza@hotmail.com>
  * Copyright (C) 2015-2016 Michael Spencer <sonrisesoftware@gmail.com>
@@ -26,15 +26,15 @@
 
 #include <QtCore/QObject>
 
-#include <Vibe/core/vibe_core_export.h>
+#include <LiriCore/liricoreglobal.h>
 #include <qt5xdg/xdgdesktopfile.h>
 
 #include "desktopfileaction.h"
 
-namespace Vibe
+namespace Liri
 {
 
-class VIBECORE_EXPORT DesktopFile : public QObject
+class LIRICORE_EXPORT DesktopFile : public QObject
 {
     Q_OBJECT
 
@@ -91,4 +91,5 @@ private:
     XdgDesktopFile *m_desktopFile;
     QList<DesktopFileAction *> m_actions;
 };
-}
+
+} // namespace Liri

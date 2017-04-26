@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
@@ -25,15 +25,15 @@
 
 #include <QtCore/QObject>
 
-#include <Vibe/core/vibe_core_export.h>
+#include <LiriDBusService/liridbusserviceglobal.h>
 
-class DBusServiceAdaptor;
+class ApplicationAdaptor;
 
-namespace Vibe {
+namespace Liri {
 
 class DBusServicePrivate;
 
-class VIBECORE_EXPORT DBusService : public QObject
+class LIRIDBUSSERVICE_EXPORT DBusService : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(DBusService)
@@ -68,9 +68,9 @@ private:
     void ActivateAction(const QString &action_name, const QVariantList &parameter, const QVariantMap &platform_data);
     void Open(const QStringList &uris, const QVariantMap &platform_data);
 
-    friend class ::DBusServiceAdaptor;
+    friend class ::ApplicationAdaptor;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(DBusService::StartupOptions)
 
-} // namespace Vibe
+} // namespace Liri

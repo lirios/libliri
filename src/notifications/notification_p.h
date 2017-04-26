@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
@@ -29,7 +29,7 @@
 
 class OrgFreedesktopNotificationsInterface;
 
-namespace Vibe {
+namespace Liri {
 
 class NotificationPrivate : public QObjectPrivate
 {
@@ -49,4 +49,4 @@ public:
     QStringList actions;
 };
 
-} // namespace Vibe
+} // namespace Liri

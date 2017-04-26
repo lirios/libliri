@@ -1,5 +1,5 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2012-2016 Pier Luigi Fiorini
  *
@@ -34,10 +34,9 @@
 #include <QtQml/QQmlPropertyMap>
 #include <QtDBus/QDBusArgument>
 
-#include "config.h"
 #include "notifications.h"
 #include "notificationsdaemon.h"
-#include "notificationsadaptor.h"
+#include "notifications_adaptor.h"
 #include "notificationsimage.h"
 
 /*
@@ -48,7 +47,7 @@
 const QString serviceName("org.freedesktop.Notifications");
 const QString servicePath("/org/freedesktop/Notifications");
 
-Q_LOGGING_CATEGORY(NOTIFICATIONS, "hawall.qml.notifications")
+Q_LOGGING_CATEGORY(NOTIFICATIONS, "liri.notifications")
 
 NotificationsDaemon::NotificationsDaemon(Notifications *parent)
     : QObject(parent)
@@ -226,15 +225,13 @@ QStringList NotificationsDaemon::GetCapabilities()
 
 QString NotificationsDaemon::GetServerInformation(QString &vendor, QString &version, QString &specVersion)
 {
-    vendor = QStringLiteral("Vibe");
-    version = QString::fromUtf8(VIBE_VERSION_STRING);
+    vendor = QStringLiteral("Liri");
+    version = QString::fromUtf8(LIBLIRI_VERSION);
     specVersion = QStringLiteral("1.1");
-    return QStringLiteral("Vibe");
+    return QStringLiteral("Liri");
 }
 
 uint NotificationsDaemon::nextId()
 {
     return (uint)m_idSeed->fetchAndAddAcquire(1);
 }
-
-#include "moc_notificationsdaemon.cpp"

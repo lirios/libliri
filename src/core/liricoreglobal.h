@@ -1,16 +1,13 @@
 /****************************************************************************
  * This file is part of Liri.
  *
- * Copyright (C) 2012-2016 Pier Luigi Fiorini
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
- *
- * $BEGIN_LICENSE:LGPL2.1+$
+ * $BEGIN_LICENSE:LGPLv3+$
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 2.1 of the License, or
+ * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -24,22 +21,13 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef NOTIFICATIONSIMAGEPROVIDER_H
-#define NOTIFICATIONSIMAGEPROVIDER_H
+#pragma once
 
-#include <QtQuick/QQuickImageProvider>
+#include <QtCore/qglobal.h>
 
-class NotificationsDaemon;
-
-class NotificationsImageProvider : public QQuickImageProvider
-{
-public:
-    NotificationsImageProvider(NotificationsDaemon *daemon);
-
-    QPixmap requestPixmap(const QString &id, QSize *realSize, const QSize &requestedSize);
-
-private:
-    NotificationsDaemon *m_daemon;
-};
-
-#endif // NOTIFICATIONSIMAGEPROVIDER_H
+#if defined(QT_BUILD_LIRICORE_LIB)
+#  define LIRICORE_EXPORT Q_DECL_EXPORT
+#else
+#  define LIRICORE_EXPORT Q_DECL_IMPORT
+#endif
+#define LIRICORE_NO_EXPORT Q_DECL_HIDDEN

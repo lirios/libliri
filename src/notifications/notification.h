@@ -1,5 +1,5 @@
 /*
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2016 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
@@ -25,13 +25,13 @@
 
 #include <QtCore/QObject>
 
-#include <Vibe/core/vibe_core_export.h>
+#include <LiriNotifications/lirinotificationsglobal.h>
 
-namespace Vibe {
+namespace Liri {
 
 class NotificationPrivate;
 
-class VIBECORE_EXPORT Notification : public QObject
+class LIRINOTIFICATIONS_EXPORT Notification : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(Notification)
@@ -108,4 +108,4 @@ Q_SIGNALS:
     void closed(CloseReason reason);
 };
 
-} // namespace Vibe
+} // namespace Liri

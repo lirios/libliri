@@ -1,5 +1,5 @@
 /****************************************************************************
- * This file is part of Vibe.
+ * This file is part of Liri.
  *
  * Copyright (C) 2015-2016 Pier Luigi Fiorini
  *
@@ -81,5 +81,3 @@ void Notifications::closeNotification(uint id, const CloseReason &reason)
     if (m_daemon->m_notifications.remove(id) > 0)
         Q_EMIT m_daemon->NotificationClosed(id, (uint)reason);
 }
-
-#include "moc_notifications.cpp"

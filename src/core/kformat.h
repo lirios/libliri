@@ -23,7 +23,7 @@
 #ifndef KFORMAT_H
 #define KFORMAT_H
 
-#include <Vibe/core/vibe_core_export.h>
+#include <LiriCore/liricoreglobal.h>
 
 #include <QString>
 #include <QLocale>
@@ -60,7 +60,7 @@ class KFormatPrivate;
   * @short Class for formatting numbers and datetimes.
   * @since 5.0
   */
-class VIBECORE_EXPORT KFormat Q_DECL_FINAL
+class LIRICORE_EXPORT KFormat Q_DECL_FINAL
 {
     Q_GADGET
 
