@@ -25,11 +25,11 @@
 
 #include <QtCore/private/qobject_p.h>
 
-#include "notification.h"
-
 class OrgFreedesktopNotificationsInterface;
 
 namespace Liri {
+
+class Notification;
 
 class NotificationPrivate : public QObjectPrivate
 {

@@ -484,5 +484,3 @@ void Notification::close()
 }
 
 } // namespace Liri
-
-#include "moc_notification.cpp"

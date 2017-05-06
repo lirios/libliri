@@ -50,7 +50,7 @@ QPixmap NotificationsImageProvider::requestPixmap(const QString &id, QSize *real
 
     // Convert identifier (the second part is just a timestamp to make sure Image
     // is always reloaded)
-    QString realId = id.split('/', QString::SkipEmptyParts).at(0);
+    QString realId = id.split(QLatin1Char('/'), QString::SkipEmptyParts).at(0);
     bool ok = false;
     int notificationId = realId.toInt(&ok);
     if (!ok)

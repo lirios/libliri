@@ -24,6 +24,7 @@
 #pragma once
 
 #include <QtCore/QObject>
+#include <QtCore/QUrl>
 
 #include <LiriDBusService/liridbusserviceglobal.h>
 

@@ -44,8 +44,8 @@
  * http://people.gnome.org/~mccann/docs/notification-spec/notification-spec-latest.html
  */
 
-const QString serviceName("org.freedesktop.Notifications");
-const QString servicePath("/org/freedesktop/Notifications");
+const QString serviceName(QLatin1String("org.freedesktop.Notifications"));
+const QString servicePath(QLatin1String("/org/freedesktop/Notifications"));
 
 Q_LOGGING_CATEGORY(NOTIFICATIONS, "liri.notifications")
 
@@ -61,7 +61,7 @@ NotificationsDaemon::NotificationsDaemon(Notifications *parent)
 
     // List of applications that will send us too many notifications
     // TODO: Add more from configuration
-    m_spamApplications << QStringLiteral("Clementine") << QStringLiteral("Spotify");
+    m_spamApplications << QLatin1String("Clementine") << QLatin1String("Spotify");
 
     // Forward our signals to parent
     connect(this, SIGNAL(NotificationClosed(uint,uint)),
@@ -163,15 +163,15 @@ uint NotificationsDaemon::Notify(const QString &appName, uint replacesId,
     // Fetch the image hint (we also support the obsolete icon_data hint which
     // is still used by applications compatible with the specification version
     if (hints.contains(QStringLiteral("image_data")))
-        notificationImage->image.convertFromImage(decodeImageHint(hints["image_data"].value<QDBusArgument>()));
+        notificationImage->image.convertFromImage(decodeImageHint(hints[QLatin1String("image_data")].value<QDBusArgument>()));
     else if (hints.contains(QStringLiteral("image-data")))
-        notificationImage->image.convertFromImage(decodeImageHint(hints["image-data"].value<QDBusArgument>()));
+        notificationImage->image.convertFromImage(decodeImageHint(hints[QLatin1String("image-data")].value<QDBusArgument>()));
     else if (hints.contains(QStringLiteral("image_path")))
-        notificationImage->image = QPixmap(hints["image_path"].toString());
+        notificationImage->image = QPixmap(hints[QLatin1String("image_path")].toString());
     else if (hints.contains(QStringLiteral("image-path")))
-        notificationImage->image = QPixmap(hints["image-path"].toString());
+        notificationImage->image = QPixmap(hints[QLatin1String("image-path")].toString());
     else if (hints.contains(QStringLiteral("icon_data")))
-        notificationImage->image.convertFromImage(decodeImageHint(hints["icon_data"].value<QDBusArgument>()));
+        notificationImage->image.convertFromImage(decodeImageHint(hints[QLatin1String("icon_data")].value<QDBusArgument>()));
 
     // Retrieve icon from desktop entry, if any
     if (hints.contains(QStringLiteral("desktop-entry"))) {
@@ -215,20 +215,20 @@ void NotificationsDaemon::CloseNotification(uint id)
 QStringList NotificationsDaemon::GetCapabilities()
 {
     return QStringList()
-            << "body"
-            << "body-hyperlinks"
-            << "body-markup"
-            << "icon-static"
-            << "actions"
-            << "persistence";
+            << QLatin1String("body")
+            << QLatin1String("body-hyperlinks")
+            << QLatin1String("body-markup")
+            << QLatin1String("icon-static")
+            << QLatin1String("actions")
+            << QLatin1String("persistence");
 }
 
 QString NotificationsDaemon::GetServerInformation(QString &vendor, QString &version, QString &specVersion)
 {
-    vendor = QStringLiteral("Liri");
-    version = QString::fromUtf8(LIBLIRI_VERSION);
-    specVersion = QStringLiteral("1.1");
-    return QStringLiteral("Liri");
+    vendor = QLatin1String("Liri");
+    version = QLatin1String(LIBLIRI_VERSION);
+    specVersion = QLatin1String("1.1");
+    return QLatin1String("Liri");
 }
 
 uint NotificationsDaemon::nextId()

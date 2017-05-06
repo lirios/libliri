@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     // Application
     QCoreApplication app(argc, argv);
     app.setApplicationName(QLatin1String("Notify"));
-    app.setApplicationVersion(LIBLIRI_VERSION);
+    app.setApplicationVersion(QLatin1String(LIBLIRI_VERSION));
     app.setOrganizationName(QLatin1String("Liri"));
     app.setOrganizationDomain(QLatin1String("liri.io"));
 
