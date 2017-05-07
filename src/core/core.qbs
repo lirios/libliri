@@ -2,7 +2,7 @@ import qbs 1.0
 import qbs.Probes
 
 LiriModule {
-    name: "libLiriCore"
+    name: "LiriCore"
 
     targetName: "LiriCore"
     version: "0.0.0"

@@ -5,7 +5,7 @@ QtApplication {
     type: base.concat(["autotest"])
 
     Depends { name: "Qt"; submodules: ["core", "qml", "testlib"] }
-    Depends { name: "libLiriCore" }
+    Depends { name: "LiriCore" }
 
     cpp.includePaths: base.concat(["../../../src/imports/core"])
 

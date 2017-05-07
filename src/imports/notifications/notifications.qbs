@@ -6,7 +6,7 @@ LiriDynamicLibrary {
 
     Depends { name: "lirideployment" }
     Depends { name: "Qt"; submodules: ["qml", "quick", "gui"] }
-    Depends { name: "libLiriNotifications" }
+    Depends { name: "LiriNotifications" }
 
     cpp.defines: base.concat(['LIBLIRI_VERSION="' + project.version + '"'])
 

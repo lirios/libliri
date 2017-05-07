@@ -1,7 +1,7 @@
 import qbs 1.0
 
 LiriModule {
-    name: "libLiriDBusService"
+    name: "LiriDBusService"
 
     targetName: "LiriDBusService"
     version: "0.0.0"

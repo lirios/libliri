@@ -1,7 +1,7 @@
 import qbs 1.0
 
 LiriModule {
-    name: "libLiriNotifications"
+    name: "LiriNotifications"
 
     targetName: "LiriNotifications"
     version: "0.0.0"
