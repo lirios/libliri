@@ -3,93 +3,16 @@ import qbs.Probes
 
 LiriModule {
     name: "LiriCore"
-
     targetName: "LiriCore"
     version: "0.0.0"
 
     Depends { name: "Qt"; submodules: ["core", "core-private"] }
+    Depends { name: "Qt5Xdg" }
 
-    // FIXME: This will be handled by PkgConfigProbe with Qbs 1.8
-    Probes.PkgConfigProbe {
-        id: pkgConfig
-
-        readonly property stringList validDefines: {
-            if (pkgConfig.cflags == undefined)
-                return [];
-
-            var defines = [];
-            for (var i = 0; i < pkgConfig.cflags.length; ++i) {
-                var flag = pkgConfig.cflags[i];
-                if (flag.startsWith("-D"))
-                    defines.push(flag);
-            }
-            return defines;
-        }
-
-        readonly property stringList validCompilerFlags: {
-            if (pkgConfig.cflags == undefined)
-                return [];
-
-            var compilerFlags = [];
-            for (var i = 0; i < pkgConfig.cflags.length; ++i) {
-                var flag = pkgConfig.cflags[i];
-                if (!flag.startsWith("-I") && !flag.startsWith("-D"))
-                    compilerFlags.push(flag);
-            }
-            return compilerFlags;
-        }
-
-        readonly property stringList validIncludePaths: {
-            if (pkgConfig.cflags == undefined)
-                return [];
-
-            var includePaths = [];
-            for (var i = 0; i < pkgConfig.cflags.length; ++i) {
-                var flag = pkgConfig.cflags[i];
-                if (flag.startsWith("-I"))
-                    includePaths.push(flag.slice(2));
-            }
-            return includePaths;
-        }
-
-        readonly property stringList validLibraryPaths: {
-            if (pkgConfig.libs == undefined)
-                return [];
-
-            var libraryPaths = [];
-            for (var i = 0; i < pkgConfig.libs.length; ++i) {
-                var flag = pkgConfig.libs[i];
-                if (flag.startsWith("-L"))
-                    libraryPaths.push(flag.slice(2));
-            }
-            return libraryPaths;
-        }
-
-        readonly property stringList validLibraries: {
-            if (pkgConfig.libs == undefined)
-                return [];
-
-            var libraries = [];
-            for (var i = 0; i < pkgConfig.libs.length; ++i) {
-                var flag = pkgConfig.libs[i];
-                if (flag.startsWith("-l"))
-                    libraries.push(flag.slice(2));
-            }
-            return libraries;
-        }
-
-        name: "Qt5Xdg"
-        minVersion: "2.0.0"
-    }
-
-    cpp.defines: pkgConfig.validDefines.concat([
+    cpp.defines: base.concat([
         'LIBLIRI_VERSION="' + project.version + '"',
         "QT_BUILD_LIRICORE_LIB"
     ])
-    cpp.commonCompilerFlags: base.concat(pkgConfig.validCompilerFlags)
-    cpp.includePaths: base.concat(pkgConfig.validIncludePaths)
-    cpp.libraryPaths: base.concat(pkgConfig.validLibraryPaths)
-    cpp.dynamicLibraries: base.concat(pkgConfig.validLibraries)
 
     create_headers.headersMap: ({
         "desktopfile.h": "DesktopFile",
@@ -124,8 +47,11 @@ LiriModule {
     }
 
     Export {
+        property bool found: true
+
         Depends { name: "cpp" }
         Depends { name: "Qt"; submodules: ["core", "core-private"] }
+        Depends { name: "Qt5Xdg" }
 
         cpp.defines: base.concat(pkgConfig.validDefines)
         cpp.commonCompilerFlags: base.concat(pkgConfig.validCompilerFlags)

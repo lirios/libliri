@@ -4,6 +4,8 @@ Project {
     name: "Liri Library"
 
     readonly property string version: "0.9.0"
+
+    property bool autotestEnabled: false
     property stringList autotestArguments: []
     property stringList autotestWrapper: []
 
@@ -22,6 +24,7 @@ Project {
     ]
 
     AutotestRunner {
+        builtByDefault: autotestEnabled
         name: "libliri-autotest"
         arguments: project.autotestArguments
         wrapper: project.autotestWrapper

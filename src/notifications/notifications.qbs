@@ -2,7 +2,6 @@ import qbs 1.0
 
 LiriModule {
     name: "LiriNotifications"
-
     targetName: "LiriNotifications"
     version: "0.0.0"
 
@@ -54,6 +53,8 @@ LiriModule {
     }
 
     Export {
+        property bool found: true
+
         Depends { name: "cpp" }
         Depends { name: "Qt"; submodules: ["core", "core-private", "dbus", "gui"] }
 
