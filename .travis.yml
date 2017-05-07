@@ -11,6 +11,7 @@ arch:
     - qbs
     - qt5-tools
     - qt5-declarative
+    - libqtxdg
     - clang
     #- clazy-git
     - xorg-server-xvfb
