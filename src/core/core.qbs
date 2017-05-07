@@ -1,5 +1,4 @@
 import qbs 1.0
-import qbs.Probes
 
 LiriModule {
     name: "LiriCore"
@@ -53,10 +52,6 @@ LiriModule {
         Depends { name: "Qt"; submodules: ["core", "core-private"] }
         Depends { name: "Qt5Xdg" }
 
-        cpp.defines: base.concat(pkgConfig.validDefines)
-        cpp.commonCompilerFlags: base.concat(pkgConfig.validCompilerFlags)
-        cpp.includePaths: base.concat(pkgConfig.validIncludePaths).concat([product.generatedHeadersDir])
-        cpp.libraryPaths: base.concat(pkgConfig.validLibraryPaths)
-        cpp.dynamicLibraries: base.concat(pkgConfig.validLibraries)
+        cpp.includePaths: base.concat([product.generatedHeadersDir])
     }
 }
