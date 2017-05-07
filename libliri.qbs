@@ -4,6 +4,8 @@ Project {
     name: "Liri Library"
 
     readonly property string version: "0.9.0"
+    property stringList autotestArguments: []
+    property stringList autotestWrapper: []
 
     minimumQbsVersion: "1.6"
 
@@ -16,5 +18,12 @@ Project {
         "src/notify/notify.qbs",
         "src/imports/core/core.qbs",
         "src/imports/notifications/notifications.qbs",
+        "tests/auto/core/core.qbs",
     ]
+
+    AutotestRunner {
+        name: "libliri-autotest"
+        arguments: project.autotestArguments
+        wrapper: project.autotestWrapper
+    }
 }
