@@ -4,8 +4,14 @@ QtApplication {
     name: "tst_liri_core"
     type: base.concat(["autotest"])
 
-    Depends { name: "Qt"; submodules: ["core", "testlib"] }
+    Depends { name: "Qt"; submodules: ["core", "qml", "testlib"] }
     Depends { name: "libLiriCore" }
 
-    files: ["*.cpp"]
+    cpp.includePaths: base.concat(["../../../src/imports/core"])
+
+    files: [
+        "*.cpp",
+        "../../../src/imports/core/qobjectlistmodel.cpp",
+        "../../../src/imports/core/qobjectlistmodel.h"
+    ]
 }
