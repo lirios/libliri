@@ -8,10 +8,10 @@ LiriModule {
     Depends { name: "Qt"; submodules: ["core", "core-private"] }
     Depends { name: "Qt5Xdg" }
 
-    cpp.defines: base.concat([
+    cpp.defines: [
         'LIBLIRI_VERSION="' + project.version + '"',
         "QT_BUILD_LIRICORE_LIB"
-    ])
+    ]
 
     create_headers.headersMap: ({
         "desktopfile.h": "DesktopFile",
