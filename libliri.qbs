@@ -16,6 +16,7 @@ Project {
     references: [
         "src/core/core.qbs",
         "src/dbusservice/dbusservice.qbs",
+        "src/models/models.qbs",
         "src/notifications/notifications.qbs",
         "src/notify/notify.qbs",
         "src/imports/core/core.qbs",

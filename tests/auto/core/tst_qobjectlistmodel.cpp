@@ -23,7 +23,7 @@
 
 #include <QtTest/QtTest>
 
-#include "qobjectlistmodel.h"
+#include <LiriModels/QObjectListModel>
 
 class CustomObject : public QObject
 {

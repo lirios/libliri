@@ -25,7 +25,9 @@
 #include <QBasicTimer>
 #include <functional>
 
-class QObjectListModel : public QAbstractListModel
+#include <LiriModels/lirimodelsglobal.h>
+
+class LIRIMODELS_EXPORT QObjectListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_DISABLE_COPY(QObjectListModel)

@@ -6,12 +6,7 @@ QtApplication {
 
     Depends { name: "Qt"; submodules: ["core", "qml", "testlib"] }
     Depends { name: "LiriCore" }
+    Depends { name: "LiriModels" }
 
-    cpp.includePaths: base.concat(["../../../src/imports/core"])
-
-    files: [
-        "*.cpp",
-        "../../../src/imports/core/qobjectlistmodel.cpp",
-        "../../../src/imports/core/qobjectlistmodel.h"
-    ]
+    files: ["*.cpp"]
 }
