@@ -23,12 +23,11 @@
 #include <QtQml>
 #include <functional>
 
-#include <LiriModels/lirimodelsglobal.h>
 #include <LiriModels/QObjectListModel>
 
 class QObjectListModel;
 
-template <typename T> LIRIMODELS_EXPORT class QQuickList : public QList<T *>
+template <typename T> class QQuickList : public QList<T *>
 {
 
     QObjectListModel *m_model;
