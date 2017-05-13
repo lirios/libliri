@@ -6,6 +6,15 @@ compiler:
 
 sudo: required
 
+env:
+  global:
+    # BINTRAY_USER
+    secure: "1GD5qcPfcb0fDRCOcZo5FgMO2RH6JXhLPQ/6wecduVEAw+pSx4cLAyjlQcP11+jPu8EGiw+jumWkad9I1hYcEIxDPFVyinTloKxJL0QIF0lZ1ufcPtabc3Jn5wZl02VD/XICSaUo5NwTAnAzphGVT6AwYB/oZyUvM5rRPC7u5yWU5buNVMpj1ZN/0A1is4TzHlpvUUL7DnBz0fSdIYcUYznfO1B2uLePI0P7fLZaFmZSj8oP+fFfGGC+jfOZKKx/IqzgMFizqnuoYmkES/Rz8+phXcazx4e0eluf1AIXlUpM4d5DvH5EwdHnFlCnyUvS/F9YjeuOgABhavmUiRE0y4+nPdrftcpdB/BBJJQZmm0VwYej6oxkCXzUwwAF3/sss0GTuWlkp+W/Li1qm6+TdhITSVToIeTlUlPNJ/OgO3HQMjx3gPVB55+dvu2GWnSYutty61Z7SYInBw25o/LVJUVZ+w/qMeh2hMt0+FFV2hQqXY3piP08kELv/ORv29Q9ADpIWggYCoFx+xvpx+GnR7bG2JbIJrXr2QAU0eAe6NPBAimgvqwFh5H8uDqcvJoE7T7XVGszOf2c6EfTJE5uYAbc9gXA0p4ePHTqBIsZnxenzxsa4HO0QkxBdX1GCSX7CNjdO/Occ4u8evDzYC4iAQStcqDCmDnnKayjCMWEVtk="
+    # BINTRAY_API_KEY
+    secure: "cltgX456Nph5iGsm78ON9t6/GcNk2Kg4N++td51/jNro8wDjoERei3Tw1xl6M2VsvaLnXq0iOxiJNuE8HNi8Fmj5oSCNnN2XsGDdtJghr7U5oE9m+q9uooNMWanGcpTa8iwwOsCg3V+ecMpwr2sxyYlMcIx4amXtLFkkdGgiJssBbUtzWF2nNKqks2LiJvCZ6vorXTHAAshgllFehcAmiMFJna36bUj6I8oUFITRCckizCx7RfcpmkPeMJR4sg5X/91WWDIiCWF40tH98rPYTSSXAPI3I44UexiMvCXO+Q0yzctBzOPgn6cv4MTWSNUS8kahZbzOXhupULS6tG2qjoq0NUsQ6dE76ECVwx5q7kzBy2G9l7ugHohbqgY2jAHB/Zw9ci6MzueVz/FByg3QxL2r3LwDGnOIr0mw0gmn9La/9DqvHPz+LcQCvJftiBf4+7Pr1VRtzcXQ+DMZ40qqZ422B36I1PmxvC+sy3ivpKCxdkGSjpxdvMLzK0NUEgE2Hm/F2Fn1dLdfJGBb1yeR3l5H5cwAdQ1hVCeIayW+yD8eNrLGvi8l5tqabEGAX/6sfsnGZzh3WORa7l0o8UyKkrUw0eEAhiOjRcX4btrOHpIQoAaJGK89+ahRP3OtNNkKNzltyKjF9TnWkUsAKkRIUlIeHPEAgZ3aZVEKcxyER5s="
+    # BINTRAY_REPO_OWNER
+    secure: "1G6ERIcOsxLkLaBRHt0MhxZGyvb53gPl9Q8Sy0u8Yb/gA0k186kE2Es0L6mm7vSZOTaddGOqk03HT9xtCPJK7srlUI0QIG954gKO3RAWNtEAXIFmlM+w9ggK3dC26Ijv//a65AQFjD9fAU5GHRNPUOIl4QCq18qMGnDfzyv5AcBW0N6SMgqXXGm5CMXs+xtZYtlLCnFkp9A/JzwnJ07qO4d9iMZK2/jI/1jqVbArzxw0zIEl180ViIuOq67ep1+eDlM6b1ZX1+LTSW/ywLeTrMTyOKHQARxZeb061zTvN+iRfPj4yTvwW49G6Gm13pPQSTiDkP+DJwl/lutvada4HBe/p+rQrVcD5ElZv9vIcLiXjBWg+wHwtn4KsOVPz9AbTGPELJh4nDLabFB+z1ASC/NaYFNkw/J9llXncl0TXv3gM3TRPhF93iG78ueQzxg5D9ETOlHNsyLA9YNeH0MBvhanr05IXf5MIuKyuaqPhjQCuiD2wbrvF02PwP+JZmOErxl6GJ0E0jORqidhzmu8nwG6EAJkIk8WnEkI7wX8lMhFbLeVrgNtpkBPDEyxar+itJzYhsKOLUBm8XHYoRNpWzmKfi4AhEPGX6vTdcA//amtpMncdw30xjBCvRlDpS732U8TcnStr5WP53Jz9iYsX104Z+TvwadVKY9vZ8ztcIs="
+
 arch:
   packages:
     - qbs
@@ -21,9 +30,21 @@ arch:
     - qbs-setup-qt /usr/bin/qmake-qt5 qt5
     - qbs config profiles.qt5.baseProfile ${CC}
     - eval `dbus-launch --sh-syntax` && xvfb-run -a -s "-screen 0 800x600x24" qbs -d build -j $(nproc) --all-products profile:qt5
+    - ./.travis/bintray-wrapper.sh
 
 script:
   - "curl -s https://raw.githubusercontent.com/mikkeloscar/arch-travis/master/arch-travis.sh | bash"
+
+deploy:
+  provider: bintray
+  on:
+    branch: develop
+    condition: "$CC = gcc"
+  file: cibuild/bintray.json
+  user:
+    secure: "NZ94YknRTsYqnFxw3g0lNHWUlv+COvo5HNnDDS/fQTqXEvSxRlk5ysjelzDcaJPvBjbLcaIGegpyXCZXjU0ppzV7o+i1V1Z2rtYaYtGTiRiDepRoZRQWDSGPYPsgAKJyLzVbDe36JpHDyStesd+uOooJL743FqkC9TgwDzR1pWrw6VJEOtO34zz+jRnncV1NoMLGXEe6K+OW5s0igx3MICzFKGTJlrMtupr7j6X1pgRtsfIctN8zDZgHTKwdAGpey908Mm5YpYi4Yo+5fQFSfq8OYHti9PJENjUzn6woWlXGoPFeMB1YcukCW84B3/NiC0YqbYbR+VauA8+mgYlqAlvpErwGIPBV5G+qmNFHNunDLjQxUcVoRcTWtsunLp2Vhk3L5eRQA1YZOAqvDE3Q8pcDjAj0CZBOa6U8WKXZSgT6FmitY11cT+wbzVo6f8AZpewg8OrV9KOKObXPxTCfDi+jbtHf0DxfIiIsg16fOTfz67Gt5uN6DPSBSpIyDxMD4LvrdBAgCgRvYzLpjW6ZO0lyzuGahYJsK9m2V18a5dNnu4fP1LnXHTGvYyCrpkCTyQgAjiowsrIyPP844BNi5KLg+P1RMmlOP/90ESXKDbnl/nI6Lco1HErqcbgUwV3iznyDAAfdPqDW/2fHRCW7+UBDE2Jk/G2UBpErwkymxJM="
+  key:
+    secure: "Koa8V009/haMuD9jEHOChiI3xJDxa2GY78ZLGTFNaPA+4uFDFoln85FOuA3rfsAMj0DZYKYyZHcDtLHWww+pi1p9odE/T1VvDS57buJjhs+xi4oByXH1JCEWwYENPgTmrSdJF/lwy7t0rwzAhV/7JTVfjuQafkYxHC7w4TwYlyvyiy5AolJafcv43Wr8mbRVBHmrU4eSuc1dsxsQeoeQ8m26LJ+TLD5Ebi5iyRBemseOO72cz0LcuNcb414ViimapydMAoF+h0Ni9WukS48mvRxxNQlixjzw59oJuW4tAY6lrSCIAQVtmEGRXfgPhucQ8qjPqsIx5GlojC/DS/22TEntnoq44HL0ySvHE28X04Eobcf+O75saxvklsRwqlmaoX8mEFKRJm00x6Ad8GK7NbKu4+MnclzlR3KQlG+QcqQE/JU4tmwsGTfO/M2IQtn0q0EsZ5Vugvw0xoirZ/xoFf++YrcxoyhVr1kkIUZO9pR6HqLDJNqfyXiPmehnFbqlCZZL1m6cLMcriV9IO3UR0xL3qhz29BVIgCV2D965m1JAeChMLoevw5uzlCySzuS+UYi6RPSn9cJoHCmR1GvWeif3Qn0S9hur19yqcFc6SSyJqsy4WMqZteikbEZF+3leeU+b6Zt4N14pZaX+WGbZ73TriYYgSV4HwFHoHldNziA="
 
 notifications:
   email: false
