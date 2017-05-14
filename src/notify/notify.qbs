@@ -1,8 +1,8 @@
 import qbs 1.0
 
 CppApplication {
-    name: "notify"
-    targetName: "notify"
+    name: "liri-notify"
+    targetName: "liri-notify"
 
     Depends { name: "lirideployment" }
     Depends { name: "Qt.core" }
