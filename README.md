@@ -6,7 +6,6 @@ libliri
 [![License](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](http://www.gnu.org/licenses/lgpl.txt)
 [![GitHub release](https://img.shields.io/github/release/lirios/libliri.svg)](https://github.com/lirios/libliri)
 [![Build Status](https://travis-ci.org/lirios/libliri.svg?branch=develop)](https://travis-ci.org/lirios/libliri)
-[![Coverity Status](https://img.shields.io/coverity/scan/5911.svg)](https://scan.coverity.com/projects/5911)
 [![GitHub issues](https://img.shields.io/github/issues/lirios/libliri.svg)](https://github.com/lirios/libliri/issues)
 [![Maintained](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/lirios/libliri/commits/develop)
 
@@ -46,12 +45,16 @@ qbs -d build -j $(nproc) profile:qt5 # use sudo if necessary
 On the last `qbs` line, you can specify additional configuration parameters at the end:
 
  * `qbs.installRoot:/path/to/install` (for example `/opt/liri` or `/usr`)
- * `lirideployment:libDir=/relative/path/to/lib` indicates where libraries will be installed,
-   relative to `qbs.installRoot`, this is only needed if `qbs.installRoot` is a system-wide path
-   such as `/usr`.
- * `lirideployment:qmlDir=/relative/path/to/qml` indicates where QML plugins will be installed,
-   relative to `qbs.installRoot`, this is only needed if `qbs.installRoot` is a system-wide path
-   such as `/usr`.
+
+The following are only needed if `qbs.installRoot` is a system-wide path such as `/usr`
+and the default value doesn't suit your needs. All are relative to `qbs.installRoot`:
+
+ * `lirideployment:libDir=path/to/lib` where libraries are installed (default: `lib`)
+ * `lirideployment:qmlDir=path/to/qml` where QML plugins are installed (default: `lib/qml`)
+ * `lirideployment:pluginsDir=path/to/plugins` where Qt plugins are installed (default: `lib/plugins`)
+ * `lirideployment:qbsModulesDir=path/to/qbs` where Qbs modules are installed (default: `share/qbs/modules`)
+
+See `qbs-shared/modules/lirideployment/lirideployment.qbs` for more deployment-related parameters.
 
 If you specify `qbs.installRoot` you might need to prefix the entire line with `sudo`,
 depending on whether you have permissions to write there or not.
