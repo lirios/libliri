@@ -8,6 +8,15 @@ LiriModule {
     Depends { name: "Qt"; submodules: ["core", "core-private"] }
     Depends { name: "Qt5Xdg" }
 
+    condition: {
+        if (!Qt5Xdg.found) {
+            console.error("Qt5Xdg is required to build " + targetName);
+            return false;
+        }
+
+        return true;
+    }
+
     cpp.defines: [
         'LIBLIRI_VERSION="' + project.version + '"',
         "QT_BUILD_LIRICORE_LIB"
