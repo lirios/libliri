@@ -1,64 +1,65 @@
 import qbs 1.0
+import "../../qbs/shared/imports/LiriUtils.js" as LiriUtils
 
-LiriModule {
+LiriModuleProject {
+    id: root
+
     name: "LiriCore"
-    targetName: "LiriCore"
-    version: "0.0.0"
+    moduleName: "LiriCore"
+    description: "Utilities for Liri apps"
 
-    Depends { name: "Qt"; submodules: ["core", "core-private"] }
-    Depends { name: "Qt5Xdg" }
+    resolvedProperties: ({
+        Depends: [{ name: LiriUtils.quote("Qt.core") },
+                  { name: LiriUtils.quote("Qt.core-private") },
+                  { name: LiriUtils.quote("Qt5Xdg") }],
+    })
 
-    condition: {
-        if (!Qt5Xdg.found) {
-            console.error("Qt5Xdg is required to build " + targetName);
-            return false;
+    pkgConfigDependencies: ["Qt5Core", "Qt5Xdg"]
+
+    cmakeDependencies: ({ "Qt5Core": "5.6.0", "qt5xdg": "2.0.0" })
+    cmakeLinkLibraries: ["Qt5::Core", "Qt5Xdg"]
+
+    LiriHeaders {
+        name: root.headersName
+        sync.module: root.moduleName
+
+        Group {
+            name: "Headers"
+            files: "**/*.h"
+            fileTags: ["hpp_syncable"]
         }
-
-        return true;
     }
 
-    cpp.defines: [
-        'LIBLIRI_VERSION="' + project.version + '"',
-        "QT_BUILD_LIRICORE_LIB"
-    ]
+    LiriModule {
+        name: root.moduleName
+        targetName: root.targetName
+        version: "0.0.0"
 
-    create_headers.headersMap: ({
-        "desktopfile.h": "DesktopFile",
-        "desktopfileaction.h": "DesktopFileAction",
-    })
-
-    create_pkgconfig.name: "Liri Core"
-    create_pkgconfig.description: "Utilities for Liri apps"
-    create_pkgconfig.version: project.version
-    create_pkgconfig.dependencies: ["Qt5Core", "Qt5Xdg"]
-
-    create_cmake.version: project.version
-    create_cmake.dependencies: ({
-        "Qt5Core": "5.6.0",
-        "qt5xdg": "2.0.0",
-    })
-    create_cmake.linkLibraries: ["Qt5::Core", "Qt5Xdg"]
-
-    files: ["*.cpp"]
-
-    Group {
-        name: "Headers"
-        files: ["*.h"]
-        excludeFiles: ["*_p.h"]
-        fileTags: ["public_headers"]
-    }
-
-    Group {
-        name: "Private Headers"
-        files: ["*_p.h"]
-        fileTags: ["private_headers"]
-    }
-
-    Export {
-        Depends { name: "cpp" }
+        Depends { name: root.headersName }
         Depends { name: "Qt"; submodules: ["core", "core-private"] }
         Depends { name: "Qt5Xdg" }
 
-        cpp.includePaths: base.concat([product.generatedHeadersDir])
+        condition: {
+            if (!Qt5Xdg.found) {
+                console.error("Qt5Xdg is required to build " + targetName);
+                return false;
+            }
+
+            return true;
+        }
+
+        cpp.defines: [
+            'LIBLIRI_VERSION="' + project.version + '"',
+            "QT_BUILD_LIRICORE_LIB"
+        ]
+
+        files: ["*.cpp", "*.h"]
+
+        Export {
+            Depends { name: "cpp" }
+            Depends { name: root.headersName }
+            Depends { name: "Qt"; submodules: ["core", "core-private"] }
+            Depends { name: "Qt5Xdg" }
+        }
     }
 }

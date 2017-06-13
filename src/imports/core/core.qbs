@@ -1,27 +1,10 @@
 import qbs 1.0
 
-LiriDynamicLibrary {
+LiriQmlPlugin {
     name: "liricoreplugin"
-    targetName: "liricoreplugin"
+    pluginPath: "Liri/Core"
 
-    Depends { name: "lirideployment" }
-    Depends { name: "Qt"; submodules: ["qml", "quick"] }
     Depends { name: "LiriCore" }
 
-    files: ["*.cpp", "*.h"]
-
-    Group {
-        name: "QML Files"
-        files: [
-            "qmldir",
-            "plugins.qmltypes"
-        ]
-        fileTags: ["qml"]
-    }
-
-    Group {
-        qbs.install: true
-        qbs.installDir: lirideployment.qmlDir + "/Liri/Core"
-        fileTagsFilter: ["dynamiclibrary", "qml"]
-    }
+    files: ["*.cpp", "*.h", "qmldir", "*.qmltypes"]
 }

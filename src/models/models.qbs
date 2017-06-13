@@ -1,53 +1,56 @@
 import qbs 1.0
+import "../../qbs/shared/imports/LiriUtils.js" as LiriUtils
 
-LiriModule {
+LiriModuleProject {
+    id: root
+
     name: "LiriModels"
-    targetName: "LiriModels"
-    version: "0.0.0"
+    moduleName: "LiriModels"
+    description: "Utilities for Liri apps"
 
-    Depends { name: "Qt"; submodules: ["core", "qml"] }
-
-    cpp.defines: [
-        'LIBLIRI_VERSION="' + project.version + '"',
-        "QT_BUILD_LIRIMODELS_LIB"
-    ]
-
-    create_headers.headersMap: ({
-        "qobjectlistmodel.h": "QObjectListModel",
-        "qquicklist.h": "QQuickList",
+    resolvedProperties: ({
+        Depends: [{ name: LiriUtils.quote("Qt.core") },
+                  { name: LiriUtils.quote("Qt.qml") }]
     })
 
-    create_pkgconfig.name: "Liri Models"
-    create_pkgconfig.description: "Utilities for Liri apps"
-    create_pkgconfig.version: project.version
-    create_pkgconfig.dependencies: ["Qt5Core", "Qt5Qml"]
+    pkgConfigDependencies: ["Qt5Core", "Qt5Qml"]
 
-    create_cmake.version: project.version
-    create_cmake.dependencies: ({
-        "Qt5Core": "5.6.0",
-        "Qt5Qml": "5.6.0",
-    })
-    create_cmake.linkLibraries: ["Qt5::Core", "Qt5::Qml"]
+    cmakeDependencies: ({ "Qt5Core": "5.6.0", "Qt5Qml": "5.6.0" })
+    cmakeLinkLibraries: ["Qt5::Core", "Qt5::Qml"]
 
-    files: ["*.cpp"]
+    LiriHeaders {
+        name: root.headersName
+        sync.module: root.moduleName
+        sync.classNames: ({
+            "qquicklist.h": ["QQuickList"],
+        })
 
-    Group {
-        name: "Headers"
-        files: ["*.h"]
-        excludeFiles: ["*_p.h"]
-        fileTags: ["public_headers"]
+        Group {
+            name: "Headers"
+            files: "**/*.h"
+            fileTags: ["hpp_syncable"]
+        }
     }
 
-    Group {
-        name: "Private Headers"
-        files: ["*_p.h"]
-        fileTags: ["private_headers"]
-    }
+    LiriModule {
+        name: root.moduleName
+        targetName: root.targetName
+        version: "0.0.0"
 
-    Export {
-        Depends { name: "cpp" }
+        Depends { name: root.headersName }
         Depends { name: "Qt"; submodules: ["core", "qml"] }
 
-        cpp.includePaths: base.concat([product.generatedHeadersDir])
+        cpp.defines: [
+            'LIBLIRI_VERSION="' + project.version + '"',
+            "QT_BUILD_LIRIMODELS_LIB"
+        ]
+
+        files: ["*.cpp", "*.h"]
+
+        Export {
+            Depends { name: "cpp" }
+            Depends { name: root.headersName }
+            Depends { name: "Qt"; submodules: ["core", "qml"] }
+        }
     }
 }

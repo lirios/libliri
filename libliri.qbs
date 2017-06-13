@@ -4,6 +4,7 @@ Project {
     name: "Liri Library"
 
     readonly property string version: "0.9.0"
+    readonly property var versionParts: version.split('.').map(function(part) { return parseInt(part); })
 
     property bool autotestEnabled: false
     property stringList autotestArguments: []
@@ -16,37 +17,13 @@ Project {
     qbsSearchPaths: ["qbs/shared"]
 
     references: [
+        "src/deployment.qbs",
+        "src/tools.qbs",
         "src/core/core.qbs",
         "src/dbusservice/dbusservice.qbs",
         "src/models/models.qbs",
         "src/notifications/notifications.qbs",
-        "src/notify/notify.qbs",
-        "src/imports/core/core.qbs",
-        "src/imports/notifications/notifications.qbs",
-        "tests/auto/core/core.qbs",
+        "src/imports/imports.qbs",
+        "tests/auto/auto.qbs",
     ]
-
-    AutotestRunner {
-        builtByDefault: autotestEnabled
-        name: "libliri-autotest"
-        arguments: project.autotestArguments
-        wrapper: project.autotestWrapper
-    }
-
-    InstallPackage {
-        name: "libliri-artifacts"
-        targetName: name
-        builtByDefault: false
-
-        archiver.type: "tar"
-        archiver.outputDirectory: project.buildDirectory
-
-        Depends { name: "LiriCore" }
-        Depends { name: "LiriDBusService" }
-        Depends { name: "LiriModels" }
-        Depends { name: "LiriNotifications" }
-        Depends { name: "liricoreplugin" }
-        Depends { name: "lirinotificationsplugin" }
-        Depends { name: "liri-notify" }
-    }
 }

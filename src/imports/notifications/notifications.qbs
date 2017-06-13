@@ -1,25 +1,14 @@
 import qbs 1.0
 
-LiriDynamicLibrary {
+LiriQmlPlugin {
     name: "lirinotificationsplugin"
-    targetName: "lirinotificationsplugin"
+    pluginPath: "Liri/Notifications"
 
-    Depends { name: "lirideployment" }
-    Depends { name: "Qt"; submodules: ["qml", "quick", "gui"] }
     Depends { name: "LiriNotifications" }
 
     cpp.defines: base.concat(['LIBLIRI_VERSION="' + project.version + '"'])
 
-    files: ["*.cpp", "*.h"]
-
-    Group {
-        name: "QML Files"
-        files: [
-            "qmldir",
-            "plugins.qmltypes"
-        ]
-        fileTags: ["qml"]
-    }
+    files: ["*.cpp", "*.h", "qmldir", "*.qmltypes"]
 
     Group {
         name: "D-Bus Adaptors"
@@ -27,11 +16,5 @@ LiriDynamicLibrary {
             "../../notifications/org.freedesktop.Notifications.xml"
         ]
         fileTags: ["qt.dbus.adaptor"]
-    }
-
-    Group {
-        qbs.install: true
-        qbs.installDir: lirideployment.qmlDir + "/Liri/Notifications"
-        fileTagsFilter: ["dynamiclibrary", "qml"]
     }
 }
