@@ -9,6 +9,7 @@ CppApplication {
     Depends { name: "LiriNotifications" }
 
     cpp.defines: base.concat(['LIBLIRI_VERSION="' + project.version + '"'])
+    cpp.includePaths: base.concat([".."])
 
     files: ["*.cpp", "*.h"]
 

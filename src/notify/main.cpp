@@ -16,7 +16,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QCommandLineParser>
 
-#include <LiriNotifications/Notification>
+#include "notifications/notification.h"
 
 using namespace Liri;
 
