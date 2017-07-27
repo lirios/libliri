@@ -19,6 +19,8 @@ env:
     - secure: "O9LMx7pNPiRw4qzsJTJ6IRkhDNEy4SppmbAcRVPF/7EfQJdfROxOi3SVqV/b9tf3qiTJAmoC/eb0+mKOunE7Qp0JijsGHMwprZ1LVkfQCyksT9npQ5QYeQ7UCXQk9uxMwafNNpMuBSIhHnqKlXMhRpx5nEPeKINhcIrlXk4xAAkpUaUA1qr07VlyI7Sic0B0NrUTBHwA2VK3yRJLwxxisvZ3x12k3B5dNq2rNbye0V8yzS+5gYGy0OHcR4GkwBfxynIB/QJZFMto2eQ5fJ+bA2hNJeaXWGAYBfSBs3XbEOkInxxsawDnWybRpKlVZHAgFZ0+jYE+f2zPQ+D5l5tVFsNCVpORyRi4xQbciSHjTo1g50RYFY5MIOO9L7ldDl3ShmbKT0TGnu5/Vf9tEKirU2KArCXKoII9heag/iY0aHxnJ3dSm1ROIDqXru5Ik2X9kOEu/0BfZmAtgtGXF1NhER2EHKeV6n1GOOtfr+Ini0nJpkg1KOv8PWFedyKV2O+DEcGSP3b4U0fdqbWLn0NStNaJBHVakTsMxOXVJfLPPrGz+1RtmT+0pYIfn7idoIpViVH1cG56XfjS3dKIgo9GVKIpYK76PEesIzNIQzG074/nhy49ra7WLnHGfyr115QVK/jDWB61ngms3nYoh+fMUTkCbhEu2CzPmOXLDJfpz0k="
 
 arch:
+  artifacts:
+    - qbs-shared-artifacts.tar.gz
   packages:
     - qbs
     - qt5-tools
