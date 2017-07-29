@@ -16,12 +16,12 @@ Project {
 
     references: [
         "src/deployment.qbs",
-        "src/tools.qbs",
         "src/core/core.qbs",
         "src/dbusservice/dbusservice.qbs",
         "src/models/models.qbs",
         "src/notifications/notifications.qbs",
         "src/imports/imports.qbs",
+        "src/tools.qbs",
         "tests/auto/auto.qbs",
     ]
 }
