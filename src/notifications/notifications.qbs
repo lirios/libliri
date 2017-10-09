@@ -4,7 +4,7 @@ import LiriUtils
 LiriModuleProject {
     id: root
 
-    name: "Liri Notifications"
+    name: "LiriNotifications"
     moduleName: "LiriNotifications"
     description: "Qt style API for freedesktop.org notifications"
 
