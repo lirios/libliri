@@ -85,7 +85,8 @@ NotificationPrivate::NotificationPrivate()
  * Constructs a Notification with the given \a parent.
  */
 Notification::Notification(QObject *parent)
-    : QObject(*new NotificationPrivate(), parent)
+    : QObject(parent)
+    , d_ptr(new NotificationPrivate())
 {
     Q_D(Notification);
 

@@ -65,6 +65,8 @@ public Q_SLOTS:
     void unregister();
 
 private:
+    DBusServicePrivate *const d_ptr;
+
     void Activate(const QVariantMap &platform_data);
     void ActivateAction(const QString &action_name, const QVariantList &parameter, const QVariantMap &platform_data);
     void Open(const QStringList &uris, const QVariantMap &platform_data);

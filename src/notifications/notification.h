@@ -106,6 +106,9 @@ Q_SIGNALS:
     void sendSucceeded(uint id);
     void actionInvoked(const QString &action);
     void closed(CloseReason reason);
+
+private:
+    NotificationPrivate *const d_ptr;
 };
 
 } // namespace Liri

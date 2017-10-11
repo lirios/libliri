@@ -28,58 +28,49 @@
 
 #include "application_adaptor.h"
 #include "dbusservice.h"
+#include "dbusservice_p.h"
 
 namespace Liri {
 
-class DBusServicePrivate : public QObjectPrivate
+DBusServicePrivate::DBusServicePrivate()
 {
-    Q_DECLARE_PUBLIC(DBusService)
-public:
-    DBusServicePrivate()
-        : registered(false)
-    {
-    }
+}
 
-    QString getServiceName() const
-    {
-        QString name;
-        const QString desktopFileName = QGuiApplication::desktopFileName();
+QString DBusServicePrivate::getServiceName() const
+{
+    QString name;
+    const QString desktopFileName = QGuiApplication::desktopFileName();
 
-        if (desktopFileName.isEmpty()) {
-            const QString domain = QCoreApplication::organizationDomain();
-            const QStringList parts = domain.split(QLatin1Char('.'), QString::SkipEmptyParts);
+    if (desktopFileName.isEmpty()) {
+        const QString domain = QCoreApplication::organizationDomain();
+        const QStringList parts = domain.split(QLatin1Char('.'), QString::SkipEmptyParts);
 
-            QString reverseDomain;
-            if (parts.isEmpty()) {
-                reverseDomain = QLatin1String("local");
-            } else {
-                for (const QString &part : parts) {
-                    reverseDomain.prepend(QLatin1Char('.'));
-                    reverseDomain.prepend(part);
-                }
-            }
-
-            name = reverseDomain + QCoreApplication::applicationName();
+        QString reverseDomain;
+        if (parts.isEmpty()) {
+            reverseDomain = QLatin1String("local");
         } else {
-            QFileInfo info(desktopFileName);
-            name = info.baseName().replace(QRegularExpression(QLatin1String("\\.desktop$")), QString());
+            for (const QString &part : parts) {
+                reverseDomain.prepend(QLatin1Char('.'));
+                reverseDomain.prepend(part);
+            }
         }
 
-        return name;
+        name = reverseDomain + QCoreApplication::applicationName();
+    } else {
+        QFileInfo info(desktopFileName);
+        name = info.baseName().replace(QRegularExpression(QLatin1String("\\.desktop$")), QString());
     }
 
-    QString getObjectPath(const QString &name) const
-    {
-        QString path = QLatin1Char('/') + name;
-        path.replace(QLatin1Char('.'), QLatin1Char('/'));
-        path.replace(QLatin1Char('-'), QLatin1Char('_'));
-        return path;
-    }
+    return name;
+}
 
-    bool registered;
-    QString errorMessage;
-    QString serviceName;
-};
+QString DBusServicePrivate::getObjectPath(const QString &name) const
+{
+    QString path = QLatin1Char('/') + name;
+    path.replace(QLatin1Char('.'), QLatin1Char('/'));
+    path.replace(QLatin1Char('-'), QLatin1Char('_'));
+    return path;
+}
 
 /*!
  * \class DBusService
@@ -177,7 +168,8 @@ public:
  * Constructs a DBusService object with the specified \a options.
  */
 DBusService::DBusService(StartupOptions options, QObject *parent)
-    : QObject(*new DBusServicePrivate, parent)
+    : QObject(parent)
+    , d_ptr(new DBusServicePrivate())
 {
     Q_D(DBusService);
 
