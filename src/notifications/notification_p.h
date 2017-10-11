@@ -23,6 +23,17 @@
 
 #pragma once
 
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Liri API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
 #include <QtCore/private/qobject_p.h>
 
 class OrgFreedesktopNotificationsInterface;
