@@ -9,7 +9,9 @@ libliri
 [![GitHub issues](https://img.shields.io/github/issues/lirios/libliri.svg)](https://github.com/lirios/libliri/issues)
 [![Maintained](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/lirios/libliri/commits/develop)
 
-Library for Liri apps.
+Library for Liri apps, including:
+
+ * Qt-style API for logind.
 
 ## Dependencies
 
