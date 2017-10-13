@@ -20,6 +20,7 @@ Project {
         "src/deployment.qbs",
         "src/core/core.qbs",
         "src/dbusservice/dbusservice.qbs",
+        "src/logind/logind.qbs",
         "src/models/models.qbs",
         "src/notifications/notifications.qbs",
         "src/imports/imports.qbs",
