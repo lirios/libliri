@@ -1,0 +1,4 @@
+module Liri.Device
+plugin lirideviceplugin
+classname LiriDevicePlugin
+typeinfo plugins.qmltypes

@@ -5,6 +5,7 @@ Project {
 
     references: [
         "core/core.qbs",
+        "device/device.qbs",
         "notifications/notifications.qbs",
     ]
 }

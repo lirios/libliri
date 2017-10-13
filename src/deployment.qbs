@@ -19,6 +19,10 @@ Project {
         Depends { name: "LiriDBusService-cmake" }
         Depends { name: "LiriDBusService-pkgconfig" }
         Depends { name: "LiriDBusService-qbs" }
+        Depends { name: "LiriLocalDevice" }
+        Depends { name: "LiriLocalDevice-cmake" }
+        Depends { name: "LiriLocalDevice-pkgconfig" }
+        Depends { name: "LiriLocalDevice-qbs" }
         Depends { name: "LiriLogind" }
         Depends { name: "LiriLogind-pkgconfig" }
         Depends { name: "LiriLogind-qbs" }
@@ -31,6 +35,7 @@ Project {
         Depends { name: "LiriNotifications-pkgconfig" }
         Depends { name: "LiriNotifications-qbs" }
         Depends { name: "liricoreplugin" }
+        Depends { name: "lirideviceplugin" }
         Depends { name: "lirinotificationsplugin" }
         Depends { name: "liri-notify" }
     }
