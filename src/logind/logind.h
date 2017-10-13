@@ -1,10 +1,7 @@
 /****************************************************************************
  * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:LGPLv3+$
  *
@@ -24,29 +21,26 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef LIRI_LOGIND_H
-#define LIRI_LOGIND_H
+#pragma once
 
-#include <QtCore/QObject>
-#include <QtDBus/QDBusConnection>
+#include <QObject>
+#include <QDBusConnection>
 
 #include <LiriLogind/lirilogindglobal.h>
 
 namespace Liri {
-
-namespace Platform {
 
 class LogindPrivate;
 
 class LIRILOGIND_EXPORT Logind : public QObject
 {
     Q_OBJECT
+    Q_DECLARE_PRIVATE(Logind)
     Q_PROPERTY(bool connected READ isConnected NOTIFY connectedChanged)
     Q_PROPERTY(bool hasSessionControl READ hasSessionControl NOTIFY hasSessionControlChanged)
     Q_PROPERTY(bool sessionActive READ isSessionActive NOTIFY sessionActiveChanged)
     Q_PROPERTY(bool inhibited READ isInhibited NOTIFY inhibitedChanged)
     Q_PROPERTY(int vtNumber READ vtNumber NOTIFY vtNumberChanged)
-    Q_DECLARE_PRIVATE(Logind)
 public:
     enum InhibitFlag {
         InhibitShutdown = 0x01,
@@ -63,6 +57,8 @@ public:
         Block = 0,
         Delay
     };
+
+    ~Logind();
 
     static Logind *instance();
 
@@ -109,9 +105,13 @@ Q_SIGNALS:
     void deviceResumed(quint32 major, quint32 minor, int fd);
 
 protected:
-    explicit Logind(const QDBusConnection &connection, QObject *parent = 0);
+    explicit Logind(const QDBusConnection &connection, QObject *parent = nullptr);
 
 private:
+    Q_DISABLE_COPY(Logind)
+
+    LogindPrivate *const d_ptr;
+
     Q_PRIVATE_SLOT(d_func(), void _q_serviceRegistered())
     Q_PRIVATE_SLOT(d_func(), void _q_serviceUnregistered())
     Q_PRIVATE_SLOT(d_func(), void _q_sessionPropertiesChanged())
@@ -119,8 +119,4 @@ private:
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Logind::InhibitFlags)
 
-} // namespace Platform
-
 } // namespace Liri
-
-#endif // LIRI_LOGIND_H

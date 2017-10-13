@@ -5,7 +5,7 @@ Project {
 
     references: [
         "core/core.qbs",
-        //"logind/logind.qbs",
+        "logind/logind.qbs",
     ]
 
     AutotestRunner {

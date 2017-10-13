@@ -62,6 +62,18 @@ for more deployment-related parameters.
 If you specify `qbs.installRoot` you might need to prefix the entire line with `sudo`,
 depending on whether you have permissions to write there or not.
 
+## Logging categories
+
+Qt 5.2 introduced logging categories and Hawaii takes advantage of
+them to make debugging easier.
+
+Please refer to the [Qt](http://doc.qt.io/qt-5/qloggingcategory.html) documentation
+to learn how to enable them.
+
+Available categories:
+
+  * **liri.logind:** Logind wrapper
+
 ## Licensing
 
 Licensed under the terms of the GNU Lesser General Public License version 3 or,

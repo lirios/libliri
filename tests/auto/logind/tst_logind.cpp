@@ -1,10 +1,7 @@
 /****************************************************************************
- * This file is part of Hawaii.
+ * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:GPL3+$
  *
@@ -24,18 +21,18 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include <QtTest/QtTest>
+#include <QtTest>
 
 #include <LiriLogind/Logind>
 
 #include "fakelogind.h"
 
-using namespace Liri::Platform;
+using namespace Liri;
 
 class CustomLogind : public Logind
 {
 public:
-    CustomLogind(QObject *parent = 0)
+    CustomLogind(QObject *parent = nullptr)
         : Logind(QDBusConnection::sessionBus(), parent)
     {
     }
@@ -45,12 +42,16 @@ class TestLogind : public QObject
 {
     Q_OBJECT
 public:
-    TestLogind(QObject *parent = 0)
+    TestLogind(QObject *parent = nullptr)
         : QObject(parent)
     {
     }
 
 private Q_SLOTS:
+    void initTestCase()
+    {
+        qunsetenv("XDG_SESSION_ID");
+    }
 
     void testConnection()
     {

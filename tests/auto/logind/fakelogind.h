@@ -1,10 +1,7 @@
 /****************************************************************************
- * This file is part of Hawaii.
+ * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:GPL3+$
  *
@@ -24,11 +21,10 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#ifndef FAKELOGIND_H
-#define FAKELOGIND_H
+#pragma once
 
-#include <QtCore/QObject>
-#include <QtDBus/QDBusObjectPath>
+#include <QObject>
+#include <QDBusObjectPath>
 
 class FakeLogindSession : public QObject
 {
@@ -37,7 +33,7 @@ class FakeLogindSession : public QObject
     Q_PROPERTY(uint VTNr READ vtNumber)
     Q_CLASSINFO("D-Bus Interface", "org.freedesktop.login1.Session")
 public:
-    explicit FakeLogindSession(const QString &path, QObject *parent = 0);
+    explicit FakeLogindSession(const QString &path, QObject *parent = nullptr);
     virtual ~FakeLogindSession();
 
     const QString &path();
@@ -62,7 +58,7 @@ class FakeLogind : public QObject
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.freedesktop.login1.Manager")
 public:
-    explicit FakeLogind(QObject *parent = 0);
+    explicit FakeLogind(QObject *parent = nullptr);
     virtual ~FakeLogind();
 
     // Methods to trigger signals
@@ -83,5 +79,3 @@ Q_SIGNALS:
 private:
     FakeLogindSession *m_session;
 };
-
-#endif // FAKELOGIND_H

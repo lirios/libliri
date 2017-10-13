@@ -1,10 +1,7 @@
 /****************************************************************************
- * This file is part of Hawaii.
+ * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:GPL3+$
  *
@@ -24,7 +21,7 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include <QtDBus/QDBusConnection>
+#include <QDBusConnection>
 
 #include "fakelogind.h"
 
@@ -130,5 +127,3 @@ void FakeLogind::ReleaseDevice(int maj, int min)
     Q_UNUSED(maj);
     Q_UNUSED(min);
 }
-
-#include "moc_fakelogind.cpp"

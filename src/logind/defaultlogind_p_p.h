@@ -1,10 +1,7 @@
 /****************************************************************************
  * This file is part of Liri.
  *
- * Copyright (C) 2015-2016 Pier Luigi Fiorini
- *
- * Author(s):
- *    Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2017 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:LGPLv3+$
  *
@@ -24,6 +21,27 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include "logging_p.h"
+#pragma once
 
-Q_LOGGING_CATEGORY(lcLogind, "liri.qpa.logind")
+//
+//  W A R N I N G
+//  -------------
+//
+// This file is not part of the Liri API.  It exists purely as an
+// implementation detail.  This header file may change from version to
+// version without notice, or even be removed.
+//
+// We mean it.
+//
+
+#include "logind.h"
+
+namespace Liri {
+
+class DefaultLogind : public Logind
+{
+public:
+    explicit DefaultLogind(QObject *parent = nullptr);
+};
+
+} // namespace Liri
