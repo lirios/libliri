@@ -1,7 +1,7 @@
 import qbs 1.0
 
 Project {
-    name: "Liri Library"
+    name: "LibLiri"
 
     readonly property string version: "0.9.0"
     readonly property var versionParts: version.split('.').map(function(part) { return parseInt(part); })
@@ -20,6 +20,7 @@ Project {
         "src/deployment.qbs",
         "src/core/core.qbs",
         "src/dbusservice/dbusservice.qbs",
+        "src/localdevice/localdevice.qbs",
         "src/models/models.qbs",
         "src/notifications/notifications.qbs",
         "src/imports/imports.qbs",
