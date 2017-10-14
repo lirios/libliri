@@ -408,6 +408,24 @@ int Logind::vtNumber() const
 }
 
 /*!
+ * Set the idle hint state to \a idle.
+ */
+void Logind::setIdleHint(bool idle)
+{
+    Q_D(Logind);
+
+    if (!d->isConnected || d->sessionPath.isEmpty())
+        return;
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(login1Service,
+                                           d->sessionPath,
+                                           login1SessionInterface,
+                                           QStringLiteral("SetIdleHint"));
+    d->bus.asyncCall(message, idle);
+}
+
+/*!
  * Install an inhibitor.
  * \param who Name of the application that is installing the inhibitor
  * \param why Reason why the inhibitor is being installed

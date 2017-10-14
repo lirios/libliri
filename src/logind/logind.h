@@ -70,6 +70,8 @@ public:
     bool isInhibited() const;
     int vtNumber() const;
 
+    void setIdleHint(bool idle);
+
 public Q_SLOTS:
     void inhibit(const QString &who, const QString &why, InhibitFlags flags, InhibitMode mode);
     void uninhibit(int fd);
