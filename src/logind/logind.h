@@ -60,6 +60,8 @@ public:
 
     ~Logind();
 
+    static bool checkService();
+
     static Logind *instance();
 
     bool isConnected() const;

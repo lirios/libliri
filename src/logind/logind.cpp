@@ -22,6 +22,7 @@
  ***************************************************************************/
 
 #include <QCoreApplication>
+#include <QDBusConnectionInterface>
 #include <QDBusObjectPath>
 #include <QDBusPendingCall>
 #include <QDBusPendingReply>
@@ -338,6 +339,12 @@ Logind::~Logind()
 Logind *Logind::instance()
 {
     return s_logind();
+}
+
+bool Logind::checkService()
+{
+    QDBusConnectionInterface *interface = QDBusConnection::systemBus().interface();
+    return interface->isServiceRegistered(login1Service);
 }
 
 /*!
