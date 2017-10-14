@@ -102,7 +102,8 @@ Q_SIGNALS:
     void lockSessionRequested();
     void unlockSessionRequested();
 
-    void inhibited(int fd);
+    void inhibited(const QString &who, const QString &why,
+                   int fd);
     void uninhibited(int fd);
 
     void devicePaused(quint32 major, quint32 minor, const QString &type);

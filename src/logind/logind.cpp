@@ -471,7 +471,7 @@ void Logind::inhibit(const QString &who, const QString &why,
     QDBusPendingReply<QDBusUnixFileDescriptor> result = d->bus.asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(result, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this,
-            [d, this](QDBusPendingCallWatcher *w) {
+            [d, this, who, why](QDBusPendingCallWatcher *w) {
         QDBusPendingReply<QDBusUnixFileDescriptor> reply = *w;
         w->deleteLater();
 
@@ -487,7 +487,7 @@ void Logind::inhibit(const QString &who, const QString &why,
         d->inhibitFds.append(fd);
         if (d->inhibitFds.size() == 1)
             Q_EMIT inhibitedChanged(true);
-        Q_EMIT inhibited(fd);
+        Q_EMIT inhibited(who, why, fd);
     });
 }
 
