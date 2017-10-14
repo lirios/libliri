@@ -19,6 +19,9 @@ Project {
         Depends { name: "LiriDBusService-cmake" }
         Depends { name: "LiriDBusService-pkgconfig" }
         Depends { name: "LiriDBusService-qbs" }
+        Depends { name: "LiriLogind" }
+        Depends { name: "LiriLogind-pkgconfig" }
+        Depends { name: "LiriLogind-qbs" }
         Depends { name: "LiriModels" }
         Depends { name: "LiriModels-cmake" }
         Depends { name: "LiriModels-pkgconfig" }
