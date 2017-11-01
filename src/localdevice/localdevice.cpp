@@ -37,9 +37,13 @@ LocalDevicePrivate::LocalDevicePrivate()
         powerBackend = new SystemdPowerBackend();
     else if (UPowerPowerBackend::check())
         powerBackend = new UPowerPowerBackend();
+    else
+        qWarning("No power backend available");
 
     if (SystemdSystemBackend::check())
         systemBackend = new SystemdSystemBackend();
+    else
+        qWarning("No system backend available");
 }
 
 LocalDevicePrivate::~LocalDevicePrivate()

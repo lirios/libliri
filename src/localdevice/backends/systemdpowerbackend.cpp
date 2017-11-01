@@ -134,8 +134,20 @@ void SystemdPowerBackend::getLogin1Property(const QString &name, bool *prop)
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
         QDBusPendingReply<QString> reply = *watcher;
-        if (reply.isValid())
+        if (reply.isValid()) {
             *prop = validValues.contains(reply.value());
+
+            if (name == QStringLiteral("CanPowerOff"))
+                Q_EMIT canPowerOffChanged();
+            else if (name == QStringLiteral("CanReboot"))
+                Q_EMIT canRestartChanged();
+            else if (name == QStringLiteral("CanSuspend"))
+                Q_EMIT canSuspendChanged();
+            else if (name == QStringLiteral("CanHibernate"))
+                Q_EMIT canHibernateChanged();
+            else if (name == QStringLiteral("CanHybridSleep"))
+                Q_EMIT canHybridSleepdChanged();
+        }
         watcher->deleteLater();
     });
 }

@@ -127,8 +127,14 @@ void UPowerPowerBackend::getUPowerProperty(const QString &name, bool *prop)
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pendingCall, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
         QDBusPendingReply<QString> reply = *watcher;
-        if (reply.isValid())
+        if (reply.isValid()) {
             *prop = reply.value() == QStringLiteral("yes");
+
+            if (name == QStringLiteral("SuspendAllowed"))
+                Q_EMIT canSuspendChanged();
+            else if (name == QStringLiteral("HibernateAllowed"))
+                Q_EMIT canHibernateChanged();
+        }
         watcher->deleteLater();
     });
 }
