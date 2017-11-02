@@ -264,6 +264,29 @@ QString LocalDevice::operatingSystemName() const
 }
 
 /*!
+ * \qmlproperty string Liri::LocalDevice::LocalDevice::virtualization
+ *
+ * This property holds the virtualization technology used, if applicable.
+ * If the device is a bare-metal machine this property will be empty.
+ */
+
+/*!
+ * \property LocalDevice::virtualization
+ *
+ * This property holds the virtualization technology used, if applicable.
+ * If the device is a bare-metal machine this property will be empty.
+ */
+QString LocalDevice::virtualization() const
+{
+    Q_D(const LocalDevice);
+
+    if (d->systemBackend)
+        return d->systemBackend->virtualization();
+
+    return QString();
+}
+
+/*!
  * \qmlproperty bool Liri::LocalDevice::LocalDevice::canPowerOff
  *
  * This property holds whether the current user can power off the system.

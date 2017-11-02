@@ -41,6 +41,7 @@ class LIRILOCALDEVICE_EXPORT LocalDevice : public QObject
     Q_PROPERTY(QString iconName READ iconName CONSTANT)
     Q_PROPERTY(QString materialIconName READ materialIconName CONSTANT)
     Q_PROPERTY(QString operatingSystemName READ operatingSystemName CONSTANT)
+    Q_PROPERTY(QString virtualization READ virtualization CONSTANT)
     Q_PROPERTY(bool canPowerOff READ canPowerOff NOTIFY canPowerOffChanged)
     Q_PROPERTY(bool canRestart READ canRestart NOTIFY canRestartChanged)
     Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY canSuspendChanged)
@@ -70,6 +71,8 @@ public:
     QString materialIconName() const;
 
     QString operatingSystemName() const;
+
+    QString virtualization() const;
 
     bool canPowerOff() const;
     bool canRestart() const;

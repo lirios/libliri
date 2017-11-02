@@ -41,15 +41,19 @@ public:
 
     QString operatingSystemName() const override;
 
+    QString virtualization() const override;
+
     static bool check();
 
 private:
+    QString m_virtualization;
     QString m_chassis;
     QString m_hostName;
     QString m_iconName;
     QString m_osName;
 
     void getHostname1Property(const QString &name, QString *prop);
+    void getSystemd1Property(const QString &name, QString *prop);
 };
 
 } // namespace Liri

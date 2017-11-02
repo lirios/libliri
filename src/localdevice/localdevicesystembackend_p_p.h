@@ -53,6 +53,8 @@ public:
     virtual QString materialIconName() const = 0;
 
     virtual QString operatingSystemName() const = 0;
+
+    virtual QString virtualization() const = 0;
 };
 
 } // namespace Liri

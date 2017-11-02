@@ -28,6 +28,10 @@
 
 #include "backends/systemdsystembackend_p.h"
 
+#define SYSTEMD1_SERVICE QStringLiteral("org.freedesktop.systemd1")
+#define SYSTEMD1_PATH QStringLiteral("/org/freedesktop/systemd1")
+#define SYSTEMD1_INTERFACE QStringLiteral("org.freedestkop.systemd1.Manager")
+
 #define HOSTNAME1_SERVICE QStringLiteral("org.freedesktop.hostname1")
 #define HOSTNAME1_PATH QStringLiteral("/org/freedesktop/hostname1")
 
@@ -38,6 +42,7 @@ namespace Liri {
 SystemdSystemBackend::SystemdSystemBackend(QObject *parent)
     : LocalDeviceSystemBackend(parent)
 {
+    getSystemd1Property(QStringLiteral("Virtualization"), &m_virtualization);
     getHostname1Property(QStringLiteral("Chassis"), &m_chassis);
     getHostname1Property(QStringLiteral("Hostname"), &m_hostName);
     getHostname1Property(QStringLiteral("IconName"), &m_iconName);
@@ -96,10 +101,35 @@ QString SystemdSystemBackend::operatingSystemName() const
     return m_osName;
 }
 
+QString SystemdSystemBackend::virtualization() const
+{
+    return m_virtualization;
+}
+
 bool SystemdSystemBackend::check()
 {
     QDBusConnectionInterface *interface = QDBusConnection::systemBus().interface();
     return interface->isServiceRegistered(HOSTNAME1_SERVICE);
+}
+
+void SystemdSystemBackend::getSystemd1Property(const QString &name, QString *prop)
+{
+    if (!prop)
+        return;
+
+    auto msg = QDBusMessage::createMethodCall(SYSTEMD1_SERVICE, SYSTEMD1_PATH,
+                                              DBUS_PROPERTIES_INTERFACE,
+                                              QStringLiteral("Get"));
+    msg << SYSTEMD1_INTERFACE << name;
+
+    auto reply = QDBusConnection::systemBus().asyncCall(msg);
+    auto watcher = new QDBusPendingCallWatcher(reply);
+    connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
+        QDBusPendingReply<QString> reply = *watcher;
+        if (reply.isValid())
+            *prop = reply.value();
+        watcher->deleteLater();
+    });
 }
 
 void SystemdSystemBackend::getHostname1Property(const QString &name, QString *prop)
