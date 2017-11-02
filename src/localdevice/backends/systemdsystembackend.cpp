@@ -109,7 +109,7 @@ QString SystemdSystemBackend::virtualization() const
 bool SystemdSystemBackend::check()
 {
     QDBusConnectionInterface *interface = QDBusConnection::systemBus().interface();
-    return interface->isServiceRegistered(HOSTNAME1_SERVICE);
+    return interface->isServiceRegistered(SYSTEMD1_SERVICE);
 }
 
 void SystemdSystemBackend::getSystemd1Property(const QString &name, QString *prop)
