@@ -44,20 +44,16 @@ LiriModuleProject {
         ]
 
         files: [
+            "backends/systemdbackend.cpp",
+            "backends/systemdbackend_p.h",
+            "backends/upowerbackend.cpp",
+            "backends/upowerbackend_p.h",
             "lirilocaldeviceglobal.h",
             "localdevice.cpp",
             "localdevice.h",
             "localdevice_p.h",
-            "localdevicepowerbackend_p.cpp",
-            "localdevicepowerbackend_p_p.h",
-            "localdevicesystembackend_p.cpp",
-            "localdevicesystembackend_p_p.h",
-            "backends/systemdpowerbackend.cpp",
-            "backends/systemdpowerbackend_p.h",
-            "backends/systemdsystembackend.cpp",
-            "backends/systemdsystembackend_p.h",
-            "backends/upowerpowerbackend.cpp",
-            "backends/upowerpowerbackend_p.h",
+            "localdevicebackend_p.cpp",
+            "localdevicebackend_p_p.h",
         ]
 
         Export {

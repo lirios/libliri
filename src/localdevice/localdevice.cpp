@@ -25,37 +25,31 @@
 
 #include "localdevice.h"
 #include "localdevice_p.h"
-#include "backends/systemdpowerbackend_p.h"
-#include "backends/systemdsystembackend_p.h"
-#include "backends/upowerpowerbackend_p.h"
+#include "backends/systemdbackend_p.h"
+#include "backends/upowerbackend_p.h"
 
 namespace Liri {
 
 LocalDevicePrivate::LocalDevicePrivate()
 {
-    if (SystemdPowerBackend::check())
-        powerBackend = new SystemdPowerBackend();
-    else if (UPowerPowerBackend::check())
-        powerBackend = new UPowerPowerBackend();
-    else
-        qWarning("No power backend available");
-
-    if (SystemdSystemBackend::check())
-        systemBackend = new SystemdSystemBackend();
-    else
-        qWarning("No system backend available");
+    if (SystemdBackend::check())
+        systemd = new SystemdBackend();
+    if (UPowerBackend::check())
+        upower = new UPowerBackend();
+    if (!systemd && !upower)
+        qWarning("No backend available");
 }
 
 LocalDevicePrivate::~LocalDevicePrivate()
 {
-    if (powerBackend) {
-        powerBackend->deleteLater();
-        powerBackend = nullptr;
+    if (systemd) {
+        systemd->deleteLater();
+        systemd = nullptr;
     }
 
-    if (systemBackend) {
-        systemBackend->deleteLater();
-        systemBackend = nullptr;
+    if (upower) {
+        upower->deleteLater();
+        upower = nullptr;
     }
 }
 
@@ -110,12 +104,18 @@ LocalDevice::LocalDevice(QObject *parent)
     : QObject(parent)
     , d_ptr(new LocalDevicePrivate())
 {
-    if (d_func()->powerBackend) {
-        connect(d_func()->powerBackend, &LocalDevicePowerBackend::canPowerOffChanged, this, &LocalDevice::canPowerOffChanged);
-        connect(d_func()->powerBackend, &LocalDevicePowerBackend::canRestartChanged, this, &LocalDevice::canRestartChanged);
-        connect(d_func()->powerBackend, &LocalDevicePowerBackend::canSuspendChanged, this, &LocalDevice::canSuspendChanged);
-        connect(d_func()->powerBackend, &LocalDevicePowerBackend::canHibernateChanged, this, &LocalDevice::canHibernateChanged);
-        connect(d_func()->powerBackend, &LocalDevicePowerBackend::canHybridSleepdChanged, this, &LocalDevice::canHybridSleepdChanged);
+    if (d_func()->systemd) {
+        connect(d_func()->systemd, &LocalDeviceBackend::canPowerOffChanged, this, &LocalDevice::canPowerOffChanged);
+        connect(d_func()->systemd, &LocalDeviceBackend::canRestartChanged, this, &LocalDevice::canRestartChanged);
+        connect(d_func()->systemd, &LocalDeviceBackend::canSuspendChanged, this, &LocalDevice::canSuspendChanged);
+        connect(d_func()->systemd, &LocalDeviceBackend::canHibernateChanged, this, &LocalDevice::canHibernateChanged);
+        connect(d_func()->systemd, &LocalDeviceBackend::canHybridSleepdChanged, this, &LocalDevice::canHybridSleepdChanged);
+    }
+
+    if (d_func()->upower) {
+        connect(d_func()->upower, &LocalDeviceBackend::powerSourceChanged, this, &LocalDevice::powerSourceChanged);
+        connect(d_func()->upower, &LocalDeviceBackend::lidPresentChanged, this, &LocalDevice::lidPresentChanged);
+        connect(d_func()->upower, &LocalDeviceBackend::lidClosedChanged, this, &LocalDevice::lidClosedChanged);
     }
 }
 
@@ -161,10 +161,84 @@ LocalDevice::Chassis LocalDevice::chassis() const
 {
     Q_D(const LocalDevice);
 
-    if (d->systemBackend)
-        return d->systemBackend->chassis();
+    if (d->systemd)
+        return d->systemd->chassis();
 
     return LocalDevice::UnknownChassis;
+}
+
+/*!
+ * \enum LocalDevice::PowerSource
+ *
+ * This enum type is used to specify the power source of this device.
+ *
+ * \value ACPower AC power.
+ * \value BatteryPower Battery power.
+ *
+ * \sa LocalDevice::powerSource
+ */
+
+/*!
+ * \qmlproperty Liri::LocalDevice::LocalDevice::PowerSource Liri::LocalDevice::LocalDevice::powerSource
+ *
+ * This property holds whether the device is on AC power or battery power.
+ */
+
+/*!
+ * \property LocalDevice::powerSource
+ *
+ * This property holds whether the device is on AC power or battery power.
+ */
+LocalDevice::PowerSource LocalDevice::powerSource() const
+{
+    Q_D(const LocalDevice);
+
+    if (d->upower)
+        return d->upower->powerSource();
+
+    return LocalDevice::ACPower;
+}
+
+/*!
+ * \qmlproperty bool Liri::LocalDevice::LocalDevice::lidPresent
+ *
+ * This property holds whether the device has a lid or not.
+ */
+
+/*!
+ * \property LocalDevice::lidPresent
+ *
+ * This property holds whether the device has a lid or not.
+ */
+bool LocalDevice::lidPresent() const
+{
+    Q_D(const LocalDevice);
+
+    if (d->upower)
+        return d->upower->lidPresent();
+
+    return false;
+}
+
+/*!
+ * \qmlproperty bool Liri::LocalDevice::LocalDevice::lidClosed
+ *
+ * This property holds whether the device has the lid closed.
+ */
+
+/*!
+ * \property LocalDevice::lidClosed
+ *
+ * This property holds whether the device has the lid closed.
+ */
+bool LocalDevice::lidClosed() const
+{
+    Q_D(const LocalDevice);
+
+    if (d->upower)
+        return d->upower->lidClosed();
+
+    return false;
 }
 
 /*!
@@ -182,8 +256,8 @@ QString LocalDevice::hostName() const
 {
     Q_D(const LocalDevice);
 
-    if (d->systemBackend)
-        return d->systemBackend->hostName();
+    if (d->systemd)
+        return d->systemd->hostName();
 
     return QStringLiteral("localhost");
 }
@@ -209,8 +283,8 @@ QString LocalDevice::iconName() const
 {
     Q_D(const LocalDevice);
 
-    if (d->systemBackend)
-        return d->systemBackend->iconName();
+    if (d->systemd)
+        return d->systemd->iconName();
 
     return QStringLiteral("computer");
 }
@@ -234,12 +308,20 @@ QString LocalDevice::iconName() const
  */
 QString LocalDevice::materialIconName() const
 {
-    Q_D(const LocalDevice);
-
-    if (d->systemBackend)
-        return d->systemBackend->materialIconName();
-
-    return QStringLiteral("hardware/computer");
+    switch (chassis()) {
+    case LocalDevice::UnknownChassis:
+    case LocalDevice::DesktopChassis:
+    case LocalDevice::ServerChassis:
+    case LocalDevice::VirtualMachineChassis:
+    case LocalDevice::ContainerChassis:
+        return QStringLiteral("hardware/computer");
+    case LocalDevice::LaptopChassis:
+        return QStringLiteral("hardware/laptop");
+    case LocalDevice::TabletChassis:
+        return QStringLiteral("hardware/tablet");
+    case LocalDevice::PhoneChassis:
+        return QStringLiteral("hardware/smartphone");
+    }
 }
 
 /*!
@@ -257,8 +339,8 @@ QString LocalDevice::operatingSystemName() const
 {
     Q_D(const LocalDevice);
 
-    if (d->systemBackend)
-        return d->systemBackend->operatingSystemName();
+    if (d->systemd)
+        return d->systemd->operatingSystemName();
 
     return QSysInfo::prettyProductName();
 }
@@ -280,8 +362,8 @@ QString LocalDevice::virtualization() const
 {
     Q_D(const LocalDevice);
 
-    if (d->systemBackend)
-        return d->systemBackend->virtualization();
+    if (d->systemd)
+        return d->systemd->virtualization();
 
     return QString();
 }
@@ -305,8 +387,8 @@ bool LocalDevice::canPowerOff() const
 {
     Q_D(const LocalDevice);
 
-    if (d->powerBackend)
-        return d->powerBackend->canPowerOff();
+    if (d->systemd)
+        return d->systemd->canPowerOff();
 
     return false;
 }
@@ -330,8 +412,8 @@ bool LocalDevice::canRestart() const
 {
     Q_D(const LocalDevice);
 
-    if (d->powerBackend)
-        return d->powerBackend->canRestart();
+    if (d->systemd)
+        return d->systemd->canRestart();
 
     return false;
 }
@@ -355,8 +437,8 @@ bool LocalDevice::canSuspend() const
 {
     Q_D(const LocalDevice);
 
-    if (d->powerBackend)
-        return d->powerBackend->canSuspend();
+    if (d->systemd)
+        return d->systemd->canSuspend();
 
     return false;
 }
@@ -380,8 +462,8 @@ bool LocalDevice::canHibernate() const
 {
     Q_D(const LocalDevice);
 
-    if (d->powerBackend)
-        return d->powerBackend->canHibernate();
+    if (d->systemd)
+        return d->systemd->canHibernate();
 
     return false;
 }
@@ -405,8 +487,8 @@ bool LocalDevice::canHybridSleep() const
 {
     Q_D(const LocalDevice);
 
-    if (d->powerBackend)
-        return d->powerBackend->canHybridSleep();
+    if (d->systemd)
+        return d->systemd->canHybridSleep();
 
     return false;
 }
@@ -418,8 +500,10 @@ void LocalDevice::powerOff()
 {
     Q_D(LocalDevice);
 
-    if (canPowerOff() && d->powerBackend)
-        d->powerBackend->powerOff();
+    if (d->systemd)
+        d->systemd->powerOff();
+    else if (d->upower)
+        d->upower->powerOff();
 }
 
 /*!
@@ -429,8 +513,10 @@ void LocalDevice::restart()
 {
     Q_D(LocalDevice);
 
-    if (canRestart() && d->powerBackend)
-        d->powerBackend->restart();
+    if (d->systemd)
+        d->systemd->restart();
+    else if (d->upower)
+        d->upower->restart();
 }
 
 /*!
@@ -440,8 +526,10 @@ void LocalDevice::suspend()
 {
     Q_D(LocalDevice);
 
-    if (canSuspend() && d->powerBackend)
-        d->powerBackend->suspend();
+    if (d->systemd)
+        d->systemd->suspend();
+    else if (d->upower)
+        d->upower->suspend();
 }
 
 /*!
@@ -451,8 +539,10 @@ void LocalDevice::hibernate()
 {
     Q_D(LocalDevice);
 
-    if (canHibernate() && d->powerBackend)
-        d->powerBackend->hibernate();
+    if (d->systemd)
+        d->systemd->hibernate();
+    else if (d->upower)
+        d->upower->hibernate();
 }
 
 /*!
@@ -463,8 +553,10 @@ void LocalDevice::hybridSleep()
 {
     Q_D(LocalDevice);
 
-    if (canHybridSleep() && d->powerBackend)
-        d->powerBackend->hybridSleep();
+    if (d->systemd)
+        d->systemd->hybridSleep();
+    else if (d->upower)
+        d->upower->hybridSleep();
 }
 
 } // namespace Liri

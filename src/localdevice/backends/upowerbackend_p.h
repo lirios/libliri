@@ -23,47 +23,41 @@
 
 #pragma once
 
-#include <QDBusInterface>
-
-#include "localdevicepowerbackend_p_p.h"
+#include "localdevicebackend_p_p.h"
 
 namespace Liri {
 
-class SystemdPowerBackend : public LocalDevicePowerBackend
+class UPowerBackend : public LocalDeviceBackend
 {
     Q_OBJECT
 public:
-    explicit SystemdPowerBackend(QObject *parent = nullptr);
-    virtual ~SystemdPowerBackend();
+    explicit UPowerBackend(QObject *parent = nullptr);
 
     static QString service();
 
     QString name() const override;
 
-    bool canPowerOff() const override;
-    bool canRestart() const override;
-    bool canSuspend() const override;
-    bool canHibernate() const override;
-    bool canHybridSleep() const override;
+    LocalDevice::PowerSource powerSource() const override;
+
+    bool lidPresent() const override;
+    bool lidClosed() const override;
 
     void powerOff() override;
     void restart() override;
     void suspend() override;
     void hibernate() override;
-    void hybridSleep() override;
 
     static bool check();
 
 private:
-    QDBusInterface *m_interface = nullptr;
+    bool m_onBattery = false;
+    bool m_lidPresent = false;
+    bool m_lidClosed = false;
 
-    bool m_canPowerOff = false;
-    bool m_canRestart = false;
-    bool m_canSuspend = false;
-    bool m_canHibernate = false;
-    bool m_canHybridSleep = false;
+    void getUPowerProperty(const QString &name);
 
-    void getLogin1Property(const QString &name, bool *prop);
+private Q_SLOTS:
+    void upowerChanged(const QString &interface, QVariantMap &properties, const QStringList &invalidatedProperties);
 };
 
 } // namespace Liri

@@ -34,9 +34,11 @@
 // We mean it.
 //
 
+#include <QVector>
+
 #include "localdevice.h"
-#include "localdevicepowerbackend_p_p.h"
-#include "localdevicesystembackend_p_p.h"
+#include "backends/upowerbackend_p.h"
+#include "backends/systemdbackend_p.h"
 
 namespace Liri {
 
@@ -46,8 +48,8 @@ public:
     explicit LocalDevicePrivate();
     ~LocalDevicePrivate();
 
-    LocalDevicePowerBackend *powerBackend = nullptr;
-    LocalDeviceSystemBackend *systemBackend = nullptr;
+    UPowerBackend *upower = nullptr;
+    SystemdBackend *systemd = nullptr;
 };
 
 } // namespace Liri

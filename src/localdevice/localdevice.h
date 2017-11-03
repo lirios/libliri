@@ -37,6 +37,9 @@ class LIRILOCALDEVICE_EXPORT LocalDevice : public QObject
     Q_DECLARE_PRIVATE(LocalDevice)
     Q_DISABLE_COPY(LocalDevice)
     Q_PROPERTY(Chassis chassis READ chassis CONSTANT)
+    Q_PROPERTY(PowerSource powerSource READ powerSource NOTIFY powerSourceChanged)
+    Q_PROPERTY(bool lidPresent READ lidPresent NOTIFY lidPresentChanged)
+    Q_PROPERTY(bool lidClosed READ lidClosed NOTIFY lidClosedChanged)
     Q_PROPERTY(QString hostName READ hostName CONSTANT)
     Q_PROPERTY(QString iconName READ iconName CONSTANT)
     Q_PROPERTY(QString materialIconName READ materialIconName CONSTANT)
@@ -60,10 +63,21 @@ public:
     };
     Q_ENUM(Chassis)
 
+    enum PowerSource {
+        BatteryPower = 0,
+        ACPower
+    };
+    Q_ENUM(PowerSource)
+
     explicit LocalDevice(QObject *parent = nullptr);
     ~LocalDevice();
 
     Chassis chassis() const;
+
+    PowerSource powerSource() const;
+
+    bool lidPresent() const;
+    bool lidClosed() const;
 
     QString hostName() const;
 
@@ -81,6 +95,9 @@ public:
     bool canHybridSleep() const;
 
 Q_SIGNALS:
+    void powerSourceChanged();
+    void lidPresentChanged();
+    void lidClosedChanged();
     void canPowerOffChanged();
     void canRestartChanged();
     void canSuspendChanged();

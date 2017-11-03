@@ -41,33 +41,54 @@
 
 namespace Liri {
 
-class LocalDevicePowerBackend : public QObject
+class LocalDeviceBackend : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(LocalDevice::PowerSource powerSource READ powerSource NOTIFY powerSourceChanged)
+    Q_PROPERTY(bool lidPresent READ lidPresent NOTIFY lidPresentChanged)
+    Q_PROPERTY(bool lidClosed READ lidClosed NOTIFY lidClosedChanged)
     Q_PROPERTY(bool canPowerOff READ canPowerOff NOTIFY canPowerOffChanged)
     Q_PROPERTY(bool canRestart READ canRestart NOTIFY canRestartChanged)
     Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY canSuspendChanged)
     Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY canHibernateChanged)
     Q_PROPERTY(bool canHybridSleep READ canHybridSleep NOTIFY canHybridSleepdChanged)
 public:
-    explicit LocalDevicePowerBackend(QObject *parent = nullptr);
-    virtual ~LocalDevicePowerBackend();
+    explicit LocalDeviceBackend(QObject *parent = nullptr);
+    virtual ~LocalDeviceBackend();
 
     virtual QString name() const = 0;
 
-    virtual bool canPowerOff() const = 0;
-    virtual bool canRestart() const = 0;
-    virtual bool canSuspend() const = 0;
-    virtual bool canHibernate() const = 0;
-    virtual bool canHybridSleep() const = 0;
+    virtual LocalDevice::Chassis chassis() const;
 
-    virtual void powerOff() = 0;
-    virtual void restart() = 0;
-    virtual void suspend() = 0;
-    virtual void hibernate() = 0;
-    virtual void hybridSleep() = 0;
+    virtual QString hostName() const;
+
+    virtual QString iconName() const;
+
+    virtual QString operatingSystemName() const;
+
+    virtual QString virtualization() const;
+
+    virtual LocalDevice::PowerSource powerSource() const;
+
+    virtual bool lidPresent() const;
+    virtual bool lidClosed() const;
+
+    virtual bool canPowerOff() const;
+    virtual bool canRestart() const;
+    virtual bool canSuspend() const;
+    virtual bool canHibernate() const;
+    virtual bool canHybridSleep() const;
+
+    virtual void powerOff();
+    virtual void restart();
+    virtual void suspend();
+    virtual void hibernate();
+    virtual void hybridSleep();
 
 Q_SIGNALS:
+    void powerSourceChanged();
+    void lidPresentChanged();
+    void lidClosedChanged();
     void canPowerOffChanged();
     void canRestartChanged();
     void canSuspendChanged();
