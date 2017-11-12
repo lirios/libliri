@@ -309,19 +309,17 @@ QString LocalDevice::iconName() const
 QString LocalDevice::materialIconName() const
 {
     switch (chassis()) {
-    case LocalDevice::UnknownChassis:
-    case LocalDevice::DesktopChassis:
-    case LocalDevice::ServerChassis:
-    case LocalDevice::VirtualMachineChassis:
-    case LocalDevice::ContainerChassis:
-        return QStringLiteral("hardware/computer");
     case LocalDevice::LaptopChassis:
         return QStringLiteral("hardware/laptop");
     case LocalDevice::TabletChassis:
         return QStringLiteral("hardware/tablet");
     case LocalDevice::PhoneChassis:
         return QStringLiteral("hardware/smartphone");
+    default:
+        break;
     }
+
+    return QStringLiteral("hardware/computer");
 }
 
 /*!
