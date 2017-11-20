@@ -660,7 +660,7 @@ int Logind::takeDevice(const QString &fileName)
     }
 
     const int fd = reply.arguments().first().value<QDBusUnixFileDescriptor>().fileDescriptor();
-    return ::dup(fd);
+    return ::fcntl(fd, F_DUPFD_CLOEXEC, 0);
 }
 
 /*
