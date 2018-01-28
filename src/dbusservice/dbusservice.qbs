@@ -10,7 +10,6 @@ LiriModuleProject {
 
     resolvedProperties: ({
         Depends: [{ name: LiriUtils.quote("Qt.core") },
-                  { name: LiriUtils.quote("Qt.core-private") },
                   { name: LiriUtils.quote("Qt.dbus") },
                   { name: LiriUtils.quote("Qt.gui") }]
     })
@@ -37,7 +36,7 @@ LiriModuleProject {
         version: "0.0.0"
 
         Depends { name: root.headersName }
-        Depends { name: "Qt"; submodules: ["core", "core-private", "dbus", "gui"] }
+        Depends { name: "Qt"; submodules: ["core", "dbus", "gui"] }
 
         cpp.defines: base.concat([
             'LIBLIRI_VERSION="' + project.version + '"',
@@ -57,7 +56,7 @@ LiriModuleProject {
         Export {
             Depends { name: "cpp" }
             Depends { name: root.headersName }
-            Depends { name: "Qt"; submodules: ["core", "core-private", "dbus", "gui"] }
+            Depends { name: "Qt"; submodules: ["core", "dbus", "gui"] }
         }
     }
 }

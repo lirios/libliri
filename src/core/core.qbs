@@ -10,7 +10,6 @@ LiriModuleProject {
 
     resolvedProperties: ({
         Depends: [{ name: LiriUtils.quote("Qt.core") },
-                  { name: LiriUtils.quote("Qt.core-private") },
                   { name: LiriUtils.quote("Qt5Xdg") }],
     })
 
@@ -36,7 +35,7 @@ LiriModuleProject {
         version: "0.0.0"
 
         Depends { name: root.headersName }
-        Depends { name: "Qt"; submodules: ["core", "core-private"] }
+        Depends { name: "Qt.core" }
         Depends { name: "Qt5Xdg" }
 
         condition: {
@@ -58,7 +57,7 @@ LiriModuleProject {
         Export {
             Depends { name: "cpp" }
             Depends { name: root.headersName }
-            Depends { name: "Qt"; submodules: ["core", "core-private"] }
+            Depends { name: "Qt.core" }
             Depends { name: "Qt5Xdg" }
         }
     }

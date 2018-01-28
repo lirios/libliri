@@ -22,7 +22,6 @@
  ***************************************************************************/
 
 #include <QtCore/QFileInfo>
-#include <QtCore/private/qobject_p.h>
 #include <QtDBus/QDBusConnection>
 #include <QtGui/QGuiApplication>
 
