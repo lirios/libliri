@@ -40,7 +40,7 @@ LiriModuleProject {
 
         condition: {
             if (!Qt5Xdg.found) {
-                console.error("Qt5Xdg is required to build " + targetName);
+                throw "Qt5Xdg is required to build " + targetName;
                 return false;
             }
 
