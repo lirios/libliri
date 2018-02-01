@@ -49,6 +49,7 @@ public:
     Q_FLAGS(StartupOptions)
 
     explicit DBusService(StartupOptions options = Multiple, QObject *parent = nullptr);
+    ~DBusService();
 
     bool isRegistered() const;
 

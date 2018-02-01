@@ -58,6 +58,7 @@ public:
     Q_ENUM(CloseReason)
 
     explicit Notification(QObject *parent = nullptr);
+    ~Notification();
 
     QString applicationName() const;
     void setApplicationName(const QString &name);

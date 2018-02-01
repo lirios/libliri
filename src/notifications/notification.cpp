@@ -112,6 +112,14 @@ Notification::Notification(QObject *parent)
 }
 
 /*!
+ * Destructs a Notification object.
+ */
+Notification::~Notification()
+{
+    delete d_ptr;
+}
+
+/*!
  * \qmlproperty object Liri::Notifications::Notification::applicationName
  *
  * This property holds the name of the application sending the notification.

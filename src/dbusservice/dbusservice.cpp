@@ -232,6 +232,14 @@ DBusService::DBusService(StartupOptions options, QObject *parent)
 }
 
 /*!
+ * Destructs a DBusService object.
+ */
+DBusService::~DBusService()
+{
+    delete d_ptr;
+}
+
+/*!
  * Returns whether the application is registered.
  */
 bool DBusService::isRegistered() const
