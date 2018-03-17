@@ -24,8 +24,11 @@
 #pragma once
 
 #include <QDBusInterface>
+#include <QLoggingCategory>
 
 #include "localdevicebackend_p_p.h"
+
+Q_DECLARE_LOGGING_CATEGORY(lcSystemdBackend)
 
 namespace Liri {
 

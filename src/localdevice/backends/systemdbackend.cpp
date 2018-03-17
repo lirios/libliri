@@ -40,6 +40,8 @@
 
 #define DBUS_PROPERTIES_INTERFACE QStringLiteral("org.freedesktop.DBus.Properties")
 
+Q_LOGGING_CATEGORY(lcSystemdBackend, "liri.localdevice.systemd")
+
 namespace Liri {
 
 SystemdBackend::SystemdBackend(QObject *parent)
@@ -183,10 +185,7 @@ void SystemdBackend::getLogin1Property(const QString &name)
     validValues << QStringLiteral("yes") << QStringLiteral("challenge");
 
     auto msg = QDBusMessage::createMethodCall(LOGIN1_SERVICE, LOGIN1_PATH,
-                                              DBUS_PROPERTIES_INTERFACE,
-                                              QStringLiteral("Get"));
-    msg << LOGIN1_INTERFACE << name;
-
+                                              LOGIN1_INTERFACE, name);
     auto reply = QDBusConnection::systemBus().asyncCall(msg);
     auto watcher = new QDBusPendingCallWatcher(reply);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
@@ -208,6 +207,11 @@ void SystemdBackend::getLogin1Property(const QString &name)
                 m_canHybridSleep = validValues.contains(reply.value());
                 Q_EMIT canHybridSleepdChanged();
             }
+        } else {
+            qCWarning(lcSystemdBackend,
+                      "Failed to call method \"%s\" on D-Bus interface \"%s\": %s",
+                      qPrintable(name), qPrintable(LOGIN1_INTERFACE),
+                      qPrintable(reply.error().message()));
         }
         watcher->deleteLater();
     });
@@ -227,6 +231,11 @@ void SystemdBackend::getSystemd1Property(const QString &name)
         if (reply.isValid()) {
             if (name == QStringLiteral("Virtualization"))
                 m_virtualization = reply.value();
+        } else {
+            qCWarning(lcSystemdBackend,
+                      "Failed to get property \"%s\" for \"%s\": %s",
+                      qPrintable(name), qPrintable(SYSTEMD1_INTERFACE),
+                      qPrintable(reply.error().message()));
         }
         watcher->deleteLater();
     });
@@ -252,6 +261,11 @@ void SystemdBackend::getHostname1Property(const QString &name)
                 m_iconName = reply.value();
             else if (name == QStringLiteral("OperatingSystemPrettyName"))
                 m_osName = reply.value();
+        } else {
+            qCWarning(lcSystemdBackend,
+                      "Failed to get property \"%s\" for \"%s\": %s",
+                      qPrintable(name), qPrintable(HOSTNAME1_SERVICE),
+                      qPrintable(reply.error().message()));
         }
         watcher->deleteLater();
     });

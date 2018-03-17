@@ -71,6 +71,7 @@ to learn how to enable them.
 Available categories:
 
   * **liri.logind:** Logind wrapper
+  * **liri.localdevice.systemd:** systemd support for LiriLocalDevice
 
 ## Licensing
 
