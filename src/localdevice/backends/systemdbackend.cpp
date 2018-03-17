@@ -251,16 +251,16 @@ void SystemdBackend::getHostname1Property(const QString &name)
     auto reply = QDBusConnection::systemBus().asyncCall(msg);
     auto watcher = new QDBusPendingCallWatcher(reply);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
-        QDBusPendingReply<QString> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
         if (reply.isValid()) {
             if (name == QStringLiteral("Chassis"))
-                m_chassis = reply.value();
+                m_chassis = reply.value().toString();
             else if (name == QStringLiteral("Hostname"))
-                m_hostName = reply.value();
+                m_hostName = reply.value().toString();
             else if (name == QStringLiteral("IconName"))
-                m_iconName = reply.value();
+                m_iconName = reply.value().toString();
             else if (name == QStringLiteral("OperatingSystemPrettyName"))
-                m_osName = reply.value();
+                m_osName = reply.value().toString();
         } else {
             qCWarning(lcSystemdBackend,
                       "Failed to get property \"%s\" for \"%s\": %s",
