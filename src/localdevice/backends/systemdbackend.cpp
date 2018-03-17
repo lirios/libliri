@@ -33,7 +33,7 @@
 
 #define SYSTEMD1_SERVICE QStringLiteral("org.freedesktop.systemd1")
 #define SYSTEMD1_PATH QStringLiteral("/org/freedesktop/systemd1")
-#define SYSTEMD1_INTERFACE QStringLiteral("org.freedestkop.systemd1.Manager")
+#define SYSTEMD1_INTERFACE QStringLiteral("org.freedesktop.systemd1.Manager")
 
 #define HOSTNAME1_SERVICE QStringLiteral("org.freedesktop.hostname1")
 #define HOSTNAME1_PATH QStringLiteral("/org/freedesktop/hostname1")
@@ -227,10 +227,10 @@ void SystemdBackend::getSystemd1Property(const QString &name)
     auto reply = QDBusConnection::systemBus().asyncCall(msg);
     auto watcher = new QDBusPendingCallWatcher(reply);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [=]() {
-        QDBusPendingReply<QString> reply = *watcher;
+        QDBusPendingReply<QVariant> reply = *watcher;
         if (reply.isValid()) {
             if (name == QStringLiteral("Virtualization"))
-                m_virtualization = reply.value();
+                m_virtualization = reply.value().toString();
         } else {
             qCWarning(lcSystemdBackend,
                       "Failed to get property \"%s\" for \"%s\": %s",
