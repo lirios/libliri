@@ -42,13 +42,13 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-      condition: "$CC = gcc -a $TRAVIS_PULL_REQUEST = false"
+      condition: "$CC = gcc) && ($TRAVIS_PULL_REQUEST = false"
   - provider: script
     script: .travis/deploy.sh build/default/libliri-artifacts.tar.gz
     skip_cleanup: true
     on:
       branch: develop
-      condition: "$CC = gcc -a $TRAVIS_PULL_REQUEST = false"
+      condition: "$CC = gcc) && ($TRAVIS_PULL_REQUEST = false"
 
 notifications:
   email: false
