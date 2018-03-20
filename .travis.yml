@@ -11,12 +11,10 @@ services:
 
 env:
   global:
-    # FTP_USER
-    - secure: "FK6GI6X7g+x4e/cCiBV6rG1HkjEVO9t3p4Yh8LK4v9kOo2lPAnk8yHIxk6upz9XUd+vWEdIHcqDcKBiXZwhAKU+7FrPluLEE+qg/2hhWn2m7FriGua5ekUmSNar0dqe0o9qaZtQUkwzDdeV0JTnJ575H4853vVBnE/fiwLP/TNwGbgHScm0QydaEs8V1AyzYTq5Eln3Rs4sbkzbolww1YLDGobzTUajKHuu+HbcKvmp4yX8f7F5V7JDa0nY8IWE/6igon3HX3RkbMSeyB0XqbN6srpffAH/GxOE3El9tCfa5ySyfV4riGVHHqfx9jNYi/lGYGT+UuydRQk3DJsi34+bzKNiGs/vwBS8jv53uVDZ5V+U51usxVVGAxQBY3kbtC3ArtoANSTss8q1pOExmNdgvi9qsvHJNRj2fAqFRQBcNG7/bcZSz5ECUgpsWOtOdCyL23i658YngfACDeEidal3zZJstesp1cVk/0xSTVF4jSSIGk3kHGwRNOBx+JL8dbF9x9CWPqSm8t4YO8d6pAmnhHP+3K4UMjgQkWBlZIu7Rtcgv03mU4KM4hpRjcsbbuVlheLWQhR9keUJGsEyUjLtsbmdMR4RXJ1zydovTNJ9zTw4QMJdhsvLT4c7hbcgJ1YaCTeoKm3UQI/Cjkx4DDJcx2Vy93tCsjEOz9Fa96CM="
-    # FTP_PASSWORD
-    - secure: "3Jm4jrjDmgqLKa79UgWx8hpPSgbKp+e+SZNOc3SroP1HB1TgNI7NaLM4FFgBBb7ztL3BVFAW9Q7x2ynPyWm+8wqN+mvxbCZCeZ5jiE4z4/CBX6r1KCbxxx252kFa2lG8Dk/d++cZq18UnjKGYnTgR5NuzvAmeG0BHPkredjGfIwAzIKBM+5/ydfFl7uGR5ETOzvpMCPQlnjWgQjBMHXMGrtAq9ikKwHjXfAYIpp9GBSY5py+AYjNLsZqNICedXJwLhg5DDOeMJw3KtU8DVmqJzdIriN5hUuZ0aCGJPGBrHx0qgJ/q6CcSafpPiSpCvombrBjkJUGJcyQSSy6lmifqx4mQSQsePMwjen5ly5QqF0ugp5X0MrXqyTTTaWN7jZFKc/UDViWDyQ1YyvoIPDZMQS7hSRsXn2mNIALfqmwwd5KQ08hmay09U6v7XmvBaIhz254Eh8PhH+arDlM41DUTDNOmLPNUG7+vbxNqW+hkZzM2BjYXT1xRVJ9Lqs+LmrxtOgVntDxS4APgruL7+HYb4ov2qNwOnWEMfX826lEOC//+IjGQePESrbIRh2UeHYm8V+Jt3ZEO/4NW3xJOS46Eu2w7AbuKDvJPOcySy3jLYtqh9VjWP/wL+7hetCXMAdSo6F3Hlqyq3f4CGM134/qotiqlE95unsTbFtZR/davDE="
-    # ARTIFACTS_HOST
-    - secure: "xWzpYCJoPoOLcPuA4nEtelqaSckkGrPhWyL8f85PmLJB7NIIn9jSSQHX545se4jTdJsdcqiko1JTblQzsjr8bik7OBghcckicx4tOnv5e7Xb9FPx6eQMm/uGDPkSYug2lcjXKthoC7TLa2pk1MnwNCvO2/JMIVerZjH5ETOIAA8y30XnPNJlRyPpQY7kMUU7tx1vH1xZawvGfBqEGMx+Y2cGSyuIOn3TG1LCKxhCZBk0X1mgxQLBrQHn+lzoEJBUpcIsNHYcDLUFq0+jUdsD4z+E9vKRIL0U1d53BEHCXf97Ay2f/BU3Z9exLQVS9pGtYiLMhjcX9MWgZBNWZlPmJI7fA+AmMVRemp4EtNNKkcobRFnjBJRFTknsPCUYkrRoGoWg0Icr0UBV+rgW0NKZ6X79D0O1yVvO7/O+MkwStCjkuiH93HEuJkO541hIvMNH7qonGgBIVjPbkfKlKuuC11eCPiV2LlUw1Y/FgdcJhSPZIId5R0BuLJCl2I2Way83e353Qnij3kUwWbFRumZ8f5mCpItWAJP2eAhalJy49ZIGZoqmhWg994gahFpCu4wfqktoG51kiYpeDPavZPMWeY/PZcwHfMtTfoBH4LW0mu49t22GCdh6gqAtAJXZg3gA3lb8XbtyvOq8c9TNgRcXjRQvGl1BzqTXcIRcYtMzXg4="
+    # DEPLOY_USER
+    - secure: "eExkXhN774BWGKtui1zixBgvHMBITDWjMEbDnS30WaZzbRQ35toZ0zXZZQyUyTcEAXG9e3C8puAi/ou78bjNBK/EpN0mJj571tKQCA0NfzC9c+LLBX4DJAgEmXv0SMhOQWP2VAZ3rPKNn+j2NrglxkNqyKwNKHaowuvjorB4AQ40zeAwwpcEPmZE0CAbBQRfnvav/7uxBjK0kiB5qRg26CpC440BfKHzGWxD7H8gH/0+PRLPCzYggH5UyC8GXr5lwGuX+ldT6JkK3L3RvFC39eEnnimsVW5jFthVTLd7Qe3u91GpQ6VYIo4BdhCno3pX+1S53c6SVLB/xahesZdTzWUoiJf78abZF0L5la8AunrzJfJjCMFAPYS7EK7lcNImNAyamyvU9BazO6whhH+fxKj4jFqA87SpWYExrF/NQoY0maoqHafPB8wFxflPPMVfJR0kZY9KBHGOz8Vjj5ojqa82gYMplTmoe8a8wuKNenIXvuuKMN5/MqEc/fxBqVjMN3JfalXCWB4SC4z9x9NXawIUVvgYKuddwdY14XJfdpI2MSATaEUGu9NbDL9CWwDETa6Ip2TJobY5nOTFwmg0XaGO1ZOeatOg2NvPoYTVGYg5NTy85vv7GooVxpvUudRq0WiHv3ta47a+ILelb0PVHoS4KK+QF3OYlzQBKtz1DhU="
+    # DEPLOY_HOST
+    - secure: "zxthhLsmGdEkTcQVYyzb+EN06CVSg/HtdFP7pBpiUIMEKsL+O0i8UGrnC9Uh+18mY+VHZAMo8OC5vFtIM5Egvlx7hirFmvyHqQfnYlq7G12fEjG7cEvYcBKWUXK8V75EmWodOTts1l+rTULVWZb9tln4Ezo5NS6cLITsaR+iW6E+UI1nb9QHJZRoOWmGtLfsbME+3Qn+xPwAjlAwmb/FJncLyL7CKAPEYXabx7dpucv2G9eVYcgk4KDmJhQehkBtZzeG3pZa12KS0v1ep9kSs+a5Zg7dhrhvu6tkNolmgp0y2KlPyaWd6+HtODcPepc/bpSYMjl4l82ryiZ2W3eT+n5Cmpn70CqjpTJNBkqhqICZFEZDkFMwqaXZag+ufRmo0ftZUphe1TqrItHNlV9/RRpcbmuDruVTo6AT864mb+7XuGAJaTIuF295c4ZoJpw2ouNDo0O6XN9X/7htXzs6dEc6oHXniBW/L2TaBKmo8BozQoVFXSnjHExh+R/KuJ3eHGPiwMe8eiM7DFDzBGoln9W5wIibyZ8P6i1OwzmjO3vU/MAHVs8TNZeWbCxf8LaQ1dzHw7/XQPMfV9CJAD1ZsbFIXQRSHjnhsMz3OZAr8mupzqB0IjFE9gp1M03huJWVZjOYhHiCxvrdBfPklSnukTPdkKKMKoybIhQFAPMDDC8="
 
 arch:
   artifacts:
@@ -40,17 +38,17 @@ script:
 
 deploy:
   - provider: script
-    script: curl --ftp-create-dirs -T build/default/libliri-artifacts.tar.gz -u $FTP_USER:$FTP_PASSWORD ftp://$ARTIFACTS_HOST/artifacts/master/libliri-artifacts.tar.gz
+    script: .travis/deploy.sh build/default/libliri-artifacts.tar.gz
     skip_cleanup: true
     on:
       branch: master
-      condition: "$CC = gcc"
+      condition: "$CC = gcc -a $TRAVIS_PULL_REQUEST = false"
   - provider: script
-    script: curl --ftp-create-dirs -T build/default/libliri-artifacts.tar.gz -u $FTP_USER:$FTP_PASSWORD ftp://$ARTIFACTS_HOST/artifacts/develop/libliri-artifacts.tar.gz
+    script: .travis/deploy.sh build/default/libliri-artifacts.tar.gz
     skip_cleanup: true
     on:
       branch: develop
-      condition: "$CC = gcc"
+      condition: "$CC = gcc -a $TRAVIS_PULL_REQUEST = false"
 
 notifications:
   email: false
