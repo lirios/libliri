@@ -50,7 +50,7 @@ void QObjectListModel::setElementChangeTracking(bool tracking)
 {
     if (m_tracking == tracking)
         return;
-    Q_FOREACH (QObject *obj, m_data)
+    for (QObject *obj : qAsConst(m_data))
         updateTracking(obj);
     Q_EMIT elementChangeTrackingChanged(m_tracking = tracking);
 }

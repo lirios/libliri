@@ -62,9 +62,9 @@ public:
     bool elementChangeTracking() const;
     void setElementChangeTracking(bool tracking);
     Q_SIGNAL void elementChangeTrackingChanged(bool);
-    int rowCount(const QModelIndex &) const Q_DECL_OVERRIDE;
-    QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
-    bool setData(const QModelIndex &index, const QVariant &value, int role) Q_DECL_OVERRIDE;
+    int rowCount(const QModelIndex &) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     bool replace(QObject *const &item, int row);
     bool insert(QObject *const &item, int row = -1);
     template <class T>
@@ -88,15 +88,15 @@ public:
     }
     bool moveRows(int sourceRow, int count, int destinationChild);
     bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count,
-                  const QModelIndex &destinationParent, int destinationChild) Q_DECL_OVERRIDE;
+                  const QModelIndex &destinationParent, int destinationChild) override;
     bool clear();
     bool removeAll(QObject *const &item);
     bool removeOne(QObject *const &item);
     bool removeAt(int row);
     bool removeFirst();
     bool removeLast();
-    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
+    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     // We're intentionally overloading the sort method
     using QAbstractListModel::sort;
@@ -108,7 +108,7 @@ public:
 
         QList<T *> listtosort;
 
-        Q_FOREACH (QObject *object, m_data) {
+        for (QObject *object : qAsConst(m_data)) {
             listtosort << dynamic_cast<T *>(object);
         }
 
@@ -130,7 +130,7 @@ public:
 
 protected:
     //! Emits the notifications of changes done on the underlying QObject properties
-    void timerEvent(QTimerEvent *ev) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent *ev) override;
 
 private:
     //! Updates the property tracking connections on given object.

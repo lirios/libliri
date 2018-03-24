@@ -122,7 +122,7 @@ void DesktopFile::load()
     QStringList actionNames =
             m_desktopFile->value("Actions").toString().split(';', QString::SkipEmptyParts);
 
-    Q_FOREACH (QString actionName, actionNames) {
+    for (const QString &actionName : qAsConst(actionNames)) {
         const QString group = QStringLiteral("Desktop Action %1").arg(actionName);
 
         const QString name =
