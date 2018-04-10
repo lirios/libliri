@@ -7,18 +7,18 @@ source /usr/local/share/liri-travis/functions
 # Install libqtxdg
 # It uses Qt private API but it's not built by KDE Neon CI therefore it
 # still needs ABI of the original Ubuntu packages and doesn't work
-travis_start "libqtxdg"
-mkdir travis-deps
-pushd travis-deps >/dev/null
-git clone -b 3.1.0 git://github.com/lxqt/libqtxdg
+travis_start "build_libqtxdg"
+msg "Build libqtxdg..."
+pushd /usr/src
+git clone -b 3.1.0 git://github.com/lxqt/libqtxdg.git
 cd libqtxdg
 mkdir build
 cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 make -j$(nproc)
 sudo make install
-popd >/dev/null
-travis_end "libqtxdg"
+popd
+travis_end "build_libqtxdg"
 
 # Install artifacts
 travis_start "artifacts"
