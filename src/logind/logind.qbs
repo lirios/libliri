@@ -8,7 +8,7 @@ LiriModuleProject {
     moduleName: "LiriLogind"
     description: "Qt API for logind"
     pkgConfigDependencies: ["Qt5Core", "Qt5DBus"]
-    createCMake: false
+    createCMake: true
 
     resolvedProperties: ({
         Depends: [{ name: LiriUtils.quote("Qt.core") },
