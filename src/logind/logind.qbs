@@ -7,13 +7,16 @@ LiriModuleProject {
     name: "LiriLogind"
     moduleName: "LiriLogind"
     description: "Qt API for logind"
-    pkgConfigDependencies: ["Qt5Core", "Qt5DBus"]
-    createCMake: true
 
     resolvedProperties: ({
         Depends: [{ name: LiriUtils.quote("Qt.core") },
                   { name: LiriUtils.quote("Qt.dbus") }],
     })
+
+    pkgConfigDependencies: ["Qt5Core", "Qt5DBus"]
+
+    cmakeDependencies: ({ "Qt5Core": "5.6.0", "Qt5DBus": "5.6.0" })
+    cmakeLinkLibraries: ["Qt5::Core", "Qt5::DBus"]
 
     LiriHeaders {
         name: root.headersName
