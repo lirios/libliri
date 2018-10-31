@@ -34,6 +34,10 @@ Project {
         Depends { name: "LiriNotifications-cmake" }
         Depends { name: "LiriNotifications-pkgconfig" }
         Depends { name: "LiriNotifications-qbs" }
+        Depends { name: "LiriXdg" }
+        Depends { name: "LiriXdg-cmake" }
+        Depends { name: "LiriXdg-pkgconfig" }
+        Depends { name: "LiriXdg-qbs" }
         Depends { name: "liricoreplugin" }
         Depends { name: "lirideviceplugin" }
         Depends { name: "lirinotificationsplugin" }

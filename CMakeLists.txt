@@ -23,9 +23,11 @@ find_package(Qt5 "${QT_MIN_VERSION}"
     CONFIG REQUIRED
     COMPONENTS
         Core
+        Xml
         DBus
         Qml
         Quick
+        Gui
 )
 
 ## Add subdirectories:
@@ -39,11 +41,15 @@ add_subdirectory(src/logind)
 add_subdirectory(src/models)
 add_subdirectory(src/notifications)
 add_subdirectory(src/notify)
+add_subdirectory(src/xdg)
 if(BUILD_TESTING)
     if(TARGET Liri::Models)
         add_subdirectory(tests/auto/core)
     endif()
     if(TARGET Liri::Logind)
         add_subdirectory(tests/auto/logind)
+    endif()
+    if(TARGET Liri::Xdg)
+        add_subdirectory(tests/auto/xdg)
     endif()
 endif()

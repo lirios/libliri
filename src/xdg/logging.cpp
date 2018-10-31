@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Liri.
  *
- * Copyright (C) 2016 Michael Spencer <sonrisesoftware@gmail.com>
+ * Copyright (C) 2018 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:LGPLv3+$
  *
@@ -21,15 +21,6 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include "desktopfileaction.h"
+#include "logging_p.h"
 
-using namespace Liri;
-
-DesktopFileAction::DesktopFileAction(const QString &name, const QString &iconName,
-                                     const QString &command, QObject *parent)
-    : QObject(parent)
-    , m_name(name)
-    , m_iconName(iconName)
-    , m_command(command)
-{
-}
+Q_LOGGING_CATEGORY(lcXdg, "liri.xdg")

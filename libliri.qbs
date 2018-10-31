@@ -24,6 +24,7 @@ Project {
         "src/localdevice/localdevice.qbs",
         "src/models/models.qbs",
         "src/notifications/notifications.qbs",
+        "src/xdg/xdg.qbs",
         "src/imports/imports.qbs",
         "src/tools.qbs",
         "tests/auto/auto.qbs",

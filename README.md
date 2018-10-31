@@ -22,7 +22,6 @@ The following modules and their dependencies are required:
 
  * [cmake](https://gitlab.kitware.com/cmake/cmake) >= 3.10.0
  * [cmake-shared](https://github.com/lirios/cmake-shared.git) >= 1.0.0
- * [libqtxdg](https://github.com/lxde/libqtxdg.git)
 
 ## Installation
 
@@ -49,6 +48,7 @@ Available categories:
 
   * **liri.logind:** Logind wrapper
   * **liri.localdevice.systemd:** systemd support for LiriLocalDevice
+  * **liri.xdg:** freedesktop.org desktop entry and menus
 
 ## Licensing
 

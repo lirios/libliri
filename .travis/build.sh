@@ -4,13 +4,6 @@ set -e
 
 source /usr/local/share/liri-travis/functions
 
-# Install dependencies
-travis_start "install_packages"
-msg "Install packages..."
-dnf install -y \
-    libqtxdg-devel
-travis_end "install_packages"
-
 # Install artifacts
 travis_start "artifacts"
 msg "Install artifacts..."
