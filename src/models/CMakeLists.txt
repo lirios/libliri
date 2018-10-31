@@ -1,0 +1,24 @@
+liri_add_module(Models
+    SOURCES
+        mergeproxymodel.cpp
+        mergeproxymodel.h
+        mergeproxymodel_p.h
+        qobjectlistmodel.cpp
+        qobjectlistmodel.h
+        qquicklist.h
+    FORWARDING_HEADERS
+        MergeProxyModel
+        QObjectListModel
+        QQuickList
+    PRIVATE_HEADERS
+        mergeproxymodel_p.h
+    DEFINES
+        QT_NO_CAST_FROM_ASCII
+        QT_NO_FOREACH
+    PUBLIC_LIBRARIES
+        Qt5::Core
+        Qt5::Qml
+    PKGCONFIG_DEPENDENCIES
+        Qt5Core
+        Qt5Qml
+)

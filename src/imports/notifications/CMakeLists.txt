@@ -1,0 +1,25 @@
+liri_add_qml_plugin(lirinotifications
+    MODULE_PATH
+        "Liri/Notifications"
+    SOURCES
+        notifications.cpp
+        notificationsdaemon.cpp
+        notificationsdaemon.h
+        notifications.h
+        notificationsimage.cpp
+        notificationsimage.h
+        notificationsimageprovider.cpp
+        notificationsimageprovider.h
+        plugin.cpp
+    QML_FILES
+        qmldir
+        plugins.qmltypes
+    DBUS_ADAPTOR_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/../../notifications/org.freedesktop.Notifications.xml"
+    DEFINES
+        QT_NO_CAST_FROM_ASCII
+        QT_NO_FOREACH
+        LIBLIRI_VERSION="${PROJECT_VERSION}"
+    PUBLIC_LIBRARIES
+        Liri::Notifications
+)

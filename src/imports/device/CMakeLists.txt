@@ -1,0 +1,14 @@
+liri_add_qml_plugin(liridevice
+    MODULE_PATH
+        "Liri/Device"
+    SOURCES
+        plugin.cpp
+    QML_FILES
+        qmldir
+        plugins.qmltypes
+    DEFINES
+        QT_NO_CAST_FROM_ASCII
+        QT_NO_FOREACH
+    PUBLIC_LIBRARIES
+        Liri::LocalDevice
+)

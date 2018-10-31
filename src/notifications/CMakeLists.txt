@@ -1,0 +1,25 @@
+liri_add_module(Notifications
+    DESCRIPTION
+        "Qt style API for freedesktop.org notifications"
+    SOURCES
+        notification.cpp
+        notification.h
+        notification_p.h
+    DBUS_INTERFACE_SOURCES
+        org.freedesktop.Notifications.xml
+    FORWARDING_HEADERS
+        Notification
+    PRIVATE_HEADERS
+        notification_p.h
+    DEFINES
+        QT_NO_CAST_FROM_ASCII
+        QT_NO_FOREACH
+    PUBLIC_LIBRARIES
+        Qt5::Core
+        Qt5::DBus
+        Qt5::Gui
+    PKGCONFIG_DEPENDENCIES
+        Qt5Core
+        Qt5DBus
+        Qt5Gui
+)
