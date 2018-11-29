@@ -18,9 +18,6 @@ set(QT_MIN_VERSION "5.10.0")
 ## Liri specific setup common for all modules:
 include(LiriSetup)
 
-## Packaging:
-include(LiriCPack)
-
 ## Find Qt 5:
 find_package(Qt5 "${QT_MIN_VERSION}"
     CONFIG REQUIRED
