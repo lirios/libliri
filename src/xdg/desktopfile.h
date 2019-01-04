@@ -122,6 +122,8 @@ protected:
     QSharedDataPointer<DesktopFilePrivate> d;
 };
 
+typedef QList<DesktopFile> DesktopFileList;
+
 class LIRIXDG_EXPORT DesktopFileAction : public DesktopFile
 {
 private:
