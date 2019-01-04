@@ -296,9 +296,9 @@ bool DesktopFilePrivate::startApplicationDetached(DesktopFile *q, const QString 
         if (started) {
             QProcess *proc = p.take(); // release the pointer(will be selfdestroyed upon finish)
             QObject::connect(
-                        proc,
-                        static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-                        proc, &QProcess::deleteLater);
+                    proc,
+                    static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                    proc, &QProcess::deleteLater);
         }
         return started;
     } else {
@@ -750,8 +750,8 @@ QStringList DesktopFile::expandExecString(const QStringList &urls) const
         // Deprecated.
         // Deprecated field codes should be removed from the command line and ignored.
         if (token == QLatin1String("%d") || token == QLatin1String("%D")
-                || token == QLatin1String("%n") || token == QLatin1String("%N")
-                || token == QLatin1String("%v") || token == QLatin1String("%m")) {
+            || token == QLatin1String("%n") || token == QLatin1String("%N")
+            || token == QLatin1String("%v") || token == QLatin1String("%m")) {
             continue;
         }
 
