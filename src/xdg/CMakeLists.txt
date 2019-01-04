@@ -2,6 +2,8 @@ liri_add_module(Xdg
     DESCRIPTION
         "Freedesktop.org implementation of some specifications"
     SOURCES
+        autostart.cpp
+        autostart.h
         desktopfile.cpp
         desktopfile.h
         desktopfile_p.h
@@ -25,6 +27,7 @@ liri_add_module(Xdg
         xmlhelper_p.cpp
         xmlhelper_p_p.h
     FORWARDING_HEADERS
+        AutoStart
         DesktopFile
         DesktopMenu
     PRIVATE_HEADERS
