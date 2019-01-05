@@ -1,13 +1,14 @@
 liri_add_qml_plugin(liricore
     MODULE_PATH
         "Liri/Core"
+    VERSION
+        "1.0"
     SOURCES
         formatter.cpp
         formatter.h
         plugin.cpp
     QML_FILES
         qmldir
-        plugins.qmltypes
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
