@@ -83,7 +83,7 @@ private Q_SLOTS:
         const QString pt = QString::fromUtf8("A Minha Aplicação");
         const QString pt_BR = QString::fromUtf8("O Meu Aplicativo");
 
-        QTest::newRow("C") << QStringLiteral("My Application") << pt;
+        QTest::newRow("C") << QStringLiteral("C") << QStringLiteral("My Application");
         QTest::newRow("pt") << QStringLiteral("pt") << pt;
         QTest::newRow("pt_PT") << QStringLiteral("pt_PT") << pt;
         QTest::newRow("pt_BR") << QStringLiteral("pt_BR") << pt_BR;
