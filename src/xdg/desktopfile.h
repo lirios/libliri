@@ -111,7 +111,7 @@ public:
     bool isVisible() const;
     bool isSuitable(const QString &desktopEnvironment = QString()) const;
 
-    QStringList expandExecString(const QStringList &urls) const;
+    QStringList expandExecString(const QStringList &urls = QStringList()) const;
 
     bool startDetached(const QStringList &urls);
     bool startDetached(const QString &url = QString());
