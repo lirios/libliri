@@ -633,7 +633,7 @@ bool DesktopFile::isVisible() const
         return false;
 
     const QString tryExecString = tryExec();
-    if (!tryExecString.isEmpty() && d->checkTryExec(tryExecString))
+    if (!tryExecString.isEmpty() && !d->checkTryExec(tryExecString))
         return false;
 
     return true;
@@ -642,8 +642,8 @@ bool DesktopFile::isVisible() const
 bool DesktopFile::isSuitable(const QString &desktopEnvironment) const
 {
     const QString env = desktopEnvironment.isEmpty()
-            ? qEnvironmentVariable("XDG_CURRENT_DESKTOP").toUpper()
-            : desktopEnvironment.toUpper();
+            ? qEnvironmentVariable("XDG_CURRENT_DESKTOP").toLower()
+            : desktopEnvironment.toLower();
 
     if (!env.isEmpty()) {
         const QStringList whitelist = onlyShowIn();
