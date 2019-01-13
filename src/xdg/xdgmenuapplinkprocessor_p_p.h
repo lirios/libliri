@@ -83,10 +83,10 @@ class XdgMenuAppFileInfo : public QObject
 public:
     explicit XdgMenuAppFileInfo(Liri::DesktopFile *desktopFile, const QString &id, QObject *parent)
         : QObject(parent)
+        , mDesktopFile(desktopFile)
+        , mAllocated(false)
+        , mId(id)
     {
-        mDesktopFile = desktopFile;
-        mAllocated = false;
-        mId = id;
     }
 
     Liri::DesktopFile *desktopFile() const { return mDesktopFile; }
