@@ -30,6 +30,7 @@
 #include <QProcess>
 #include <QStandardPaths>
 #include <QTextStream>
+#include <memory>
 
 #include "desktopfile.h"
 #include "desktopfile_p.h"
@@ -876,7 +877,7 @@ void DesktopFileCachePrivate::initialize(const QString &path)
 
 DesktopFile *DesktopFileCachePrivate::load(const QString &fileName)
 {
-    DesktopFile *desktopFile = new DesktopFile();
+    DesktopFile *desktopFile = new (std::nothrow) DesktopFile();
     Q_CHECK_PTR(desktopFile);
 
     if (desktopFile && desktopFile->load(fileName))
@@ -961,7 +962,7 @@ DesktopFile *DesktopFileCache::getDefaultApp(const QString &mimeType)
     for (const QString &mimeDir : const_cast<const QStringList &>(mimeDirsList)) {
         QString defaultsListPath = mimeDir + QStringLiteral("/mimeapps.list");
         if (QFileInfo::exists(defaultsListPath)) {
-            DesktopFile *defaultsFile = new DesktopFile();
+            auto defaultsFile = std::make_unique<DesktopFile>();
             if (defaultsFile->load(defaultsListPath)) {
                 defaultsFile->beginGroup(QStringLiteral("Default Applications"));
                 if (defaultsFile->contains(mimeType)) {
@@ -979,7 +980,6 @@ DesktopFile *DesktopFileCache::getDefaultApp(const QString &mimeType)
                 }
                 defaultsFile->endGroup();
             }
-            delete defaultsFile;
         }
     }
 
