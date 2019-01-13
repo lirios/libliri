@@ -296,14 +296,14 @@ QString expandEnvVariables(const QString str)
 {
     QString scheme = QUrl(str).scheme();
 
-    if (scheme == QLatin1String("http") || scheme == QLatin1String("https")
-        || scheme == QLatin1String("shttp") || scheme == QLatin1String("ftp")
-        || scheme == QLatin1String("ftps") || scheme == QLatin1String("pop")
-        || scheme == QLatin1String("pops") || scheme == QLatin1String("imap")
-        || scheme == QLatin1String("imaps") || scheme == QLatin1String("mailto")
-        || scheme == QLatin1String("nntp") || scheme == QLatin1String("irc")
+    if (   scheme == QLatin1String("http")   || scheme == QLatin1String("https")
+        || scheme == QLatin1String("shttp")  || scheme == QLatin1String("ftp")
+        || scheme == QLatin1String("ftps")   || scheme == QLatin1String("pop")
+        || scheme == QLatin1String("pops")   || scheme == QLatin1String("imap")
+        || scheme == QLatin1String("imaps")  || scheme == QLatin1String("mailto")
+        || scheme == QLatin1String("nntp")   || scheme == QLatin1String("irc")
         || scheme == QLatin1String("telnet") || scheme == QLatin1String("xmpp")
-        || scheme == QLatin1String("irc") || scheme == QLatin1String("nfs"))
+        || scheme == QLatin1String("nfs"))
         return str;
 
     const QString homeDir = QFile::decodeName(qgetenv("HOME"));
