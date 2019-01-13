@@ -292,7 +292,7 @@ void replaceVar(QString &str, const QString &varName, const QString &after)
     str.replace(QRegExp(QString::fromLatin1("\\$\\{%1\\}").arg(varName)), after);
 }
 
-QString expandEnvVariables(const QString str)
+QString expandEnvVariables(const QString &str)
 {
     QString scheme = QUrl(str).scheme();
 
@@ -325,7 +325,7 @@ QString expandEnvVariables(const QString str)
     return res;
 }
 
-QStringList expandEnvVariables(const QStringList strs)
+QStringList expandEnvVariables(const QStringList &strs)
 {
     QStringList res;
     for (const QString &s : strs)

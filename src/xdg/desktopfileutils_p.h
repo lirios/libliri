@@ -41,7 +41,7 @@ QStringList parseCombinedArgString(const QString &program);
 QString expandDynamicUrl(QString url);
 
 void replaceVar(QString &str, const QString &varName, const QString &after);
-QString expandEnvVariables(const QString str);
-QStringList expandEnvVariables(const QStringList strs);
+QString expandEnvVariables(const QString &str);
+QStringList expandEnvVariables(const QStringList &strs);
 
 #endif // DESKTOPFILEUTILS_P_H

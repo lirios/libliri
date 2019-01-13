@@ -284,7 +284,7 @@ bool DesktopFilePrivate::startApplicationDetached(DesktopFile *q, const QString 
     QString cmd = args.takeFirst();
     QString workingDir = q->path();
     if (!workingDir.isEmpty() && !QDir(workingDir).exists())
-        workingDir = QString();
+        workingDir.clear();
 
     if (nonDetach) {
         QScopedPointer<QProcess> p(new QProcess);

@@ -36,11 +36,10 @@ namespace Liri {
 
 XdgMenuApplinkProcessor::XdgMenuApplinkProcessor(QDomElement &element, Liri::DesktopMenu *menu, XdgMenuApplinkProcessor *parent)
     : QObject(parent)
+    , mElement(element)
+    , mParent(parent)
+    , mMenu(menu)
 {
-    mElement = element;
-    mParent = parent;
-    mMenu = menu;
-
     mOnlyUnallocated = element.attribute(QLatin1String("onlyUnallocated")) == QLatin1String("1");
 
     MutableDomElementIterator i(element, QLatin1String("Menu"));

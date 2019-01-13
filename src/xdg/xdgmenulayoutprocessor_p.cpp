@@ -33,10 +33,10 @@
 namespace Liri {
 
 // Helper functions prototypes
-QDomElement findLastElementByTag(const QDomElement element, const QString tagName);
+QDomElement findLastElementByTag(const QDomElement &element, const QString &tagName);
 int childsCount(const QDomElement &element);
 
-QDomElement findLastElementByTag(const QDomElement element, const QString tagName)
+QDomElement findLastElementByTag(const QDomElement &element, const QString &tagName)
 {
     QDomNodeList l = element.elementsByTagName(tagName);
     if (l.isEmpty())

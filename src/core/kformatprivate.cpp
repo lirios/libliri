@@ -27,8 +27,8 @@
 #include <math.h>
 
 KFormatPrivate::KFormatPrivate(const QLocale &locale)
+    : m_locale(locale)
 {
-    m_locale = locale;
 }
 
 KFormatPrivate::~KFormatPrivate()
