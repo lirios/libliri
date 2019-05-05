@@ -1,7 +1,7 @@
 /****************************************************************************
  * This file is part of Liri.
  *
- * Copyright (C) 2018 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+ * Copyright (C) 2019 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
  *
  * $BEGIN_LICENSE:LGPLv3+$
  *
@@ -21,7 +21,8 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#pragma once
+#ifndef OSRELEASE_P_H
+#define OSRELEASE_P_H
 
 //
 //  W A R N I N G
@@ -34,23 +35,44 @@
 // We mean it.
 //
 
-#include <QVector>
-
-#include "localdevice.h"
-#include "backends/upowerbackend_p.h"
-#include "backends/systemdbackend_p.h"
+#include "osrelease.h"
 
 namespace Liri {
 
-class LocalDevicePrivate
+class OsReleasePrivate
 {
+    Q_DECLARE_PUBLIC(OsRelease)
 public:
-    explicit LocalDevicePrivate();
-    ~LocalDevicePrivate();
+    explicit OsReleasePrivate(OsRelease *self);
 
-    OsRelease *osRelease = nullptr;
-    UPowerBackend *upower = nullptr;
-    SystemdBackend *systemd = nullptr;
+    QString name;
+    QString version;
+    QString id;
+    QStringList idLike;
+    QString versionCodeName;
+    QString versionId;
+    QString prettyName;
+    QString ansiColor;
+    QString cpeName;
+    QUrl homeUrl;
+    QUrl docUrl;
+    QUrl supportUrl;
+    QUrl bugReportUrl;
+    QUrl privacyPolicyUrl;
+    QString buildId;
+    QString variant;
+    QString variantId;
+    QString logo;
+
+    void readOsRelease();
+    void readFile(const QString &fileName);
+    void resetDefaults();
+
+protected:
+    OsRelease *q_ptr = nullptr;
 };
 
 } // namespace Liri
+
+
+#endif // OSRELEASE_P_H

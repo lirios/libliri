@@ -32,6 +32,8 @@ namespace Liri {
 
 LocalDevicePrivate::LocalDevicePrivate()
 {
+    osRelease = new OsRelease();
+
     if (SystemdBackend::check())
         systemd = new SystemdBackend();
     if (UPowerBackend::check())
@@ -51,6 +53,9 @@ LocalDevicePrivate::~LocalDevicePrivate()
         upower->deleteLater();
         upower = nullptr;
     }
+
+    osRelease->deleteLater();
+    osRelease = nullptr;
 }
 
 /*!
@@ -125,6 +130,23 @@ LocalDevice::LocalDevice(QObject *parent)
 LocalDevice::~LocalDevice()
 {
     delete d_ptr;
+}
+
+/*!
+ * \qmlproperty Liri::LocalDevice::OsRelease Liri::LocalDevice::LocalDevice::osRelease
+ *
+ * This property holds the operating system identification.
+ */
+
+/*!
+ * \property LocalDevice::osRelease
+ *
+ * This property holds the operating system identification.
+ */
+OsRelease *LocalDevice::osRelease() const
+{
+    Q_D(const LocalDevice);
+    return d->osRelease;
 }
 
 /*!

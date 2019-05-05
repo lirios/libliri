@@ -26,6 +26,8 @@
 
 #include <LiriLocalDevice/LocalDevice>
 
+QML_DECLARE_TYPE(Liri::OsRelease)
+
 static QObject *localDeviceProvider(QQmlEngine *engine, QJSEngine *jsEngine)
 {
     Q_UNUSED(engine);
@@ -49,6 +51,8 @@ public:
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Device"));
 
         qmlRegisterSingletonType<Liri::LocalDevice>(uri, 1, 0, "LocalDevice", localDeviceProvider);
+        qmlRegisterUncreatableType<Liri::OsRelease>(uri, 1, 0, "OsRelease",
+                                                    QLatin1String("Cannot create OsRelease"));
     }
 };
 

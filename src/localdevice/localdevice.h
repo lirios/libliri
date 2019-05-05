@@ -25,7 +25,7 @@
 
 #include <QObject>
 
-#include <LiriLocalDevice/lirilocaldeviceglobal.h>
+#include <LiriLocalDevice/OsRelease>
 
 namespace Liri {
 
@@ -50,6 +50,7 @@ class LIRILOCALDEVICE_EXPORT LocalDevice : public QObject
     Q_PROPERTY(bool canSuspend READ canSuspend NOTIFY canSuspendChanged)
     Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY canHibernateChanged)
     Q_PROPERTY(bool canHybridSleep READ canHybridSleep NOTIFY canHybridSleepdChanged)
+    Q_PROPERTY(OsRelease *osRelease READ osRelease CONSTANT)
 public:
     enum Chassis {
         UnknownChassis = 0,
@@ -71,6 +72,8 @@ public:
 
     explicit LocalDevice(QObject *parent = nullptr);
     ~LocalDevice();
+
+    OsRelease *osRelease() const;
 
     Chassis chassis() const;
 

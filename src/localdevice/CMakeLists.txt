@@ -7,15 +7,20 @@ liri_add_module(LocalDevice
         localdevice.cpp
         localdevice.h
         localdevice_p.h
+        osrelease.cpp
+        osrelease.h
+        osrelease_p.h
         backends/systemdbackend.cpp
         backends/systemdbackend_p.h
         backends/upowerbackend.cpp
         backends/upowerbackend_p.h
     FORWARDING_HEADERS
         LocalDevice
+        OsRelease
     PRIVATE_HEADERS
         localdevicebackend_p_p.h
         localdevice_p.h
+        osrelease_p.h
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
