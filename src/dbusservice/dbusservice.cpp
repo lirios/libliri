@@ -57,7 +57,7 @@ QString DBusServicePrivate::getServiceName() const
         name = reverseDomain + QCoreApplication::applicationName();
     } else {
         QFileInfo info(desktopFileName);
-        name = info.baseName().replace(QRegularExpression(QLatin1String("\\.desktop$")), QString());
+        name = info.fileName().replace(QRegularExpression(QLatin1String("\\.desktop$")), QString());
     }
 
     return name;
