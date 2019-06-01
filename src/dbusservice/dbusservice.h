@@ -68,11 +68,12 @@ public Q_SLOTS:
 private:
     DBusServicePrivate *const d_ptr;
 
+    friend class ::ApplicationAdaptor;
+
+private Q_SLOTS:
     void Activate(const QVariantMap &platform_data);
     void ActivateAction(const QString &action_name, const QVariantList &parameter, const QVariantMap &platform_data);
     void Open(const QStringList &uris, const QVariantMap &platform_data);
-
-    friend class ::ApplicationAdaptor;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(DBusService::StartupOptions)
