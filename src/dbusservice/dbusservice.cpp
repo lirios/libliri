@@ -154,6 +154,29 @@ QString DBusServicePrivate::getObjectPath(const QString &name) const
  */
 
 /*!
+ * \qmltype Application
+ * \inqmlmodule Liri.DBusService
+ * \brief Client to launch D-Bus activatable applications.
+ *
+ * Application allows you to open up an activatable application, using
+ * the org.freedesktop.Application interface.
+ *
+ * \code
+ * import Liri.DBusService 1.0 as DBusService
+ *
+ * DBusService.Application {
+ *     id: app
+ *     serviceName: "org.vendor.MyApp"
+ *     objectPath: "/org/vendor/MyApp"
+ * }
+ *
+ * Button {
+ *     onClicked: app.activate()
+ * }
+ * \endcode
+ */
+
+/*!
  * \enum DBusService::StartupOption
  *
  * This enum type is used to specify startup options.

@@ -34,6 +34,7 @@ find_package(Qt5 "${QT_MIN_VERSION}"
 add_subdirectory(src/core)
 add_subdirectory(src/dbusservice)
 add_subdirectory(src/imports/core)
+add_subdirectory(src/imports/dbusservice)
 add_subdirectory(src/imports/device)
 add_subdirectory(src/imports/notifications)
 add_subdirectory(src/localdevice)

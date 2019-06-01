@@ -1,0 +1,4 @@
+module Liri.DBusService
+plugin liridbusserviceplugin
+classname Plugin
+typeinfo plugins.qmltypes
