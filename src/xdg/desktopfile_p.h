@@ -59,7 +59,8 @@ public:
     bool startApplicationDetached(DesktopFile *q, const QString &actionName,
                                   const QStringList &urls);
     bool startLinkDetached(DesktopFile *q);
-    bool startByDBus(const QString &action, const QStringList &urls);
+    void startByDBus(DesktopFile *q, const QString &action, const QStringList &urls);
+    bool startProcess(DesktopFile *q, const QString &actionName, const QStringList &urls);
 
     QString fileName;
     QString prefix;

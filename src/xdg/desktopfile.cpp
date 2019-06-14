@@ -23,6 +23,8 @@
  ***************************************************************************/
 
 #include <QDBusInterface>
+#include <QDBusPendingCallWatcher>
+#include <QDBusPendingReply>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFile>
@@ -253,10 +255,88 @@ bool DesktopFilePrivate::startApplicationDetached(DesktopFile *q, const QString 
          * We consider that this violation is more acceptable than an failure
          * in launching an application.
          */
-        if (startByDBus(actionName, urls))
-            return true;
+        startByDBus(q, actionName, urls);
+        return true;
     }
 
+    return startProcess(q, actionName, urls);
+}
+
+bool DesktopFilePrivate::startLinkDetached(DesktopFile *q)
+{
+    const QUrl url = q->url();
+
+    if (url.scheme().isEmpty() || url.scheme().toLower() == QStringLiteral("file")) {
+        // Local file
+        QMimeDatabase db;
+        QMimeType mimeType = db.mimeTypeForFile(url.toLocalFile());
+        DesktopFile *desktopFile = DesktopFileCache::getDefaultApp(mimeType.name());
+        if (desktopFile)
+            desktopFile->startDetached(url.toString());
+    } else {
+        // Remote URL
+        return QDesktopServices::openUrl(url);
+    }
+
+    return false;
+}
+
+void DesktopFilePrivate::startByDBus(DesktopFile *q, const QString &action, const QStringList &urls)
+{
+    // Desktop file ID without .desktop suffix
+    QString id = DesktopFile::id(fileName);
+    id = id.replace(QRegularExpression(QStringLiteral(".desktop$")), QString());
+
+    // Determine object path
+    QString path(id);
+    path = path.replace(QLatin1Char('.'), QLatin1Char('/')).prepend(QLatin1Char('/'));
+
+    // Interface name
+    const QString interfaceName = QStringLiteral("org.freedesktop.Application");
+
+    // Platform data
+    QVariantMap platformData;
+
+    // Call a method
+    QDBusPendingCallWatcher *watcher = nullptr;
+    if (!action.isEmpty()) {
+        QVariantList variantUrls;
+        for (const auto &url : urls)
+            variantUrls.append(url);
+
+        auto call = QDBusMessage::createMethodCall(id, path, interfaceName,
+                                                   QStringLiteral("ActivateAction"));
+        call.setArguments(QVariantList() << variantUrls << platformData);
+        auto pending = QDBusConnection::sessionBus().asyncCall(call, 5000);
+        watcher = new QDBusPendingCallWatcher(pending);
+    } else if (urls.isEmpty()) {
+        auto call = QDBusMessage::createMethodCall(id, path, interfaceName,
+                                                   QStringLiteral("Activate"));
+        call.setArguments(QVariantList() << platformData);
+        auto pending = QDBusConnection::sessionBus().asyncCall(call, 5000);
+        watcher = new QDBusPendingCallWatcher(pending);
+    } else {
+        auto call = QDBusMessage::createMethodCall(id, path, interfaceName,
+                                                   QStringLiteral("Open"));
+        call.setArguments(QVariantList() << urls << platformData);
+        auto pending = QDBusConnection::sessionBus().asyncCall(call, 5000);
+        watcher = new QDBusPendingCallWatcher(pending);
+    }
+
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, [q, action, urls, id, this](QDBusPendingCallWatcher *self) {
+        QDBusPendingReply<> reply = *self;
+        if (reply.isError()) {
+            qCWarning(lcXdg, "Failed to launch D-Bus activatable application \"%s\": %s",
+                      qPrintable(id), qPrintable(reply.error().message()));
+            qCWarning(lcXdg, "Launching process instead...");
+            startProcess(q, action, urls);
+        }
+        self->deleteLater();
+    });
+}
+
+bool DesktopFilePrivate::startProcess(DesktopFile *q, const QString &actionName, const QStringList &urls)
+{
     DesktopFileAction action = q->action(actionName);
 
     QStringList args = actionName.isEmpty() ? q->expandExecString(urls)
@@ -306,55 +386,6 @@ bool DesktopFilePrivate::startApplicationDetached(DesktopFile *q, const QString 
     } else {
         return QProcess::startDetached(cmd, args, workingDir);
     }
-}
-
-bool DesktopFilePrivate::startLinkDetached(DesktopFile *q)
-{
-    const QUrl url = q->url();
-
-    if (url.scheme().isEmpty() || url.scheme().toLower() == QStringLiteral("file")) {
-        // Local file
-        QMimeDatabase db;
-        QMimeType mimeType = db.mimeTypeForFile(url.toLocalFile());
-        DesktopFile *desktopFile = DesktopFileCache::getDefaultApp(mimeType.name());
-        if (desktopFile)
-            desktopFile->startDetached(url.toString());
-    } else {
-        // Remote URL
-        return QDesktopServices::openUrl(url);
-    }
-
-    return false;
-}
-
-bool DesktopFilePrivate::startByDBus(const QString &action, const QStringList &urls)
-{
-    // Desktop file ID without .desktop suffix
-    QString id = DesktopFile::id(fileName);
-    id = id.replace(QRegularExpression(QStringLiteral(".desktop$")), QString());
-
-    // Determine object path
-    QString path(id);
-    path = path.replace(QLatin1Char('.'), QLatin1Char('/')).prepend(QLatin1Char('/'));
-
-    // Platform data
-    QVariantMap platformData;
-
-    // Call a method
-    QDBusInterface interface(id, path, QStringLiteral("org.freedesktop.Application"));
-    QDBusMessage reply;
-    if (!action.isEmpty()) {
-        QVariantList variantUrls;
-        for (const auto &url : urls)
-            variantUrls.append(url);
-        reply = interface.call(QStringLiteral("ActivateAction"), action, variantUrls, platformData);
-    } else if (urls.isEmpty()) {
-        reply = interface.call(QStringLiteral("Activate"), platformData);
-    } else {
-        reply = interface.call(QStringLiteral("Open"), urls, platformData);
-    }
-
-    return reply.type() != QDBusMessage::ErrorMessage;
 }
 
 /*
