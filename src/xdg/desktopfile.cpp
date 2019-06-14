@@ -28,6 +28,7 @@
 #include <QFile>
 #include <QMimeDatabase>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTextStream>
 #include <memory>
@@ -328,7 +329,9 @@ bool DesktopFilePrivate::startLinkDetached(DesktopFile *q)
 
 bool DesktopFilePrivate::startByDBus(const QString &action, const QStringList &urls)
 {
-    const QString id = DesktopFile::id(fileName);
+    // Desktop file ID without .desktop suffix
+    QString id = DesktopFile::id(fileName);
+    id = id.replace(QRegularExpression(QStringLiteral(".desktop$")), QString());
 
     // Determine object path
     QString path(id);
