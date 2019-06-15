@@ -66,6 +66,7 @@ public:
     QString prefix;
     QMap<QString, QVariant> items;
     DesktopFile::Type type = DesktopFile::UnknownType;
+    QProcessEnvironment env;
 };
 
 class DesktopFileCachePrivate

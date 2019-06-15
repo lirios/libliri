@@ -29,7 +29,6 @@
 #include <QDir>
 #include <QFile>
 #include <QMimeDatabase>
-#include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTextStream>
@@ -367,25 +366,32 @@ bool DesktopFilePrivate::startProcess(DesktopFile *q, const QString &actionName,
     if (!workingDir.isEmpty() && !QDir(workingDir).exists())
         workingDir.clear();
 
+    QScopedPointer<QProcess> p(new QProcess);
+    p->setStandardInputFile(QProcess::nullDevice());
+    p->setProcessChannelMode(QProcess::ForwardedChannels);
+    if (!workingDir.isEmpty())
+        p->setWorkingDirectory(workingDir);
+    if (!env.isEmpty())
+        p->setProcessEnvironment(env);
+    p->setProgram(cmd);
+    p->setArguments(args);
+
+    bool started = false;
     if (nonDetach) {
-        QScopedPointer<QProcess> p(new QProcess);
-        p->setStandardInputFile(QProcess::nullDevice());
-        p->setProcessChannelMode(QProcess::ForwardedChannels);
-        if (!workingDir.isEmpty())
-            p->setWorkingDirectory(workingDir);
         p->start(cmd, args);
-        bool started = p->waitForStarted();
-        if (started) {
-            QProcess *proc = p.take(); // release the pointer(will be selfdestroyed upon finish)
-            QObject::connect(
-                    proc,
-                    static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-                    proc, &QProcess::deleteLater);
-        }
-        return started;
+        started = p->waitForStarted();
     } else {
-        return QProcess::startDetached(cmd, args, workingDir);
+        started = p->startDetached();
     }
+
+    if (started) {
+        QProcess *proc = p.take(); // release the pointer(will be selfdestroyed upon finish)
+        QObject::connect(
+                proc,
+                static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                proc, &QProcess::deleteLater);
+    }
+    return started;
 }
 
 /*
@@ -795,6 +801,11 @@ QStringList DesktopFile::expandExecString(const QStringList &urls) const
     }
 
     return result;
+}
+
+void DesktopFile::setProcessEnvironment(const QProcessEnvironment &env)
+{
+    d->env = env;
 }
 
 bool DesktopFile::startDetached(const QStringList &urls)

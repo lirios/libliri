@@ -24,6 +24,7 @@
 #ifndef LIRI_DESKTOPFILE_H
 #define LIRI_DESKTOPFILE_H
 
+#include <QProcess>
 #include <QSharedDataPointer>
 #include <QString>
 #include <QStringList>
@@ -112,6 +113,8 @@ public:
     bool isSuitable(const QString &desktopEnvironment = QString()) const;
 
     QStringList expandExecString(const QStringList &urls = QStringList()) const;
+
+    void setProcessEnvironment(const QProcessEnvironment &env);
 
     bool startDetached(const QStringList &urls);
     bool startDetached(const QString &url = QString());
