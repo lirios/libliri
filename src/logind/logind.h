@@ -73,7 +73,7 @@ public:
     void setIdleHint(bool idle);
 
 public Q_SLOTS:
-    void inhibit(const QString &who, const QString &why, InhibitFlags flags, InhibitMode mode);
+    void inhibit(const QString &who, const QString &why, Logind::InhibitFlags flags, Logind::InhibitMode mode);
     void uninhibit(int fd);
 
     void lockSession();
