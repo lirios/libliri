@@ -106,7 +106,7 @@ Q_SIGNALS:
     void sendFailed();
     void sendSucceeded(uint id);
     void actionInvoked(const QString &action);
-    void closed(CloseReason reason);
+    void closed(Notification::CloseReason reason);
 
 private:
     NotificationPrivate *const d_ptr;

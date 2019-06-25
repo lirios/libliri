@@ -40,6 +40,7 @@ namespace Liri {
 
 class DefaultLogind : public Logind
 {
+    Q_OBJECT
 public:
     explicit DefaultLogind(QObject *parent = nullptr);
 };

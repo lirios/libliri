@@ -84,7 +84,7 @@ DesktopFileList AutoStart::desktopFileList(QStringList dirs, bool excludeHidden)
 QString AutoStart::localPath(const DesktopFile &file)
 {
     QFileInfo fi(file.fileName());
-    return QString::fromLatin1("%1/%2").arg(XdgDirs::autostartHome(), fi.fileName());
+    return QStringLiteral("%1/%2").arg(XdgDirs::autostartHome(), fi.fileName());
 }
 
 } // namespace Liri

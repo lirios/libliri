@@ -34,13 +34,13 @@ class Notifications : public QObject
     Q_OBJECT
     Q_PROPERTY(bool valid READ isValid CONSTANT)
     Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
-    Q_ENUMS(CloseReason)
 public:
     enum CloseReason {
         CloseReasonExpired = 1,
         CloseReasonByUser,
         CloseReasonByApplication
     };
+    Q_ENUM(CloseReason)
 
     Notifications(QObject *parent = 0);
 

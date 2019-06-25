@@ -31,6 +31,7 @@ using namespace Liri;
 
 class CustomLogind : public Logind
 {
+    Q_OBJECT
 public:
     CustomLogind(QObject *parent = nullptr)
         : Logind(QDBusConnection::sessionBus(), parent)

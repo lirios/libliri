@@ -52,7 +52,7 @@ public:
 
         qmlRegisterSingletonType<Liri::LocalDevice>(uri, 1, 0, "LocalDevice", localDeviceProvider);
         qmlRegisterUncreatableType<Liri::OsRelease>(uri, 1, 0, "OsRelease",
-                                                    QLatin1String("Cannot create OsRelease"));
+                                                    QStringLiteral("Cannot create OsRelease"));
     }
 };
 

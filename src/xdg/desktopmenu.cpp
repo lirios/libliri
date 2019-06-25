@@ -139,37 +139,37 @@ bool DesktopMenu::read(const QString &menuFileName)
 
     d->mXml = reader.xml();
     QDomElement root = d->mXml.documentElement();
-    d->saveLog(QLatin1String("00-reader.xml"));
+    d->saveLog(QStringLiteral("00-reader.xml"));
 
     d->simplify(root);
-    d->saveLog(QLatin1String("01-simplify.xml"));
+    d->saveLog(QStringLiteral("01-simplify.xml"));
 
     d->mergeMenus(root);
-    d->saveLog(QLatin1String("02-mergeMenus.xml"));
+    d->saveLog(QStringLiteral("02-mergeMenus.xml"));
 
     d->moveMenus(root);
-    d->saveLog(QLatin1String("03-moveMenus.xml"));
+    d->saveLog(QStringLiteral("03-moveMenus.xml"));
 
     d->mergeMenus(root);
-    d->saveLog(QLatin1String("04-mergeMenus.xml"));
+    d->saveLog(QStringLiteral("04-mergeMenus.xml"));
 
     d->deleteDeletedMenus(root);
-    d->saveLog(QLatin1String("05-deleteDeletedMenus.xml"));
+    d->saveLog(QStringLiteral("05-deleteDeletedMenus.xml"));
 
     d->processDirectoryEntries(root, QStringList());
-    d->saveLog(QLatin1String("06-processDirectoryEntries.xml"));
+    d->saveLog(QStringLiteral("06-processDirectoryEntries.xml"));
 
     d->processApps(root);
-    d->saveLog(QLatin1String("07-processApps.xml"));
+    d->saveLog(QStringLiteral("07-processApps.xml"));
 
     d->processLayouts(root);
-    d->saveLog(QLatin1String("08-processLayouts.xml"));
+    d->saveLog(QStringLiteral("08-processLayouts.xml"));
 
     d->deleteEmpty(root);
-    d->saveLog(QLatin1String("09-deleteEmpty.xml"));
+    d->saveLog(QStringLiteral("09-deleteEmpty.xml"));
 
     d->fixSeparators(root);
-    d->saveLog(QLatin1String("10-fixSeparators.xml"));
+    d->saveLog(QStringLiteral("10-fixSeparators.xml"));
 
     d->mOutDated = false;
     d->mHash = QCryptographicHash::hash(d->mXml.toByteArray(), QCryptographicHash::Md5);
@@ -219,28 +219,28 @@ void DesktopMenuPrivate::mergeMenus(QDomElement &element)
 {
     QHash<QString, QDomElement> menus;
 
-    MutableDomElementIterator it(element, QLatin1String("Menu"));
+    MutableDomElementIterator it(element, QStringLiteral("Menu"));
 
     it.toFront();
     while (it.hasNext()) {
         it.next();
-        menus[it.current().attribute(QLatin1String("name"))] = it.current();
+        menus[it.current().attribute(QStringLiteral("name"))] = it.current();
     }
 
     it.toBack();
     while (it.hasPrevious()) {
         QDomElement src = it.previous();
-        QDomElement dest = menus[src.attribute(QLatin1String("name"))];
+        QDomElement dest = menus[src.attribute(QStringLiteral("name"))];
         if (dest != src) {
             prependChilds(src, dest);
             element.removeChild(src);
         }
     }
 
-    QDomElement n = element.firstChildElement(QLatin1String("Menu"));
+    QDomElement n = element.firstChildElement(QStringLiteral("Menu"));
     while (!n.isNull()) {
         mergeMenus(n);
-        n = n.nextSiblingElement(QLatin1String("Menu"));
+        n = n.nextSiblingElement(QStringLiteral("Menu"));
     }
 
     it.toFront();
@@ -258,25 +258,25 @@ void DesktopMenuPrivate::simplify(QDomElement &element)
         if (n.tagName() == QLatin1String("Name")) {
             // The <Name> field must not contain the slash character ("/");
             // implementations should discard any name containing a slash.
-            element.setAttribute(QLatin1String("name"), n.text().remove(QLatin1Char('/')));
+            element.setAttribute(QStringLiteral("name"), n.text().remove(QLatin1Char('/')));
             n.parentNode().removeChild(n);
         }
 
         // ......................................
         else if (n.tagName() == QLatin1String("Deleted")) {
-            element.setAttribute(QLatin1String("deleted"), true);
+            element.setAttribute(QStringLiteral("deleted"), true);
             n.parentNode().removeChild(n);
         } else if (n.tagName() == QLatin1String("NotDeleted")) {
-            element.setAttribute(QLatin1String("deleted"), false);
+            element.setAttribute(QStringLiteral("deleted"), false);
             n.parentNode().removeChild(n);
         }
 
         // ......................................
         else if (n.tagName() == QLatin1String("OnlyUnallocated")) {
-            element.setAttribute(QLatin1String("onlyUnallocated"), true);
+            element.setAttribute(QStringLiteral("onlyUnallocated"), true);
             n.parentNode().removeChild(n);
         } else if (n.tagName() == QLatin1String(QLatin1String("NotOnlyUnallocated"))) {
-            element.setAttribute(QLatin1String("onlyUnallocated"), false);
+            element.setAttribute(QStringLiteral("onlyUnallocated"), false);
             n.parentNode().removeChild(n);
         }
 
@@ -302,15 +302,15 @@ void DesktopMenuPrivate::prependChilds(QDomElement &srcElement, QDomElement &des
         destElement.insertBefore(n, destElement.firstChild());
     }
 
-    if (srcElement.attributes().contains(QLatin1String("deleted"))
-        && !destElement.attributes().contains(QLatin1String("deleted")))
-        destElement.setAttribute(QLatin1String("deleted"),
-                                 srcElement.attribute(QLatin1String("deleted")));
+    if (srcElement.attributes().contains(QStringLiteral("deleted"))
+        && !destElement.attributes().contains(QStringLiteral("deleted")))
+        destElement.setAttribute(QStringLiteral("deleted"),
+                                 srcElement.attribute(QStringLiteral("deleted")));
 
-    if (srcElement.attributes().contains(QLatin1String("onlyUnallocated"))
-        && !destElement.attributes().contains(QLatin1String("onlyUnallocated")))
-        destElement.setAttribute(QLatin1String("onlyUnallocated"),
-                                 srcElement.attribute(QLatin1String("onlyUnallocated")));
+    if (srcElement.attributes().contains(QStringLiteral("onlyUnallocated"))
+        && !destElement.attributes().contains(QStringLiteral("onlyUnallocated")))
+        destElement.setAttribute(QStringLiteral("onlyUnallocated"),
+                                 srcElement.attribute(QStringLiteral("onlyUnallocated")));
 }
 
 void DesktopMenuPrivate::appendChilds(QDomElement &srcElement, QDomElement &destElement)
@@ -320,13 +320,13 @@ void DesktopMenuPrivate::appendChilds(QDomElement &srcElement, QDomElement &dest
     while (it.hasNext())
         destElement.appendChild(it.next());
 
-    if (srcElement.attributes().contains(QLatin1String("deleted")))
-        destElement.setAttribute(QLatin1String("deleted"),
-                                 srcElement.attribute(QLatin1String("deleted")));
+    if (srcElement.attributes().contains(QStringLiteral("deleted")))
+        destElement.setAttribute(QStringLiteral("deleted"),
+                                 srcElement.attribute(QStringLiteral("deleted")));
 
-    if (srcElement.attributes().contains(QLatin1String("onlyUnallocated")))
-        destElement.setAttribute(QLatin1String("onlyUnallocated"),
-                                 srcElement.attribute(QLatin1String("onlyUnallocated")));
+    if (srcElement.attributes().contains(QStringLiteral("onlyUnallocated")))
+        destElement.setAttribute(QStringLiteral("onlyUnallocated"),
+                                 srcElement.attribute(QStringLiteral("onlyUnallocated")));
 }
 
 /************************************************
@@ -352,7 +352,7 @@ QDomElement DesktopMenu::findMenu(QDomElement &baseElement, const QString &path,
     MutableDomElementIterator it(baseElement);
     while (it.hasNext()) {
         QDomElement n = it.next();
-        if (n.attribute(QLatin1String("name")) == name)
+        if (n.attribute(QStringLiteral("name")) == name)
             return findMenu(n, path.section(QLatin1Char('/'), 1), createNonExisting);
     }
 
@@ -364,9 +364,9 @@ QDomElement DesktopMenu::findMenu(QDomElement &baseElement, const QString &path,
     QDomElement el = baseElement;
     for (const QString &name : names) {
         QDomElement p = el;
-        el = d->mXml.createElement(QLatin1String("Menu"));
+        el = d->mXml.createElement(QStringLiteral("Menu"));
         p.appendChild(el);
-        el.setAttribute(QLatin1String("name"), name);
+        el.setAttribute(QStringLiteral("name"), name);
     }
     return el;
 }
@@ -398,16 +398,16 @@ void DesktopMenuPrivate::moveMenus(QDomElement &element)
     Q_Q(DesktopMenu);
 
     {
-        MutableDomElementIterator i(element, QLatin1String("Menu"));
+        MutableDomElementIterator i(element, QStringLiteral("Menu"));
         while (i.hasNext())
             moveMenus(i.next());
     }
 
-    MutableDomElementIterator i(element, QLatin1String("Move"));
+    MutableDomElementIterator i(element, QStringLiteral("Move"));
     while (i.hasNext()) {
         i.next();
-        QString oldPath = i.current().lastChildElement(QLatin1String("Old")).text();
-        QString newPath = i.current().lastChildElement(QLatin1String("New")).text();
+        QString oldPath = i.current().lastChildElement(QStringLiteral("Old")).text();
+        QString newPath = i.current().lastChildElement(QStringLiteral("New")).text();
 
         element.removeChild(i.current());
 
@@ -436,11 +436,11 @@ void DesktopMenuPrivate::moveMenus(QDomElement &element)
  ************************************************/
 void DesktopMenuPrivate::deleteDeletedMenus(QDomElement &element)
 {
-    MutableDomElementIterator i(element, QLatin1String("Menu"));
+    MutableDomElementIterator i(element, QStringLiteral("Menu"));
     while (i.hasNext()) {
         QDomElement e = i.next();
-        if (e.attribute(QLatin1String("deleted")) == QLatin1String("1")
-            || e.attribute(QLatin1String("name")) == QLatin1String(".hidden"))
+        if (e.attribute(QStringLiteral("deleted")) == QLatin1String("1")
+            || e.attribute(QStringLiteral("name")) == QLatin1String(".hidden"))
             element.removeChild(e);
         else
             deleteDeletedMenus(e);
@@ -453,7 +453,7 @@ void DesktopMenuPrivate::processDirectoryEntries(QDomElement &element,
     QStringList dirs;
     QStringList files;
 
-    element.setAttribute(QLatin1String("title"), element.attribute(QLatin1String("name")));
+    element.setAttribute(QStringLiteral("title"), element.attribute(QStringLiteral("name")));
 
     MutableDomElementIterator i(element, QString());
     i.toBack();
@@ -488,7 +488,7 @@ void DesktopMenuPrivate::processDirectoryEntries(QDomElement &element,
             break;
     }
 
-    MutableDomElementIterator it(element, QLatin1String("Menu"));
+    MutableDomElementIterator it(element, QStringLiteral("Menu"));
     while (it.hasNext()) {
         QDomElement e = it.next();
         processDirectoryEntries(e, dirs);
@@ -503,9 +503,9 @@ bool DesktopMenuPrivate::loadDirectoryFile(const QString &fileName, QDomElement 
     if (!file.isValid())
         return false;
 
-    element.setAttribute(QLatin1String("title"), file.name());
-    element.setAttribute(QLatin1String("comment"), file.comment());
-    element.setAttribute(QLatin1String("icon"), file.iconName());
+    element.setAttribute(QStringLiteral("title"), file.name());
+    element.setAttribute(QStringLiteral("comment"), file.comment());
+    element.setAttribute(QStringLiteral("icon"), file.iconName());
 
     Q_Q(DesktopMenu);
     q->addWatchPath(QFileInfo(file.fileName()).absolutePath());
@@ -521,15 +521,15 @@ void DesktopMenuPrivate::processApps(QDomElement &element)
 
 void DesktopMenuPrivate::deleteEmpty(QDomElement &element)
 {
-    MutableDomElementIterator it(element, QLatin1String("Menu"));
+    MutableDomElementIterator it(element, QStringLiteral("Menu"));
     while (it.hasNext())
         deleteEmpty(it.next());
 
-    if (element.attribute(QLatin1String("keep")) == QLatin1String("true"))
+    if (element.attribute(QStringLiteral("keep")) == QLatin1String("true"))
         return;
 
-    QDomElement childMenu = element.firstChildElement(QLatin1String("Menu"));
-    QDomElement childApps = element.firstChildElement(QLatin1String("AppLink"));
+    QDomElement childMenu = element.firstChildElement(QStringLiteral("Menu"));
+    QDomElement childApps = element.firstChildElement(QStringLiteral("AppLink"));
 
     if (childMenu.isNull() && childApps.isNull()) {
         element.parentNode().removeChild(element);
@@ -544,7 +544,7 @@ void DesktopMenuPrivate::processLayouts(QDomElement &element)
 
 void DesktopMenuPrivate::fixSeparators(QDomElement &element)
 {
-    MutableDomElementIterator it(element, QLatin1String("Separator"));
+    MutableDomElementIterator it(element, QStringLiteral("Separator"));
     while (it.hasNext()) {
         QDomElement s = it.next();
         if (s.previousSiblingElement().tagName() == QLatin1String("Separator"))
@@ -559,7 +559,7 @@ void DesktopMenuPrivate::fixSeparators(QDomElement &element)
     if (last.tagName() == QLatin1String("Separator"))
         element.removeChild(last);
 
-    MutableDomElementIterator mi(element, QLatin1String("Menu"));
+    MutableDomElementIterator mi(element, QStringLiteral("Menu"));
     while (mi.hasNext())
         fixSeparators(mi.next());
 }
@@ -574,26 +574,26 @@ QString DesktopMenu::getMenuFileName(const QString &baseName)
     QString menuPrefix = QString::fromLocal8Bit(qgetenv("XDG_MENU_PREFIX"));
 
     for (const QString &configDir : configDirs) {
-        QFileInfo file(QString::fromLatin1("%1/menus/%2%3").arg(configDir, menuPrefix, baseName));
+        QFileInfo file(QStringLiteral("%1/menus/%2%3").arg(configDir, menuPrefix, baseName));
         if (file.exists())
             return file.filePath();
     }
 
     QStringList wellKnownFiles;
     // liri- is a priority for us
-    wellKnownFiles << QLatin1String("liri-applications.menu");
+    wellKnownFiles << QStringLiteral("liri-applications.menu");
     // the "global" menu file name on suse and fedora
-    wellKnownFiles << QLatin1String("applications.menu");
+    wellKnownFiles << QStringLiteral("applications.menu");
     // rest files ordered by priority (descending)
-    wellKnownFiles << QLatin1String("razor-applications.menu");
-    wellKnownFiles << QLatin1String("kde4-applications.menu");
-    wellKnownFiles << QLatin1String("kde-applications.menu");
-    wellKnownFiles << QLatin1String("gnome-applications.menu");
-    wellKnownFiles << QLatin1String("lxde-applications.menu");
+    wellKnownFiles << QStringLiteral("razor-applications.menu");
+    wellKnownFiles << QStringLiteral("kde4-applications.menu");
+    wellKnownFiles << QStringLiteral("kde-applications.menu");
+    wellKnownFiles << QStringLiteral("gnome-applications.menu");
+    wellKnownFiles << QStringLiteral("lxde-applications.menu");
 
     for (const QString &configDir : configDirs) {
         for (const QString &f : const_cast<const QStringList &>(wellKnownFiles)) {
-            QFileInfo file(QString::fromLatin1("%1/menus/%2").arg(configDir, f));
+            QFileInfo file(QStringLiteral("%1/menus/%2").arg(configDir, f));
             if (file.exists())
                 return file.filePath();
         }

@@ -21,7 +21,7 @@
 
 QObjectListModel::QObjectListModel(QObject *parent)
         : QAbstractListModel(parent), m_factory([this]() {
-              return QObject::staticMetaObject.newInstance(Q_ARG(QObject *, this));
+              return QObject::staticMetaObject.newInstance(Q_ARG(QObject*, this));
           }),
           m_tracking(true)
 {
@@ -29,7 +29,7 @@ QObjectListModel::QObjectListModel(QObject *parent)
 
 QObjectListModel::QObjectListModel(const QMetaObject *mo, QObject *parent)
         : QAbstractListModel(parent),
-          m_factory([mo, this]() { return mo->newInstance(Q_ARG(QObject *, this)); }),
+          m_factory([mo, this]() { return mo->newInstance(Q_ARG(QObject*, this)); }),
           m_tracking(true)
 {
 }

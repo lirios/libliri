@@ -39,7 +39,7 @@ QString &doEscape(QString &str, const QHash<QChar, QChar> &repl)
     while (i.hasNext()) {
         i.next();
         if (i.key() != QLatin1Char('\\'))
-            str.replace(i.key(), QString::fromLatin1("\\\\%1").arg(i.value()));
+            str.replace(i.key(), QStringLiteral("\\\\%1").arg(i.value()));
     }
 
     return str;
@@ -279,8 +279,8 @@ QString expandDynamicUrl(QString url)
     for (const QString &line : env) {
         QString name = line.section(QLatin1Char('='), 0, 0);
         QString val = line.section(QLatin1Char('='), 1);
-        url.replace(QString::fromLatin1("$%1").arg(name), val);
-        url.replace(QString::fromLatin1("${%1}").arg(name), val);
+        url.replace(QStringLiteral("$%1").arg(name), val);
+        url.replace(QStringLiteral("${%1}").arg(name), val);
     }
 
     return url;
@@ -288,8 +288,8 @@ QString expandDynamicUrl(QString url)
 
 void replaceVar(QString &str, const QString &varName, const QString &after)
 {
-    str.replace(QRegExp(QString::fromLatin1("\\$%1(?!\\w)").arg(varName)), after);
-    str.replace(QRegExp(QString::fromLatin1("\\$\\{%1\\}").arg(varName)), after);
+    str.replace(QRegExp(QStringLiteral("\\$%1(?!\\w)").arg(varName)), after);
+    str.replace(QRegExp(QStringLiteral("\\$\\{%1\\}").arg(varName)), after);
 }
 
 QString expandEnvVariables(const QString &str)
@@ -309,18 +309,18 @@ QString expandEnvVariables(const QString &str)
     const QString homeDir = QFile::decodeName(qgetenv("HOME"));
 
     QString res = str;
-    res.replace(QRegExp(QString::fromLatin1("~(?=$|/)")), homeDir);
+    res.replace(QRegExp(QStringLiteral("~(?=$|/)")), homeDir);
 
-    replaceVar(res, QLatin1String("HOME"), homeDir);
-    replaceVar(res, QLatin1String("USER"), QString::fromLocal8Bit(qgetenv("USER")));
+    replaceVar(res, QStringLiteral("HOME"), homeDir);
+    replaceVar(res, QStringLiteral("USER"), QString::fromLocal8Bit(qgetenv("USER")));
 
-    replaceVar(res, QLatin1String("XDG_DESKTOP_DIR"), XdgDirs::userDir(XdgDirs::Desktop));
-    replaceVar(res, QLatin1String("XDG_TEMPLATES_DIR"), XdgDirs::userDir(XdgDirs::Templates));
-    replaceVar(res, QLatin1String("XDG_DOCUMENTS_DIR"), XdgDirs::userDir(XdgDirs::Documents));
-    replaceVar(res, QLatin1String("XDG_MUSIC_DIR"), XdgDirs::userDir(XdgDirs::Music));
-    replaceVar(res, QLatin1String("XDG_PICTURES_DIR"), XdgDirs::userDir(XdgDirs::Pictures));
-    replaceVar(res, QLatin1String("XDG_VIDEOS_DIR"), XdgDirs::userDir(XdgDirs::Videos));
-    replaceVar(res, QLatin1String("XDG_PHOTOS_DIR"), XdgDirs::userDir(XdgDirs::Pictures));
+    replaceVar(res, QStringLiteral("XDG_DESKTOP_DIR"), XdgDirs::userDir(XdgDirs::Desktop));
+    replaceVar(res, QStringLiteral("XDG_TEMPLATES_DIR"), XdgDirs::userDir(XdgDirs::Templates));
+    replaceVar(res, QStringLiteral("XDG_DOCUMENTS_DIR"), XdgDirs::userDir(XdgDirs::Documents));
+    replaceVar(res, QStringLiteral("XDG_MUSIC_DIR"), XdgDirs::userDir(XdgDirs::Music));
+    replaceVar(res, QStringLiteral("XDG_PICTURES_DIR"), XdgDirs::userDir(XdgDirs::Pictures));
+    replaceVar(res, QStringLiteral("XDG_VIDEOS_DIR"), XdgDirs::userDir(XdgDirs::Videos));
+    replaceVar(res, QStringLiteral("XDG_PHOTOS_DIR"), XdgDirs::userDir(XdgDirs::Pictures));
 
     return res;
 }

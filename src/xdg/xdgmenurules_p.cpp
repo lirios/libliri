@@ -79,7 +79,7 @@ XdgMenuRuleOr::XdgMenuRuleOr(const QDomElement &element, QObject *parent)
             mChilds.append(new XdgMenuRuleAll(e, this));
 
         else
-            qWarning() << QString::fromLatin1("Unknown rule") << e.tagName();
+            qWarning() << QStringLiteral("Unknown rule") << e.tagName();
     }
 }
 

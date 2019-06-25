@@ -28,16 +28,16 @@
 
 using namespace Liri;
 
-#define TR(x) QT_TRANSLATE_NOOP("Command line parser", QLatin1String(x))
+#define TR(x) QT_TRANSLATE_NOOP("Command line parser", QStringLiteral(x))
 
 int main(int argc, char *argv[])
 {
     // Application
     QCoreApplication app(argc, argv);
-    app.setApplicationName(QLatin1String("Notify"));
-    app.setApplicationVersion(QLatin1String(LIBLIRI_VERSION));
-    app.setOrganizationName(QLatin1String("Liri"));
-    app.setOrganizationDomain(QLatin1String("liri.io"));
+    app.setApplicationName(QStringLiteral("Notify"));
+    app.setApplicationVersion(QStringLiteral(LIBLIRI_VERSION));
+    app.setOrganizationName(QStringLiteral("Liri"));
+    app.setOrganizationDomain(QStringLiteral("liri.io"));
 
     // Command line parser
     QCommandLineParser parser;
@@ -46,17 +46,17 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
 
     // Summary
-    QCommandLineOption summary(QStringList() << QLatin1String("summary") << QLatin1String("s"),
+    QCommandLineOption summary(QStringList() << QStringLiteral("summary") << QStringLiteral("s"),
                                TR("Summary"), TR("summary"));
     parser.addOption(summary);
 
     // Body
-    QCommandLineOption body(QStringList() << QLatin1String("body") << QLatin1String("b"),
+    QCommandLineOption body(QStringList() << QStringLiteral("body") << QStringLiteral("b"),
                             TR("Body text"), TR("body"));
     parser.addOption(body);
 
     // Icon
-    QCommandLineOption icon(QStringList() << QLatin1String("icon") << QLatin1String("i"),
+    QCommandLineOption icon(QStringList() << QStringLiteral("icon") << QStringLiteral("i"),
                             TR("Application icon"), TR("icon"));
     parser.addOption(icon);
 

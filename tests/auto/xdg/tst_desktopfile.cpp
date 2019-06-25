@@ -51,7 +51,7 @@ class TestDesktopFile : public QObject
 private Q_SLOTS:
     void testRead()
     {
-        QTemporaryFile file("testReadXXXXXX.desktop");
+        QTemporaryFile file(QStringLiteral("testReadXXXXXX.desktop"));
         QVERIFY(file.open());
         const QString fileName = file.fileName();
         QTextStream ts(&file);
@@ -80,8 +80,8 @@ private Q_SLOTS:
         QTest::addColumn<QString>("locale");
         QTest::addColumn<QString>("translation");
 
-        const QString pt = QString::fromUtf8("A Minha Aplicação");
-        const QString pt_BR = QString::fromUtf8("O Meu Aplicativo");
+        const QString pt = QStringLiteral("A Minha Aplicação");
+        const QString pt_BR = QStringLiteral("O Meu Aplicativo");
 
         QTest::newRow("C") << QStringLiteral("C") << QStringLiteral("My Application");
         QTest::newRow("pt") << QStringLiteral("pt") << pt;
@@ -91,7 +91,7 @@ private Q_SLOTS:
 
     void testReadLocalized()
     {
-        QTemporaryFile file("testReadLocalizedXXXXXX.desktop");
+        QTemporaryFile file(QStringLiteral("testReadLocalizedXXXXXX.desktop"));
         QVERIFY(file.open());
         const QString fileName = file.fileName();
         QTextStream ts(&file);

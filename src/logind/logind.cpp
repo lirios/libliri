@@ -40,13 +40,13 @@ Q_LOGGING_CATEGORY(lcLogind, "liri.logind")
 
 #define LOGIN1_SERVICE QStringLiteral("org.freedesktop.login1")
 
-const static QString login1Object = QLatin1String("/org/freedesktop/login1");
-const static QString login1ManagerInterface = QLatin1String("org.freedesktop.login1.Manager");
-const static QString login1SeatInterface = QLatin1String("org.freedesktop.login1.Seat");
-const static QString login1SessionInterface = QLatin1String("org.freedesktop.login1.Session");
+const static QString login1Object = QStringLiteral("/org/freedesktop/login1");
+const static QString login1ManagerInterface = QStringLiteral("org.freedesktop.login1.Manager");
+const static QString login1SeatInterface = QStringLiteral("org.freedesktop.login1.Seat");
+const static QString login1SessionInterface = QStringLiteral("org.freedesktop.login1.Session");
 
-const static QString dbusService = QLatin1String("org.freedesktop.DBus");
-const static QString dbusPropertiesInterface = QLatin1String("org.freedesktop.DBus.Properties");
+const static QString dbusService = QStringLiteral("org.freedesktop.DBus");
+const static QString dbusPropertiesInterface = QStringLiteral("org.freedesktop.DBus.Properties");
 
 namespace Liri {
 
@@ -80,10 +80,10 @@ void LogindPrivate::_q_serviceRegistered()
     QVariantList args;
     const QByteArray sessionId = qgetenv("XDG_SESSION_ID");
     if (sessionId.isEmpty()) {
-        methodName = QLatin1String("GetSessionByPID");
+        methodName = QStringLiteral("GetSessionByPID");
         args << static_cast<quint32>(QCoreApplication::applicationPid());
     } else {
-        methodName = QLatin1String("GetSession");
+        methodName = QStringLiteral("GetSession");
         args << QString::fromLocal8Bit(sessionId);
     }
 
@@ -122,23 +122,23 @@ void LogindPrivate::_q_serviceRegistered()
 
         // Listen for lock and unlock signals
         bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
-                    QLatin1String("Lock"),
+                    QStringLiteral("Lock"),
                     q, SIGNAL(lockSessionRequested()));
         bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
-                    QLatin1String("Unlock"),
+                    QStringLiteral("Unlock"),
                     q, SIGNAL(unlockSessionRequested()));
 
         // Listen for properties changed
         bus.connect(LOGIN1_SERVICE, sessionPath, dbusPropertiesInterface,
-                    QLatin1String("PropertiesChanged"),
+                    QStringLiteral("PropertiesChanged"),
                     q, SLOT(_q_sessionPropertiesChanged()));
 
         // Listen for prepare signals
         bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                    QLatin1String("PrepareForSleep"),
+                    QStringLiteral("PrepareForSleep"),
                     q, SIGNAL(prepareForSleep(bool)));
         bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                    QLatin1String("PrepareForShutdown"),
+                    QStringLiteral("PrepareForShutdown"),
                     q, SIGNAL(prepareForShutdown(bool)));
 
         // Activate the session in case we are on another vt, the
@@ -147,7 +147,7 @@ void LogindPrivate::_q_serviceRegistered()
                 QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                                sessionPath,
                                                login1ManagerInterface,
-                                               QLatin1String("Activate"));
+                                               QStringLiteral("Activate"));
         bus.call(message);
 
         // Get properties
@@ -163,10 +163,10 @@ void LogindPrivate::_q_serviceUnregistered()
 
     // Disconnect prepare signals
     bus.disconnect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                   QLatin1String("PrepareForSleep"),
+                   QStringLiteral("PrepareForSleep"),
                    q, SIGNAL(prepareForSleep(bool)));
     bus.disconnect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                   QLatin1String("PrepareForShutdown"),
+                   QStringLiteral("PrepareForShutdown"),
                    q, SIGNAL(prepareForShutdown(bool)));
 
     // Connection lost
@@ -200,9 +200,9 @@ void LogindPrivate::checkServiceRegistration()
     // Get the current session if the logind service is register
     QDBusMessage message =
             QDBusMessage::createMethodCall(dbusService,
-                                           QLatin1String("/"),
+                                           QStringLiteral("/"),
                                            dbusService,
-                                           QLatin1String("ListNames"));
+                                           QStringLiteral("ListNames"));
 
     QDBusPendingReply<QStringList> result = bus.asyncCall(message);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(result, q);
@@ -227,7 +227,7 @@ void LogindPrivate::getSessionActive()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            sessionPath,
                                            dbusPropertiesInterface,
-                                           QLatin1String("Get"));
+                                           QStringLiteral("Get"));
     message.setArguments(QVariantList() << login1SessionInterface << QStringLiteral("Active"));
 
     QDBusPendingReply<QVariant> result = bus.asyncCall(message);
@@ -259,7 +259,7 @@ void LogindPrivate::getVirtualTerminal()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            sessionPath,
                                            dbusPropertiesInterface,
-                                           QLatin1String("Get"));
+                                           QStringLiteral("Get"));
     message.setArguments(QVariantList() << login1SessionInterface << QStringLiteral("VTNr"));
 
     QDBusPendingReply<QVariant> result = bus.asyncCall(message);
@@ -466,7 +466,7 @@ void Logind::inhibit(const QString &who, const QString &why,
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            login1Object,
                                            login1ManagerInterface,
-                                           QLatin1String("Inhibit"));
+                                           QStringLiteral("Inhibit"));
     message.setArguments(QVariantList() << what.join(':') << who << why << modeStr);
 
     QDBusPendingReply<QDBusUnixFileDescriptor> result = d->bus.asyncCall(message);
@@ -526,7 +526,7 @@ void Logind::lockSession()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("Lock"));
+                                           QStringLiteral("Lock"));
     d->bus.asyncCall(message);
 }
 
@@ -546,7 +546,7 @@ void Logind::unlockSession()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("Unlock"));
+                                           QStringLiteral("Unlock"));
     d->bus.asyncCall(message);
 }
 
@@ -569,7 +569,7 @@ void Logind::takeControl()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("TakeControl"));
+                                           QStringLiteral("TakeControl"));
     message.setArguments(QVariantList() << false);
 
     QDBusPendingReply<void> result = d->bus.asyncCall(message);
@@ -592,10 +592,10 @@ void Logind::takeControl()
         Q_EMIT hasSessionControlChanged(d->hasSessionControl);
 
         d->bus.connect(LOGIN1_SERVICE, d->sessionPath, login1SessionInterface,
-                       QLatin1String("PauseDevice"),
+                       QStringLiteral("PauseDevice"),
                        this, SIGNAL(devicePaused(quint32,quint32,QString)));
         d->bus.connect(LOGIN1_SERVICE, d->sessionPath, login1SessionInterface,
-                       QLatin1String("ResumeDevice"),
+                       QStringLiteral("ResumeDevice"),
                        this, SIGNAL(deviceResumed(quint32,quint32,int)));
     });
 }
@@ -618,7 +618,7 @@ void Logind::releaseControl()
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("ReleaseControl"));
+                                           QStringLiteral("ReleaseControl"));
     d->bus.asyncCall(message);
 
     qCDebug(lcLogind) << "Released control of the session";
@@ -647,7 +647,7 @@ int Logind::takeDevice(const QString &fileName)
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("TakeDevice"));
+                                           QStringLiteral("TakeDevice"));
     message.setArguments(QVariantList()
                          << QVariant(major(st.st_rdev))
                          << QVariant(minor(st.st_rdev)));
@@ -683,7 +683,7 @@ void Logind::releaseDevice(int fd)
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("ReleaseDevice"));
+                                           QStringLiteral("ReleaseDevice"));
     message.setArguments(QVariantList()
                          << QVariant(major(st.st_rdev))
                          << QVariant(minor(st.st_rdev)));
@@ -706,7 +706,7 @@ void Logind::pauseDeviceComplete(quint32 devMajor, quint32 devMinor)
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
                                            d->sessionPath,
                                            login1SessionInterface,
-                                           QLatin1String("PauseDeviceComplete"));
+                                           QStringLiteral("PauseDeviceComplete"));
     message.setArguments(QVariantList() << devMajor << devMinor);
 
     d->bus.asyncCall(message);
@@ -721,9 +721,9 @@ void Logind::switchTo(quint32 vt)
 
     QDBusMessage message =
             QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                           QLatin1String("/org/freedesktop/login1/seat/self"),
+                                           QStringLiteral("/org/freedesktop/login1/seat/self"),
                                            login1SeatInterface,
-                                           QLatin1String("SwitchTo"));
+                                           QStringLiteral("SwitchTo"));
     message.setArguments(QVariantList() << QVariant(vt));
 
     d->bus.asyncCall(message);

@@ -145,8 +145,8 @@ public:
      * @see BinaryUnitDialect
      */
     Q_INVOKABLE QString formatByteSize(double size, int precision = 1,
-                                       BinaryUnitDialect dialect = DefaultBinaryDialect,
-                                       BinarySizeUnits units = DefaultBinaryUnits) const;
+                                       Formatter::BinaryUnitDialect dialect = DefaultBinaryDialect,
+                                       Formatter::BinarySizeUnits units = DefaultBinaryUnits) const;
 
     /**
      * Given a number of milliseconds, converts that to a string containing
@@ -157,7 +157,7 @@ public:
      * @return converted duration as a string - e.g. "1:23:45" "1h23m"
      */
     Q_INVOKABLE QString formatDuration(quint64 msecs,
-                                       DurationFormatOptions options = DefaultDuration) const;
+                                       Formatter::DurationFormatOptions options = DefaultDuration) const;
 
     /**
      * Given a number of milliseconds, converts that to a string containing

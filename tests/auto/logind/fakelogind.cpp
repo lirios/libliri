@@ -72,21 +72,21 @@ void FakeLogindSession::ReleaseControl()
 
 FakeLogind::FakeLogind(QObject *parent)
     : QObject(parent)
-    , m_session(new FakeLogindSession(QLatin1String("/org/freedesktop/login1/session/_1"), this))
+    , m_session(new FakeLogindSession(QStringLiteral("/org/freedesktop/login1/session/_1"), this))
 {
     QDBusConnection::sessionBus().registerObject(
-                QLatin1String("/org/freedesktop/login1"), this,
+                QStringLiteral("/org/freedesktop/login1"), this,
                 QDBusConnection::ExportScriptableContents);
     QDBusConnection::sessionBus().registerService(
-                QLatin1String("org.freedesktop.login1"));
+                QStringLiteral("org.freedesktop.login1"));
 }
 
 FakeLogind::~FakeLogind()
 {
     QDBusConnection::sessionBus().unregisterObject(
-                QLatin1String("/org/freedesktop/login1"));
+                QStringLiteral("/org/freedesktop/login1"));
     QDBusConnection::sessionBus().unregisterService(
-                QLatin1String("org.freedesktop.login1"));
+                QStringLiteral("org.freedesktop.login1"));
 }
 
 void FakeLogind::doLock()

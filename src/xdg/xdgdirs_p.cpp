@@ -72,8 +72,8 @@ QString createDirectory(const QString &dir)
 {
     QDir d(dir);
     if (!d.exists()) {
-        if (!d.mkpath(QLatin1String("."))) {
-            qWarning() << QString::fromLatin1("Can't create %1 directory.").arg(d.absolutePath());
+        if (!d.mkpath(QStringLiteral("."))) {
+            qWarning() << QStringLiteral("Can't create %1 directory.").arg(d.absolutePath());
         }
     }
     QString r = d.absolutePath();
@@ -97,9 +97,9 @@ QString userDirFallback(XdgDirs::UserDirectory dir)
     const QString home = QFile::decodeName(qgetenv("HOME"));
 
     if (home.isEmpty())
-        return QString::fromLatin1("/tmp");
+        return QStringLiteral("/tmp");
     else if (dir == XdgDirs::Desktop)
-        fallback = QString::fromLatin1("%1/%2").arg(home, QLatin1String("Desktop"));
+        fallback = QStringLiteral("%1/Desktop").arg(home);
     else
         fallback = home;
 
@@ -199,7 +199,7 @@ bool XdgDirs::setUserDir(XdgDirs::UserDirectory dir, const QString &value, bool 
     stream.reset();
     configFile.resize(0);
     if (!foundVar)
-        stream << QString::fromLatin1("XDG_%1_DIR=\"%2\"\n").arg(folderName.toUpper(), (value));
+        stream << QStringLiteral("XDG_%1_DIR=\"%2\"\n").arg(folderName.toUpper(), value);
 
     for (QVector<QString>::iterator i = lines.begin(); i != lines.end(); ++i)
         stream << *i << QLatin1Char('\n');
@@ -243,8 +243,8 @@ QStringList XdgDirs::dataDirs(const QString &postfix)
     QStringList dirs = d.split(QLatin1Char(':'), QString::SkipEmptyParts);
 
     if (dirs.isEmpty()) {
-        dirs.append(QString::fromLatin1("/usr/local/share"));
-        dirs.append(QString::fromLatin1("/usr/share"));
+        dirs.append(QStringLiteral("/usr/local/share"));
+        dirs.append(QStringLiteral("/usr/share"));
     } else {
         QMutableListIterator<QString> it(dirs);
         while (it.hasNext()) {
@@ -264,7 +264,7 @@ QStringList XdgDirs::configDirs(const QString &postfix)
     QStringList dirs;
     const QString env = QFile::decodeName(qgetenv("XDG_CONFIG_DIRS"));
     if (env.isEmpty())
-        dirs.append(QString::fromLatin1("/etc/xdg"));
+        dirs.append(QStringLiteral("/etc/xdg"));
     else
         dirs = env.split(QLatin1Char(':'), QString::SkipEmptyParts);
 
@@ -293,7 +293,7 @@ QString XdgDirs::runtimeDir()
 
 QString XdgDirs::autostartHome(bool createDir)
 {
-    QString s = QString::fromLatin1("%1/autostart").arg(configHome(createDir));
+    QString s = QStringLiteral("%1/autostart").arg(configHome(createDir));
     fixBashShortcuts(s);
 
     if (createDir)
@@ -310,7 +310,7 @@ QStringList XdgDirs::autostartDirs(const QString &postfix)
     QStringList dirs;
     const QStringList s = configDirs();
     for (const QString &dir : s)
-        dirs << QString::fromLatin1("%1/autostart").arg(dir) + postfix;
+        dirs << QStringLiteral("%1/autostart").arg(dir) + postfix;
 
     return dirs;
 }

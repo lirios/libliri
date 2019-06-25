@@ -28,8 +28,8 @@
 #include "notification_p.h"
 #include "notifications_interface.h"
 
-const QString serviceName = QLatin1String("org.freedesktop.Notifications");
-const QString path = QLatin1String("/org/freedesktop/Notifications");
+const QString serviceName = QStringLiteral("org.freedesktop.Notifications");
+const QString path = QStringLiteral("/org/freedesktop/Notifications");
 
 namespace Liri {
 
@@ -94,7 +94,7 @@ Notification::Notification(QObject *parent)
     if (!QGuiApplication::applicationName().isEmpty())
         d->appName = QGuiApplication::applicationName();
     if (!QGuiApplication::desktopFileName().isEmpty())
-        d->hints.insert(QLatin1String("desktop-entry"), QGuiApplication::desktopFileName());
+        d->hints.insert(QStringLiteral("desktop-entry"), QGuiApplication::desktopFileName());
 
     // D-Bus interface
     d->iface = new OrgFreedesktopNotificationsInterface(
@@ -323,7 +323,7 @@ Notification::Urgency Notification::urgency() const
     Q_D(const Notification);
 
     bool ok = false;
-    int value = d->hints.value(QLatin1String("urgency"), QLatin1String("1")).toInt(&ok);
+    int value = d->hints.value(QStringLiteral("urgency"), QLatin1String("1")).toInt(&ok);
     if (!ok)
         return Notification::UrgencyNormal;
     return static_cast<Notification::Urgency>(value);
@@ -331,7 +331,7 @@ Notification::Urgency Notification::urgency() const
 
 void Notification::setUrgency(Notification::Urgency urgency)
 {
-    setHint(QLatin1String("urgency"), QString::number(int(urgency)));
+    setHint(QStringLiteral("urgency"), QString::number(int(urgency)));
 }
 
 /*!

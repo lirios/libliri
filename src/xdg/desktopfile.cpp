@@ -46,7 +46,7 @@ Q_GLOBAL_STATIC(DesktopFileCache, s_desktopFileCache)
 
 // A list of executables that can't be run with QProcess::startDetached(). They
 // will be run with QProcess::start()
-static const QStringList nonDetachExecs = QStringList() << QLatin1String("pkexec");
+static const QStringList nonDetachExecs = QStringList() << QStringLiteral("pkexec");
 
 static const QString typeKey = QStringLiteral("Type");
 static const QString versionKey = QStringLiteral("Version");
@@ -206,24 +206,24 @@ QString DesktopFilePrivate::localizedKey(const QString &key) const
         lang.truncate(lang.length() - country.length() - 1);
 
     if (!modifier.isEmpty() && !country.isEmpty()) {
-        QString k = QString::fromLatin1("%1[%2_%3@%4]").arg(key, lang, country, modifier);
+        QString k = QStringLiteral("%1[%2_%3@%4]").arg(key, lang, country, modifier);
         if (contains(k))
             return k;
     }
 
     if (!country.isEmpty()) {
-        QString k = QString::fromLatin1("%1[%2_%3]").arg(key, lang, country);
+        QString k = QStringLiteral("%1[%2_%3]").arg(key, lang, country);
         if (contains(k))
             return k;
     }
 
     if (!modifier.isEmpty()) {
-        QString k = QString::fromLatin1("%1[%2@%3]").arg(key, lang, modifier);
+        QString k = QStringLiteral("%1[%2@%3]").arg(key, lang, modifier);
         if (contains(k))
             return k;
     }
 
-    QString k = QString::fromLatin1("%1[%2]").arg(key, lang);
+    QString k = QStringLiteral("%1[%2]").arg(key, lang);
     if (contains(k))
         return k;
 
@@ -347,9 +347,9 @@ bool DesktopFilePrivate::startProcess(DesktopFile *q, const QString &actionName,
     if (q->runsOnTerminal()) {
         QString term = QString::fromLocal8Bit(qgetenv("TERM"));
         if (term.isEmpty())
-            term = QLatin1String("xterm");
+            term = QStringLiteral("xterm");
 
-        args.prepend(QLatin1String("-e"));
+        args.prepend(QStringLiteral("-e"));
         args.prepend(term);
     }
 
@@ -765,7 +765,7 @@ QStringList DesktopFile::expandExecString(const QStringList &urls) const
         if (token == QLatin1String("%i")) {
             QString icon = value(iconKey).toString();
             if (!icon.isEmpty())
-                result << QLatin1String("-icon")
+                result << QStringLiteral("-icon")
                        << icon.replace(QLatin1Char('%'), QLatin1String("%%"));
             continue;
         }

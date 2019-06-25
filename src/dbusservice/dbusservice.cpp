@@ -46,7 +46,7 @@ QString DBusServicePrivate::getServiceName() const
 
         QString reverseDomain;
         if (parts.isEmpty()) {
-            reverseDomain = QLatin1String("local");
+            reverseDomain = QStringLiteral("local");
         } else {
             for (const QString &part : parts) {
                 reverseDomain.prepend(QLatin1Char('.'));
@@ -57,7 +57,7 @@ QString DBusServicePrivate::getServiceName() const
         name = reverseDomain + QCoreApplication::applicationName();
     } else {
         QFileInfo info(desktopFileName);
-        name = info.fileName().replace(QRegularExpression(QLatin1String("\\.desktop$")), QString());
+        name = info.fileName().replace(QRegularExpression(QStringLiteral("\\.desktop$")), QString());
     }
 
     return name;
@@ -200,8 +200,8 @@ DBusService::DBusService(StartupOptions options, QObject *parent)
     QDBusConnectionInterface *bus = nullptr;
 
     if (!QDBusConnection::sessionBus().isConnected() || !(bus = QDBusConnection::sessionBus().interface())) {
-        d->errorMessage = QLatin1String("Failed to connect to the D-Bus session bus, "
-                                        "make sure the D-Bus daemon is running.");
+        d->errorMessage = QStringLiteral("Failed to connect to the D-Bus session bus, "
+                                         "make sure the D-Bus daemon is running.");
     }
 
     if (bus) {
@@ -230,10 +230,10 @@ DBusService::DBusService(StartupOptions options, QObject *parent)
                 QDBusMessage msg =
                         QDBusMessage::createMethodCall(d->serviceName,
                                                        objectPath,
-                                                       QLatin1String("org.freedesktop.Application"),
-                                                       QLatin1String("Activate"));
+                                                       QStringLiteral("org.freedesktop.Application"),
+                                                       QStringLiteral("Activate"));
                 QVariantMap data;
-                data.insert(QLatin1String("desktop-startup-id"), QString::fromUtf8(qgetenv("DESKTOP_STARTUP_ID")));
+                data.insert(QStringLiteral("desktop-startup-id"), QString::fromUtf8(qgetenv("DESKTOP_STARTUP_ID")));
                 msg.setArguments(QVariantList() << data);
                 QDBusMessage reply = QDBusConnection::sessionBus().call(msg, QDBus::Block, 1 * 60 * 1000);
                 if (reply.type() == QDBusMessage::ErrorMessage)
