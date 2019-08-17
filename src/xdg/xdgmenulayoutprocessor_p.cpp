@@ -362,10 +362,10 @@ void XdgMenuLayoutProcessor::processMergeTag(const QDomElement &element)
             map.insert(e.attribute(QStringLiteral("title")), e);
     }
 
-    QMapIterator<QString, QDomElement> mi(map);
-    while (mi.hasNext()) {
-        mi.next();
-        mResult.insertBefore(mi.value(), element);
+    QMap<QString, QDomElement>::const_iterator mi = map.constBegin();
+    while (mi != map.constEnd()) {
+         mResult.insertBefore(mi.value(), element);
+        ++mi;
     }
 
     mResult.removeChild(element);

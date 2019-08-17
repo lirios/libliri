@@ -65,9 +65,8 @@ void XdgMenuApplinkProcessor::step1()
     createRules();
 
     // Check Include rules & mark as allocated ............
-    XdgMenuAppFileInfoHashIterator i(mAppFileInfoHash);
-    while (i.hasNext()) {
-        i.next();
+    XdgMenuAppFileInfoHashIterator i = mAppFileInfoHash.begin();
+    while (i != mAppFileInfoHash.end()) {
         Liri::DesktopFile *file = i.value()->desktopFile();
 
         if (mRules.checkInclude(i.key(), *file)) {
@@ -78,6 +77,8 @@ void XdgMenuApplinkProcessor::step1()
                 mSelected.append(i.value());
             }
         }
+
+        ++i;
     }
 
     // Process childs menus ...............................
@@ -155,11 +156,12 @@ void XdgMenuApplinkProcessor::fillAppFileInfoList()
 
     // Add the entries for ancestor <Menu> ................
     if (mParent) {
-        XdgMenuAppFileInfoHashIterator i(mParent->mAppFileInfoHash);
-        while (i.hasNext()) {
-            i.next();
+        XdgMenuAppFileInfoHashIterator i = mParent->mAppFileInfoHash.begin();
+        while (i != mParent->mAppFileInfoHash.end()) {
             //if (!mAppFileInfoHash.contains(i.key()))
             mAppFileInfoHash.insert(i.key(), i.value());
+
+            ++i;
         }
     }
 }

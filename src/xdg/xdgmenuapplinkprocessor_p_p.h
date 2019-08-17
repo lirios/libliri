@@ -45,7 +45,7 @@ class XdgMenuAppFileInfo;
 typedef QLinkedList<XdgMenuAppFileInfo *> XdgMenuAppFileInfoList;
 
 typedef QHash<QString, XdgMenuAppFileInfo *> XdgMenuAppFileInfoHash;
-typedef QHashIterator<QString, XdgMenuAppFileInfo *> XdgMenuAppFileInfoHashIterator;
+typedef QHash<QString, XdgMenuAppFileInfo *>::iterator XdgMenuAppFileInfoHashIterator;
 
 class XdgMenuApplinkProcessor : public QObject
 {

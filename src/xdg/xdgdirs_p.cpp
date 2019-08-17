@@ -246,11 +246,13 @@ QStringList XdgDirs::dataDirs(const QString &postfix)
         dirs.append(QStringLiteral("/usr/local/share"));
         dirs.append(QStringLiteral("/usr/share"));
     } else {
-        QMutableListIterator<QString> it(dirs);
-        while (it.hasNext()) {
-            const QString dir = it.next();
+        QStringList::iterator it = dirs.begin();
+        while (it != dirs.end()) {
+            const QString dir = (*it);
             if (!dir.startsWith(QLatin1Char('/')))
-                it.remove();
+                it = dirs.erase(it);
+            else
+                ++it;
         }
     }
 

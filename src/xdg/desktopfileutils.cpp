@@ -35,11 +35,12 @@ QString &doEscape(QString &str, const QHash<QChar, QChar> &repl)
     // First we replace slash.
     str.replace(QLatin1Char('\\'), QLatin1String("\\\\"));
 
-    QHashIterator<QChar, QChar> i(repl);
-    while (i.hasNext()) {
-        i.next();
+    QHash<QChar, QChar>::const_iterator i = repl.constBegin();
+    while (i != repl.constEnd()) {
         if (i.key() != QLatin1Char('\\'))
             str.replace(i.key(), QStringLiteral("\\\\%1").arg(i.value()));
+
+        ++i;
     }
 
     return str;
