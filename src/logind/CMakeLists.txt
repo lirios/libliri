@@ -6,6 +6,8 @@ liri_add_module(Logind
         logind.cpp
         logind.h
         logind_p.h
+        logindtypes.cpp
+        logindtypes_p.h
     FORWARDING_HEADERS
         Logind
     DEFINES

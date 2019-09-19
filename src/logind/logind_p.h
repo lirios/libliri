@@ -35,9 +35,12 @@
 //
 
 #include <QDBusConnection>
+#include <QDBusObjectPath>
 #include <QDBusServiceWatcher>
 #include <QLoggingCategory>
 #include <QVector>
+
+#include "logindtypes_p.h"
 
 Q_DECLARE_LOGGING_CATEGORY(lcLogind)
 
@@ -70,6 +73,13 @@ protected:
     Logind *q_ptr;
 
 private:
+    bool getSessionById(const QString &sessionId, QDBusObjectPath &path) const;
+    bool getSessionByPid(QDBusObjectPath &path) const;
+    bool getUserSession(DBusUserSession &session) const;
+    QString getSessionId(const QString &sessionPath) const;
+    QString getSessionType(const QString &sessionId, const QString &sessionPath) const;
+    QString getSessionState(const QString &sessionId, const QString &sessionPath) const;
+
     void getSessionActive();
     void getVirtualTerminal();
 };

@@ -75,86 +75,77 @@ void LogindPrivate::_q_serviceRegistered()
 {
     Q_Q(Logind);
 
-    // Use session id if available, otherwise get the session by pid
-    QString methodName;
-    QVariantList args;
-    const QByteArray sessionId = qgetenv("XDG_SESSION_ID");
-    if (sessionId.isEmpty()) {
-        methodName = QStringLiteral("GetSessionByPID");
-        args << static_cast<quint32>(QCoreApplication::applicationPid());
+    // Skip if we're already connected
+    if (isConnected)
+        return;
+
+    // Find the active session otherwise try with XDG_SESSION_ID or the PID,
+    // when spawned by systemd --user only the first method is expected to work
+    DBusUserSession session;
+    if (getUserSession(session)) {
+        sessionPath = session.objectPath.path();
+        qCInfo(lcLogind, "Using session %s", qPrintable(session.id));
     } else {
-        methodName = QStringLiteral("GetSession");
-        args << QString::fromLocal8Bit(sessionId);
-    }
+        QDBusObjectPath sessionObjectPath;
 
-    // Get the current session as soon as the logind service is registered
-    QDBusMessage message =
-            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                           login1Object,
-                                           login1ManagerInterface,
-                                           methodName);
-    message.setArguments(args);
-
-    QDBusPendingReply<QDBusObjectPath> result = bus.asyncCall(message);
-    QDBusPendingCallWatcher *callWatcher = new QDBusPendingCallWatcher(result, q);
-    q->connect(callWatcher, &QDBusPendingCallWatcher::finished, q,
-               [q, this](QDBusPendingCallWatcher *w) {
-        QDBusPendingReply<QDBusObjectPath> reply = *w;
-        w->deleteLater();
-
-        // Skip if we're already connected
-        if (isConnected)
-            return;
-
-        // Verify the reply
-        if (!reply.isValid()) {
-            qCDebug(lcLogind, "Session not registered with logind: %s",
-                    qPrintable(reply.error().message()));
-            return;
+        if (qEnvironmentVariableIsSet("XDG_SESSION_ID")) {
+            if (getSessionById(QString::fromLocal8Bit(qgetenv("XDG_SESSION_ID")), sessionObjectPath))
+                sessionPath = sessionObjectPath.path();
         }
 
-        // Get the session path
-        sessionPath = reply.value().path();
-        qCDebug(lcLogind) << "Session path:" << sessionPath;
+        if (sessionObjectPath.path().isEmpty()) {
+            if (getSessionByPid(sessionObjectPath))
+                sessionPath = sessionObjectPath.path();
+        }
 
-        // We are connected now
-        isConnected = true;
+        if (!sessionPath.isEmpty()) {
+            QString sessionId = getSessionId(sessionPath);
+            qCInfo(lcLogind, "Using session %s", qPrintable(sessionId));
+        }
+    }
+    if (sessionPath.isEmpty()) {
+        qCWarning(lcLogind) << "Unable to find session!";
+        return;
+    }
+    qCDebug(lcLogind) << "Session path:" << sessionPath;
 
-        // Listen for lock and unlock signals
-        bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
-                    QStringLiteral("Lock"),
-                    q, SIGNAL(lockSessionRequested()));
-        bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
-                    QStringLiteral("Unlock"),
-                    q, SIGNAL(unlockSessionRequested()));
+    // We are connected now
+    isConnected = true;
 
-        // Listen for properties changed
-        bus.connect(LOGIN1_SERVICE, sessionPath, dbusPropertiesInterface,
-                    QStringLiteral("PropertiesChanged"),
-                    q, SLOT(_q_sessionPropertiesChanged()));
+    // Listen for lock and unlock signals
+    bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
+                QLatin1String("Lock"),
+                q, SIGNAL(lockSessionRequested()));
+    bus.connect(LOGIN1_SERVICE, sessionPath, login1SessionInterface,
+                QLatin1String("Unlock"),
+                q, SIGNAL(unlockSessionRequested()));
 
-        // Listen for prepare signals
-        bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                    QStringLiteral("PrepareForSleep"),
-                    q, SIGNAL(prepareForSleep(bool)));
-        bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
-                    QStringLiteral("PrepareForShutdown"),
-                    q, SIGNAL(prepareForShutdown(bool)));
+    // Listen for properties changed
+    bus.connect(LOGIN1_SERVICE, sessionPath, dbusPropertiesInterface,
+                QLatin1String("PropertiesChanged"),
+                q, SLOT(_q_sessionPropertiesChanged()));
 
-        // Activate the session in case we are on another vt, the
-        // call blocks on purpose because we need to get properties
-        QDBusMessage message =
-                QDBusMessage::createMethodCall(LOGIN1_SERVICE,
-                                               sessionPath,
-                                               login1ManagerInterface,
-                                               QStringLiteral("Activate"));
-        bus.call(message);
+    // Listen for prepare signals
+    bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
+                QLatin1String("PrepareForSleep"),
+                q, SIGNAL(prepareForSleep(bool)));
+    bus.connect(LOGIN1_SERVICE, login1Object, login1ManagerInterface,
+                QLatin1String("PrepareForShutdown"),
+                q, SIGNAL(prepareForShutdown(bool)));
 
-        // Get properties
-        _q_sessionPropertiesChanged();
+    // Activate the session in case we are on another vt, the
+    // call blocks on purpose because we need to get properties
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           sessionPath,
+                                           login1ManagerInterface,
+                                           QLatin1String("Activate"));
+    bus.call(message);
 
-        Q_EMIT q->connectedChanged(isConnected);
-    });
+    // Get properties
+    _q_sessionPropertiesChanged();
+
+    Q_EMIT q->connectedChanged(isConnected);
 }
 
 void LogindPrivate::_q_serviceUnregistered()
@@ -217,6 +208,198 @@ void LogindPrivate::checkServiceRegistration()
         if (reply.value().contains(LOGIN1_SERVICE))
             _q_serviceRegistered();
     });
+}
+
+bool LogindPrivate::getSessionById(const QString &sessionId, QDBusObjectPath &path) const
+{
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           login1Object,
+                                           login1ManagerInterface,
+                                           QStringLiteral("GetSession"));
+    message.setArguments(QVariantList() << sessionId);
+
+    QDBusReply<QDBusObjectPath> reply = bus.call(message);
+    if (!reply.isValid()) {
+        qCWarning(lcLogind, "Failed to get session path for session %s: %s",
+                  qPrintable(sessionId),
+                  qPrintable(reply.error().message()));
+        return false;
+    }
+
+    path = reply.value();
+    return true;
+}
+
+bool LogindPrivate::getSessionByPid(QDBusObjectPath &path) const
+{
+    QVariantList args;
+    args << static_cast<quint32>(QCoreApplication::applicationPid());
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           login1Object,
+                                           login1ManagerInterface,
+                                           QStringLiteral("GetSessionByPID"));
+    message.setArguments(args);
+
+    QDBusReply<QDBusObjectPath> reply = bus.call(message);
+    if (!reply.isValid()) {
+        qCWarning(lcLogind, "Failed to get session path by PID: %s",
+                  qPrintable(reply.error().message()));
+        return false;
+    }
+
+    path = reply.value();
+    return true;
+}
+
+bool LogindPrivate::getUserSession(DBusUserSession &session) const
+{
+    QDBusObjectPath userPath;
+
+    {
+        QVariantList args;
+        args << ::getuid();
+
+        QDBusMessage message =
+                QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                               login1Object,
+                                               login1ManagerInterface,
+                                               QStringLiteral("GetUser"));
+        message.setArguments(args);
+
+        QDBusReply<QDBusObjectPath> reply = bus.call(message);
+        if (!reply.isValid()) {
+            qCWarning(lcLogind, "Failed to get user path: %s",
+                      qPrintable(reply.error().message()));
+            return false;
+        }
+
+        userPath = reply.value();
+    }
+
+    {
+        QVariantList args;
+        args << QStringLiteral("org.freedesktop.login1.User")
+             << QStringLiteral("Sessions");
+
+        QDBusMessage message =
+                QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                               userPath.path(),
+                                               dbusPropertiesInterface,
+                                               QStringLiteral("Get"));
+        message.setArguments(args);
+
+        QDBusReply<QVariant> reply = bus.call(message);
+        if (!reply.isValid()) {
+            qCWarning(lcLogind, "Failed to list user sessions: %s",
+                      qPrintable(reply.error().message()));
+            return false;
+        }
+
+        // Find which session meets our critera
+        QStringList validTypes = {
+            QStringLiteral("tty"),
+            QStringLiteral("wayland"),
+            QStringLiteral("x11")
+        };
+
+        // We expect to have only one session for each user, and the session for the current
+        // user is supposed to be active because the user logged in with a login manager (either
+        // text based such as getty, or graphical like SDDM).
+        // Graphical login managers usually don't spawn a second session, but activate an already
+        // existing session for the user.
+        bool found = false;
+        DBusUserSessionVector sessions = qdbus_cast<DBusUserSessionVector>(reply.value().value<QDBusArgument>());
+        for (const auto &curSession : qAsConst(sessions)) {
+            const QString type = getSessionType(curSession.id, curSession.objectPath.path());
+            const QString state = getSessionState(curSession.id, curSession.objectPath.path());
+
+            if (!validTypes.contains(type))
+                continue;
+            if (state != QStringLiteral("active"))
+                continue;
+
+            // We get the sessions from newest to oldest, pick the last
+            // one that meets the criteria
+            session = curSession;
+            found = true;
+        }
+
+        return found;
+    }
+
+    return false;
+}
+
+QString LogindPrivate::getSessionId(const QString &sessionPath) const
+{
+    QVariantList args;
+    args << login1SessionInterface
+         << QStringLiteral("Id");
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           sessionPath,
+                                           dbusPropertiesInterface,
+                                           QStringLiteral("Get"));
+    message.setArguments(args);
+
+    QDBusReply<QVariant> reply = bus.call(message);
+    if (!reply.isValid()) {
+        qCWarning(lcLogind, "Failed to get session id: %s",
+                  qPrintable(reply.error().message()));
+        return QString();
+    }
+
+    return reply.value().toString();
+}
+
+QString LogindPrivate::getSessionType(const QString &sessionId, const QString &sessionPath) const
+{
+    QVariantList args;
+    args << login1SessionInterface
+         << QStringLiteral("Type");
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           sessionPath,
+                                           dbusPropertiesInterface,
+                                           QStringLiteral("Get"));
+    message.setArguments(args);
+
+    QDBusReply<QVariant> reply = bus.call(message);
+    if (!reply.isValid()) {
+        qCWarning(lcLogind, "Failed to get type for session %s: %s",
+                  qPrintable(sessionId), qPrintable(reply.error().message()));
+        return QString();
+    }
+
+    return reply.value().toString();
+}
+
+QString LogindPrivate::getSessionState(const QString &sessionId, const QString &sessionPath) const
+{
+    QVariantList args;
+    args << login1SessionInterface
+         << QStringLiteral("State");
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           sessionPath,
+                                           dbusPropertiesInterface,
+                                           QStringLiteral("Get"));
+    message.setArguments(args);
+
+    QDBusReply<QVariant> reply = bus.call(message);
+    if (!reply.isValid()) {
+        qCWarning(lcLogind, "Failed to get state for session %s: %s",
+                  qPrintable(sessionId), qPrintable(reply.error().message()));
+        return QString();
+    }
+
+    return reply.value().toString();
 }
 
 void LogindPrivate::getSessionActive()
@@ -310,6 +493,10 @@ Logind::Logind(const QDBusConnection &connection, QObject *parent)
     : QObject(parent)
     , d_ptr(new LogindPrivate(this))
 {
+    // Register custom types
+    qDBusRegisterMetaType<DBusUserSession>();
+    qDBusRegisterMetaType<DBusUserSessionVector>();
+
     // Initialize and respond to logind service (un)registration
     Q_D(Logind);
     d->bus = connection;
