@@ -173,6 +173,10 @@ void LogindPrivate::_q_serviceUnregistered()
         vt = -1;
         Q_EMIT q->vtNumberChanged(-1);
     }
+    if (!seat.isEmpty()) {
+        seat = QString();
+        Q_EMIT q->seatChanged(seat);
+    }
 }
 
 void LogindPrivate::_q_sessionPropertiesChanged()
@@ -182,6 +186,7 @@ void LogindPrivate::_q_sessionPropertiesChanged()
 
     getSessionActive();
     getVirtualTerminal();
+    getSeat();
 }
 
 void LogindPrivate::checkServiceRegistration()
@@ -466,6 +471,38 @@ void LogindPrivate::getVirtualTerminal()
     });
 }
 
+void LogindPrivate::getSeat()
+{
+    Q_Q(Logind);
+
+    QDBusMessage message =
+            QDBusMessage::createMethodCall(LOGIN1_SERVICE,
+                                           sessionPath,
+                                           dbusPropertiesInterface,
+                                           QLatin1String("Get"));
+    message.setArguments(QVariantList() << login1SessionInterface << QStringLiteral("Seat"));
+
+    QDBusPendingReply<QVariant> result = bus.asyncCall(message);
+    QDBusPendingCallWatcher *callWatcher = new QDBusPendingCallWatcher(result, q);
+    q->connect(callWatcher, &QDBusPendingCallWatcher::finished, q,
+               [q, this](QDBusPendingCallWatcher *w) {
+        QDBusPendingReply<QVariant> reply = *w;
+        w->deleteLater();
+
+        if (!reply.isValid()) {
+            qCWarning(lcLogind, "Failed to get \"Seat\" property from session: %s",
+                      qPrintable(reply.error().message()));
+            return;
+        }
+
+        const DBusSeat dbusSeat = qdbus_cast<DBusSeat>(reply.value().value<QDBusArgument>());
+        if (seat != dbusSeat.id) {
+            seat = dbusSeat.id;
+            Q_EMIT q->seatChanged(seat);
+        }
+    });
+}
+
 /*
  * Logind
  */
@@ -496,6 +533,7 @@ Logind::Logind(const QDBusConnection &connection, QObject *parent)
     // Register custom types
     qDBusRegisterMetaType<DBusUserSession>();
     qDBusRegisterMetaType<DBusUserSessionVector>();
+    qDBusRegisterMetaType<DBusSeat>();
 
     // Initialize and respond to logind service (un)registration
     Q_D(Logind);
@@ -593,6 +631,17 @@ int Logind::vtNumber() const
 {
     Q_D(const Logind);
     return d->vt;
+}
+
+/*!
+ * \property Logind::seat
+ *
+ * This property holds the current seat.
+ */
+QString Logind::seat() const
+{
+    Q_D(const Logind);
+    return d->seat;
 }
 
 /*!

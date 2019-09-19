@@ -67,6 +67,7 @@ public:
     QString sessionPath;
     bool sessionActive = false;
     int vt = -1;
+    QString seat;
     QVector<int> inhibitFds;
 
 protected:
@@ -82,6 +83,7 @@ private:
 
     void getSessionActive();
     void getVirtualTerminal();
+    void getSeat();
 };
 
 } // namespace Liri

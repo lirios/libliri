@@ -50,7 +50,18 @@ Q_DECLARE_METATYPE(DBusUserSession)
 typedef QVector<DBusUserSession> DBusUserSessionVector;
 Q_DECLARE_METATYPE(DBusUserSessionVector)
 
+class DBusSeat
+{
+public:
+    QString id;
+    QDBusObjectPath objectPath;
+};
+Q_DECLARE_METATYPE(DBusSeat)
+
 QDBusArgument &operator<<(QDBusArgument &argument, const DBusUserSession &userSession);
 const QDBusArgument &operator>>(const QDBusArgument &argument, DBusUserSession &userSession);
+
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusSeat &seat);
+const QDBusArgument &operator>>(const QDBusArgument &argument, DBusSeat &seat);
 
 #endif // LOGINDTYPES_P_H

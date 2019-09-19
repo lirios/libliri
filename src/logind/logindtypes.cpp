@@ -38,3 +38,19 @@ const QDBusArgument &operator>>(const QDBusArgument &argument, DBusUserSession &
     argument.endStructure();
     return argument;
 }
+
+QDBusArgument &operator<<(QDBusArgument &argument, const DBusSeat &seat)
+{
+    argument.beginStructure();
+    argument << seat.id << seat.objectPath;
+    argument.endStructure();
+    return argument;
+}
+
+const QDBusArgument &operator>>(const QDBusArgument &argument, DBusSeat &seat)
+{
+    argument.beginStructure();
+    argument >> seat.id >> seat.objectPath;
+    argument.endStructure();
+    return argument;
+}

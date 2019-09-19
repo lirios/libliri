@@ -41,6 +41,7 @@ class LIRILOGIND_EXPORT Logind : public QObject
     Q_PROPERTY(bool sessionActive READ isSessionActive NOTIFY sessionActiveChanged)
     Q_PROPERTY(bool inhibited READ isInhibited NOTIFY inhibitedChanged)
     Q_PROPERTY(int vtNumber READ vtNumber NOTIFY vtNumberChanged)
+    Q_PROPERTY(QString seat READ seat NOTIFY seatChanged)
 public:
     enum InhibitFlag {
         InhibitShutdown = 0x01,
@@ -69,6 +70,7 @@ public:
     bool isSessionActive() const;
     bool isInhibited() const;
     int vtNumber() const;
+    QString seat() const;
 
     void setIdleHint(bool idle);
 
@@ -95,6 +97,7 @@ Q_SIGNALS:
     void sessionActiveChanged(bool);
     void inhibitedChanged(bool);
     void vtNumberChanged(int);
+    void seatChanged(const QString &seat);
 
     void prepareForSleep(bool before);
     void prepareForShutdown(bool before);
