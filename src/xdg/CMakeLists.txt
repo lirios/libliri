@@ -40,10 +40,8 @@ liri_add_module(Xdg
         Qt5::Core
         Qt5::DBus
         Qt5::Xml
-        Qt5::Gui
     PKGCONFIG_DEPENDENCIES
         Qt5Core
         Qt5DBus
         Qt5Xml
-        Qt5Gui
 )

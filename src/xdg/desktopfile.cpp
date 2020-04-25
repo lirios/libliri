@@ -25,7 +25,6 @@
 #include <QDBusInterface>
 #include <QDBusPendingCallWatcher>
 #include <QDBusPendingReply>
-#include <QDesktopServices>
 #include <QDir>
 #include <QFile>
 #include <QMimeDatabase>
@@ -274,7 +273,7 @@ bool DesktopFilePrivate::startLinkDetached(DesktopFile *q)
             desktopFile->startDetached(url.toString());
     } else {
         // Remote URL
-        return QDesktopServices::openUrl(url);
+        qCWarning(lcXdg) << "Unable to open url" << url;
     }
 
     return false;
