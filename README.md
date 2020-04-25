@@ -3,7 +3,7 @@ libliri
 
 [![License](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](http://www.gnu.org/licenses/lgpl.txt)
 [![GitHub release](https://img.shields.io/github/release/lirios/libliri.svg)](https://github.com/lirios/libliri)
-[![Build Status](https://travis-ci.org/lirios/libliri.svg?branch=develop)](https://travis-ci.org/lirios/libliri)
+[![CI](https://github.com/lirios/libliri/workflows/CI/badge.svg?branch=develop)](https://github.com/lirios/libliri/actions?query=workflow%3ACI)
 [![GitHub issues](https://img.shields.io/github/issues/lirios/libliri.svg)](https://github.com/lirios/libliri/issues)
 
 Library for Liri apps, including:
