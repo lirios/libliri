@@ -51,8 +51,6 @@ jobs:
             extra-cmake-modules \
             dbus-x11 \
             xvfb \
-            libudev-dev \
-            libumockdev-dev \
             ${QTPFX}base \
             ${QTPFX}declarative
           if [ "${{ matrix.compiler }}" == "clang" ]; then
@@ -144,8 +142,6 @@ jobs:
             extra-cmake-modules \
             dbus-x11 \
             xvfb \
-            libudev-dev \
-            libumockdev-dev \
             qtbase5-dev \
             qtdeclarative5-dev
       - name: Fetch cmake-shared artifact
