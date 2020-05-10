@@ -64,7 +64,9 @@ jobs:
           mkdir -p build
           cd build
           if [ "${{ matrix.compiler }}" == "clang" ]; then
-            cmake .. -DENABLE_CLAZY:BOOL=ON -DCMAKE_INSTALL_PREFIX=/usr
+            export CC=clang
+            export CXX=clang++
+            cmake .. -DLIRI_ENABLE_CLAZY:BOOL=ON -DCMAKE_INSTALL_PREFIX=/usr
           else
             cmake .. -DCMAKE_INSTALL_PREFIX=/usr
           fi
