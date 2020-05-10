@@ -10,6 +10,9 @@ on:
       - master
       - develop
 
+env:
+  CLAZY_CHECKS: "level1"
+
 jobs:
   build:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -40,7 +43,7 @@ jobs:
         id: qt_version
         shell: bash
         run: |
-          qtverid=`echo "${{ matrix.qt }}" | sed -e 's,suse-qt,,g'`
+          qtverid=`echo "${{ matrix.container }}" | sed -e 's,suse-qt,,g'`
           echo "##[set-output name=id;]${qtverid}"
       - name: Fetch cmake-shared artifact
         uses: liri-infra/fetch-artifact@master
