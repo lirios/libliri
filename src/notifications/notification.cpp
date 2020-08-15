@@ -375,6 +375,29 @@ void Notification::setTimeout(int timeout)
 }
 
 /*!
+ * \property Notification::defaultAction
+ *
+ * This property holds the default action that is invoked
+ * when the notification is clicked.
+ */
+QString Notification::defaultAction() const
+{
+    Q_D(const Notification);
+    return d->defaultAction;
+}
+
+void Notification::setDefaultAction(const QString &label)
+{
+    Q_D(Notification);
+
+    if (d->defaultAction == label)
+        return;
+
+    d->defaultAction = label;
+    Q_EMIT defaultActionChanged();
+}
+
+/*!
  * Returns the hints for this notification.
  * \sa Notification::setHint
  */
@@ -458,6 +481,12 @@ void Notification::send()
 
     QStringList actions;
     if (serverCaps.contains(QLatin1String("actions"))) {
+        const auto defaultAction = d->defaultAction;
+        if (!defaultAction.isEmpty()) {
+            actions.append(QStringLiteral("default"));
+            actions.append(defaultAction);
+        }
+
         int id = 0;
         for (const auto &label : qAsConst(d->actions)) {
             id++;

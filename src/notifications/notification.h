@@ -42,6 +42,7 @@ class LIRINOTIFICATIONS_EXPORT Notification : public QObject
     Q_PROPERTY(quint32 replacesId READ replacesId WRITE setReplacesId NOTIFY replacesIdChanged)
     Q_PROPERTY(Urgency urgency READ urgency WRITE setUrgency NOTIFY urgencyChanged)
     Q_PROPERTY(int timeout READ timeout WRITE setTimeout NOTIFY timeoutChanged)
+    Q_PROPERTY(QString defaultAction READ defaultAction WRITE setDefaultAction NOTIFY defaultActionChanged)
 public:
     enum Urgency {
         UrgencyLow = 0,
@@ -80,6 +81,9 @@ public:
 
     int timeout() const;
     void setTimeout(int timeout);
+
+    QString defaultAction() const;
+    void setDefaultAction(const QString &label);
 
     QVariantMap hints() const;
     void setHint(const QString &name, const QVariant &value);
