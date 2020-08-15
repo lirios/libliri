@@ -454,9 +454,21 @@ void Notification::send()
 {
     Q_D(Notification);
 
+    QStringList serverCaps = getCapabilities();
+
+    QStringList actions;
+    if (serverCaps.contains(QLatin1String("actions"))) {
+        int id = 0;
+        for (const auto &label : qAsConst(d->actions)) {
+            id++;
+            actions.append(QString::number(id));
+            actions.append(label);
+        }
+    }
+
     QDBusPendingCall call = d->iface->Notify(d->appName, d->replacesId, d->appIcon,
                                              d->summary, d->body,
-                                             d->actions, d->hints,
+                                             actions, d->hints,
                                              d->timeout);
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(call, this);
     connect(watcher, &QDBusPendingCallWatcher::finished, this, [&](QDBusPendingCallWatcher *self) {
