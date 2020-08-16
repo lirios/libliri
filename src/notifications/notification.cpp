@@ -398,6 +398,34 @@ void Notification::setDefaultAction(const QString &label)
 }
 
 /*!
+ * \property Notification::defaultActionTarget
+ *
+ * This property holds the default action target that is passed
+ * to the Notification::actionInvoked() signal when the notification
+ * is clicked.
+ *
+ * By default this is "default".
+ *
+ * \sa Notification::actionInvoked
+ */
+QString Notification::defaultActionTarget() const
+{
+    Q_D(const Notification);
+    return d->defaultActionTarget;
+}
+
+void Notification::setDefaultActionTarget(const QString &target)
+{
+    Q_D(Notification);
+
+    if (d->defaultActionTarget == target)
+        return;
+
+    d->defaultActionTarget = target;
+    Q_EMIT defaultActionTargetChanged();
+}
+
+/*!
  * Returns the hints for this notification.
  * \sa Notification::setHint
  */
@@ -481,10 +509,9 @@ void Notification::send()
 
     QStringList actions;
     if (serverCaps.contains(QLatin1String("actions"))) {
-        const auto defaultAction = d->defaultAction;
-        if (!defaultAction.isEmpty()) {
-            actions.append(QStringLiteral("default"));
-            actions.append(defaultAction);
+        if (!d->defaultAction.isEmpty()) {
+            actions.append(d->defaultActionTarget);
+            actions.append(d->defaultAction);
         }
 
         int id = 0;

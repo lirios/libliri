@@ -57,6 +57,7 @@ public:
     quint32 replacesId;
     int timeout;
     QString defaultAction;
+    QString defaultActionTarget = QStringLiteral("default");
     QVariantMap hints;
     QStringList actions;
 };
