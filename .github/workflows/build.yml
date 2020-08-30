@@ -47,7 +47,7 @@ jobs:
           echo "##[set-output name=id;]${qtverid}"
       - name: Fetch and uncompress artifacts
         run: |
-          wget -qO- "https://dl.bintray.com/liri/artifacts-${{ steps.extract_branch.outputs.branch }}/cmake-shared.tar.gz" | sudo tar -xz -f - -C /
+          curl -o - "https://dl.bintray.com/liri/artifacts-${{ steps.extract_branch.outputs.branch }}/cmake-shared.tar.gz" | sudo tar -xz -f - -C /
       - uses: actions/checkout@v2
       - name: Build
         run: |
