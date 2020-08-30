@@ -85,7 +85,5 @@ jobs:
           repository: artifacts-${{ steps.extract_branch.outputs.branch }}
           package: libliri-${{ matrix.compiler }}-${{ steps.qt_version.outputs.id }}
           version: '1.0'
-          delete_file: true
-          recreate_version: true
           calculate_metadata: false
           publish: '1'
