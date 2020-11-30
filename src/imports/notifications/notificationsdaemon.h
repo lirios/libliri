@@ -52,15 +52,15 @@ public:
 
     NotificationImage *imageFor(uint id) const;
 
-    uint Notify(const QString &appName, uint replacesId, const QString &appIcon,
-                const QString &summary, const QString &body, const QStringList &actions,
-                const QVariantMap &hints, int timeout);
+    Q_INVOKABLE uint Notify(const QString &appName, uint replacesId, const QString &appIcon,
+                           const QString &summary, const QString &body, const QStringList &actions,
+                           const QVariantMap &hints, int timeout);
 
-    void CloseNotification(uint id);
+    Q_INVOKABLE void CloseNotification(uint id);
 
-    QStringList GetCapabilities();
+    Q_INVOKABLE QStringList GetCapabilities();
 
-    QString GetServerInformation(QString &vendor, QString &version, QString &specVersion);
+    Q_INVOKABLE QString GetServerInformation(QString &vendor, QString &version, QString &specVersion);
 
 Q_SIGNALS:
     void NotificationClosed(uint id, uint reason);
