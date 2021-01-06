@@ -39,7 +39,7 @@ class LiriCorePlugin : public QQmlExtensionPlugin
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
-    void registerTypes(const char *uri)
+    void registerTypes(const char *uri) override
     {
         // @uri Liri.Core
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Core"));

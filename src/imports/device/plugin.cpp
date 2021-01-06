@@ -45,7 +45,7 @@ public:
     {
     }
 
-    void registerTypes(const char *uri)
+    void registerTypes(const char *uri) override
     {
         // @uri Liri.Device
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Device"));
