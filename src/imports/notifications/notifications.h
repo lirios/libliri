@@ -42,7 +42,7 @@ public:
     };
     Q_ENUM(CloseReason)
 
-    Notifications(QObject *parent = 0);
+    explicit Notifications(QObject *parent = nullptr);
 
     bool isValid() const;
 
