@@ -4,12 +4,14 @@ liri_add_qml_plugin(lirinotifications
     VERSION
         "1.0"
     SOURCES
+        notificationimagesstorage.cpp
+        notificationimagesstorage.h
         notifications.cpp
         notificationsdaemon.cpp
         notificationsdaemon.h
         notifications.h
-        notificationsimage.cpp
-        notificationsimage.h
+        notificationsimageutils.cpp
+        notificationsimageutils.h
         notificationsimageprovider.cpp
         notificationsimageprovider.h
         plugin.cpp

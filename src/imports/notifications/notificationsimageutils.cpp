@@ -24,7 +24,7 @@
 
 #include <QtCore/QDebug>
 
-#include "notificationsimage.h"
+#include "notificationsimageutils.h"
 
 inline void copyLineRGB32(QRgb *dst, const char *src, int width)
 {

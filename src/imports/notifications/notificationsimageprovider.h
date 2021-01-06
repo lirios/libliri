@@ -24,19 +24,14 @@
 #ifndef NOTIFICATIONSIMAGEPROVIDER_H
 #define NOTIFICATIONSIMAGEPROVIDER_H
 
-#include <QtQuick/QQuickImageProvider>
-
-class NotificationsDaemon;
+#include <QQuickImageProvider>
 
 class NotificationsImageProvider : public QQuickImageProvider
 {
 public:
-    NotificationsImageProvider(NotificationsDaemon *daemon);
+    explicit NotificationsImageProvider();
 
     QPixmap requestPixmap(const QString &id, QSize *realSize, const QSize &requestedSize);
-
-private:
-    NotificationsDaemon *m_daemon;
 };
 
 #endif // NOTIFICATIONSIMAGEPROVIDER_H

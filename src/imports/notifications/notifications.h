@@ -24,16 +24,16 @@
 #ifndef NOTIFICATIONS_H
 #define NOTIFICATIONS_H
 
-#include <QtCore/QObject>
+#include <QObject>
+#include <QQmlParserStatus>
 
-class QQmlPropertyMap;
 class NotificationsDaemon;
 
-class Notifications : public QObject
+class Notifications : public QObject, public QQmlParserStatus
 {
     Q_OBJECT
-    Q_PROPERTY(bool valid READ isValid CONSTANT)
-    Q_PROPERTY(bool active READ isActive WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(bool active READ isActive NOTIFY activeChanged)
+    Q_INTERFACES(QQmlParserStatus)
 public:
     enum CloseReason {
         CloseReasonExpired = 1,
@@ -44,33 +44,28 @@ public:
 
     explicit Notifications(QObject *parent = nullptr);
 
-    bool isValid() const;
-
     bool isActive() const;
-    void setActive(bool value);
-
-    NotificationsDaemon *daemon() const;
 
     Q_INVOKABLE void invokeAction(uint id, const QString &actionId);
 
     Q_INVOKABLE void closeNotification(uint id, const Notifications::CloseReason &reason);
 
+    void classBegin() override {}
+    void componentComplete() override;
+
 Q_SIGNALS:
     void activeChanged();
-
     void notificationReceived(uint notificationId, const QString &appName,
                               const QString &appIcon, bool hasIcon,
                               const QString &summary, const QString &body,
                               const QVariantList &actions, bool isPersistent,
                               int expireTimeout, const QVariantMap &hints);
     void notificationClosed(uint notificationId, uint reason);
-
     void actionInvoked(uint notificationId, const QString &actionKey);
 
 private:
-    bool m_valid;
-    bool m_active;
-    NotificationsDaemon *m_daemon;
+    bool m_active = false;
+    NotificationsDaemon *m_daemon = nullptr;
 };
 
 #endif // NOTIFICATIONS_H

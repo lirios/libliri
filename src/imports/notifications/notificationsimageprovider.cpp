@@ -23,12 +23,12 @@
 
 #include <QtGui/QIcon>
 
+#include "notificationimagesstorage.h"
 #include "notificationsdaemon.h"
 #include "notificationsimageprovider.h"
 
-NotificationsImageProvider::NotificationsImageProvider(NotificationsDaemon *daemon)
+NotificationsImageProvider::NotificationsImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
-    , m_daemon(daemon)
 {
 }
 
@@ -54,7 +54,7 @@ QPixmap NotificationsImageProvider::requestPixmap(const QString &id, QSize *real
         return QPixmap();
 
     // Get image from the daemon
-    NotificationImage *image = m_daemon->imageFor(notificationId);
+    NotificationImage *image = NotificationImagesStorage::instance()->get(notificationId);
     if (!image)
         return QPixmap();
 

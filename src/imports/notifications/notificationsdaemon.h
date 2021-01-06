@@ -27,40 +27,32 @@
 #include <QtCore/QObject>
 #include <QtCore/QSet>
 #include <QtCore/QLoggingCategory>
-#include <QtGui/QPixmap>
 
 class QAtomicInt;
 class Notifications;
 
 Q_DECLARE_LOGGING_CATEGORY(NOTIFICATIONS)
 
-struct NotificationImage {
-    QPixmap image;
-    QString iconName;
-    QString entryIconName;
-};
-
 class NotificationsDaemon : public QObject
 {
     Q_OBJECT
 public:
-    NotificationsDaemon(Notifications *parent);
+    explicit NotificationsDaemon(Notifications *parent);
     ~NotificationsDaemon();
 
     bool registerService();
     void unregisterService();
 
-    NotificationImage *imageFor(uint id) const;
+public Q_SLOTS:
+    uint Notify(const QString &appName, uint replacesId, const QString &appIcon,
+                const QString &summary, const QString &body, const QStringList &actions,
+                const QVariantMap &hints, int timeout);
 
-    Q_INVOKABLE uint Notify(const QString &appName, uint replacesId, const QString &appIcon,
-                           const QString &summary, const QString &body, const QStringList &actions,
-                           const QVariantMap &hints, int timeout);
+    void CloseNotification(uint id);
 
-    Q_INVOKABLE void CloseNotification(uint id);
+    QStringList GetCapabilities();
 
-    Q_INVOKABLE QStringList GetCapabilities();
-
-    Q_INVOKABLE QString GetServerInformation(QString &vendor, QString &version, QString &specVersion);
+    QString GetServerInformation(QString &vendor, QString &version, QString &specVersion);
 
 Q_SIGNALS:
     void NotificationClosed(uint id, uint reason);
@@ -74,7 +66,6 @@ private:
     QSet<QString> m_spamApplications;
     QHash<QString, uint> m_replaceableNotifications;
     QHash<uint, QString> m_notifications;
-    QHash<uint, NotificationImage *> m_images;
 
     uint nextId();
 

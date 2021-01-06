@@ -31,10 +31,11 @@
 #include <QtQml/QQmlPropertyMap>
 #include <QtDBus/QDBusArgument>
 
+#include "notificationimagesstorage.h"
 #include "notifications.h"
 #include "notificationsdaemon.h"
 #include "notifications_adaptor.h"
-#include "notificationsimage.h"
+#include "notificationsimageutils.h"
 
 /*
  * Latest specifications:
@@ -69,7 +70,6 @@ NotificationsDaemon::NotificationsDaemon(Notifications *parent)
 
 NotificationsDaemon::~NotificationsDaemon()
 {
-    qDeleteAll(m_images);
     unregisterService();
     delete m_idSeed;
 }
@@ -102,11 +102,6 @@ void NotificationsDaemon::unregisterService()
     QDBusConnection bus = QDBusConnection::sessionBus();
     bus.unregisterObject(servicePath);
     bus.unregisterService(serviceName);
-}
-
-NotificationImage *NotificationsDaemon::imageFor(uint id) const
-{
-    return m_images.value(id);
 }
 
 uint NotificationsDaemon::Notify(const QString &appName, uint replacesId,
@@ -152,9 +147,6 @@ uint NotificationsDaemon::Notify(const QString &appName, uint replacesId,
 
     // Notification image
     NotificationImage *notificationImage = new NotificationImage();
-    if (m_images.contains(id))
-        delete m_images.take(id);
-    m_images[id] = notificationImage;
     notificationImage->iconName = appIcon;
 
     // Fetch the image hint (we also support the obsolete icon_data hint which
@@ -177,6 +169,9 @@ uint NotificationsDaemon::Notify(const QString &appName, uint replacesId,
         QSettings desktopEntry(fileName, QSettings::IniFormat);
         notificationImage->entryIconName = desktopEntry.value(QStringLiteral("Icon"), appIcon).toString();
     }
+
+    // Store image
+    NotificationImagesStorage::instance()->add(id, notificationImage);
 
     // Create actions property map
     QVariantList actionsList;
@@ -202,9 +197,7 @@ uint NotificationsDaemon::Notify(const QString &appName, uint replacesId,
 void NotificationsDaemon::CloseNotification(uint id)
 {
     if (m_notifications.remove(id) > 0) {
-        if (m_images.contains(id))
-            delete m_images.take(id);
-
+        NotificationImagesStorage::instance()->remove(id);
         Q_EMIT NotificationClosed(id, (uint)Notifications::CloseReasonByApplication);
     }
 }

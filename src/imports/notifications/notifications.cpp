@@ -26,46 +26,13 @@
 
 Notifications::Notifications(QObject *parent)
     : QObject(parent)
-    , m_valid(true)
-    , m_active(true)
     , m_daemon(new NotificationsDaemon(this))
 {
-    // Register service
-    if (!m_daemon->registerService()) {
-        m_valid = false;
-        m_active = false;
-    }
-}
-
-bool Notifications::isValid() const
-{
-    return m_valid;
 }
 
 bool Notifications::isActive() const
 {
     return m_active;
-}
-
-void Notifications::setActive(bool value)
-{
-    if (m_active == value)
-        return;
-
-    if (value) {
-        if (!m_daemon->registerService())
-            return;
-    } else {
-        m_daemon->unregisterService();
-    }
-
-    m_active = value;
-    Q_EMIT activeChanged();
-}
-
-NotificationsDaemon *Notifications::daemon() const
-{
-    return m_daemon;
 }
 
 void Notifications::invokeAction(uint id, const QString &actionId)
@@ -77,4 +44,13 @@ void Notifications::closeNotification(uint id, const CloseReason &reason)
 {
     if (m_daemon->m_notifications.remove(id) > 0)
         Q_EMIT m_daemon->NotificationClosed(id, (uint)reason);
+}
+
+void Notifications::componentComplete()
+{
+    // Register service
+    if (m_daemon->registerService()) {
+        m_active = true;
+        Q_EMIT activeChanged();
+    }
 }

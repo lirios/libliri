@@ -33,18 +33,21 @@ class LiriNotificationsPlugin : public QQmlExtensionPlugin
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface")
 public:
+    void initializeEngine(QQmlEngine *engine, const char *uri) override
+    {
+        // @uri Liri.Notifications
+        Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Notifications"));
+
+        engine->addImageProvider(QStringLiteral("notifications"),
+                                 new NotificationsImageProvider());
+    }
+
     void registerTypes(const char *uri) override
     {
         // @uri Liri.Notifications
         Q_ASSERT(QLatin1String(uri) == QLatin1String("Liri.Notifications"));
 
-        qmlRegisterSingletonType<Notifications>(uri, 1, 0, "NotificationsService",
-                                                [](QQmlEngine *engine, QJSEngine *) {
-            Notifications *notifications = new Notifications();
-            engine->addImageProvider(QStringLiteral("notifications"),
-                                     new NotificationsImageProvider(notifications->daemon()));
-            return notifications;
-        });
+        qmlRegisterType<Notifications>(uri, 1, 0, "NotificationsServer");
         qmlRegisterType<Liri::Notification>(uri, 1, 0, "Notification");
     }
 };
