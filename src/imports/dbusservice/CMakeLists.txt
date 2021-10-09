@@ -15,3 +15,5 @@ liri_add_qml_plugin(liridbusservice
     PUBLIC_LIBRARIES
         Qt5::DBus
 )
+
+liri_finalize_qml_plugin(liridbusservice)

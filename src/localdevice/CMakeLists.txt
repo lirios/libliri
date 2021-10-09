@@ -14,13 +14,6 @@ liri_add_module(LocalDevice
         backends/systemdbackend_p.h
         backends/upowerbackend.cpp
         backends/upowerbackend_p.h
-    FORWARDING_HEADERS
-        LocalDevice
-        OsRelease
-    PRIVATE_HEADERS
-        localdevicebackend_p_p.h
-        localdevice_p.h
-        osrelease_p.h
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -31,3 +24,5 @@ liri_add_module(LocalDevice
         Qt5Core
         Qt5DBus
 )
+
+liri_finalize_module(LocalDevice)

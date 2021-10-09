@@ -26,10 +26,6 @@ liri_add_module(Xdg
         xdgmenurules_p_p.h
         xmlhelper_p.cpp
         xmlhelper_p_p.h
-    FORWARDING_HEADERS
-        AutoStart
-        DesktopFile
-        DesktopMenu
     PRIVATE_HEADERS
         desktopfile_p.h
         desktopmenu_p.h
@@ -45,3 +41,5 @@ liri_add_module(Xdg
         Qt5DBus
         Qt5Xml
 )
+
+liri_finalize_module(Xdg)

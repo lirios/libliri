@@ -9,3 +9,5 @@ liri_add_executable(liri-notify
         Qt5::Core
         Liri::Notifications
 )
+
+liri_finalize_executable(liri-notify)

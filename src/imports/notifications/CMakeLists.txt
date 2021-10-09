@@ -26,3 +26,5 @@ liri_add_qml_plugin(lirinotifications
     PUBLIC_LIBRARIES
         Liri::Notifications
 )
+
+liri_finalize_qml_plugin(lirinotifications)

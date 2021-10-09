@@ -6,12 +6,6 @@ liri_add_module(Models
         qobjectlistmodel.cpp
         qobjectlistmodel.h
         qquicklist.h
-    FORWARDING_HEADERS
-        MergeProxyModel
-        QObjectListModel
-        QQuickList
-    PRIVATE_HEADERS
-        mergeproxymodel_p.h
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -22,3 +16,5 @@ liri_add_module(Models
         Qt5Core
         Qt5Qml
 )
+
+liri_finalize_module(Models)

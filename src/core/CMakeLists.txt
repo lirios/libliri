@@ -6,12 +6,6 @@ liri_add_module(Core
         kformat.h
         kformatprivate.cpp
         kformatprivate_p.h
-    INSTALL_HEADERS
-        kformat.h
-    FORWARDING_HEADERS
-        KFormat
-    PRIVATE_HEADERS
-        kformatprivate_p.h
     DEFINES
         #QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -20,3 +14,5 @@ liri_add_module(Core
     PKGCONFIG_DEPENDENCIES
         Qt5Core
 )
+
+liri_finalize_module(Core)

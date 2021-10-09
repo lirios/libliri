@@ -7,10 +7,6 @@ liri_add_module(Notifications
         notification_p.h
     DBUS_INTERFACE_SOURCES
         org.freedesktop.Notifications.xml
-    FORWARDING_HEADERS
-        Notification
-    PRIVATE_HEADERS
-        notification_p.h
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -23,3 +19,5 @@ liri_add_module(Notifications
         Qt5DBus
         Qt5Gui
 )
+
+liri_finalize_module(Notifications)

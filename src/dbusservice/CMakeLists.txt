@@ -7,10 +7,6 @@ liri_add_module(DBusService
         dbusservice_p.h
     DBUS_ADAPTOR_SOURCES
         org.freedesktop.Application.xml
-    FORWARDING_HEADERS
-        DBusService
-    PRIVATE_HEADERS
-        dbusservice_p.h
     DEFINES
         QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -23,3 +19,5 @@ liri_add_module(DBusService
         Qt5DBus
         Qt5Gui
 )
+
+liri_finalize_module(DBusService)

@@ -8,8 +8,6 @@ liri_add_module(Logind
         logind_p.h
         logindtypes.cpp
         logindtypes_p.h
-    FORWARDING_HEADERS
-        Logind
     DEFINES
         #QT_NO_CAST_FROM_ASCII
         QT_NO_FOREACH
@@ -21,3 +19,5 @@ liri_add_module(Logind
         Qt5Core
         Qt5DBus
 )
+
+liri_finalize_module(Logind)

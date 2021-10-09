@@ -15,3 +15,5 @@ liri_add_qml_plugin(liricore
     PUBLIC_LIBRARIES
         Liri::Core
 )
+
+liri_finalize_qml_plugin(liricore)
