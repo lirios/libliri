@@ -4,7 +4,7 @@ liri_add_qml_plugin(NotificationsQmlPlugin
     VERSION
         "1.0"
     OUTPUT_NAME
-        "lirinotifications"
+        "lirinotificationsplugin"
     SOURCES
         notificationimagesstorage.cpp
         notificationimagesstorage.h
