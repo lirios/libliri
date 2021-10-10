@@ -1,8 +1,10 @@
-liri_add_qml_plugin(liridevice
+liri_add_qml_plugin(DeviceQmlPlugin
     MODULE_PATH
         "Liri/Device"
     VERSION
         "1.0"
+    OUTPUT_NAME
+        "lirideviceplugin"
     SOURCES
         plugin.cpp
     QML_FILES
@@ -14,4 +16,4 @@ liri_add_qml_plugin(liridevice
         Liri::LocalDevice
 )
 
-liri_finalize_qml_plugin(liridevice)
+liri_finalize_qml_plugin(DeviceQmlPlugin)

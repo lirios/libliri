@@ -1,8 +1,10 @@
-liri_add_qml_plugin(liricore
+liri_add_qml_plugin(CoreQmlPlugin
     MODULE_PATH
         "Liri/Core"
     VERSION
         "1.0"
+    OUTPUT_NAME
+        "liricoreplugin"
     SOURCES
         formatter.cpp
         formatter.h
@@ -16,4 +18,4 @@ liri_add_qml_plugin(liricore
         Liri::Core
 )
 
-liri_finalize_qml_plugin(liricore)
+liri_finalize_qml_plugin(CoreQmlPlugin)

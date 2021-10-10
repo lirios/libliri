@@ -1,8 +1,10 @@
-liri_add_qml_plugin(liridbusservice
+liri_add_qml_plugin(DBusServiceQmlPlugin
     MODULE_PATH
         "Liri/DBusService"
     VERSION
         "1.0"
+    OUTPUT_NAME
+        "liridbusserviceplugin"
     SOURCES
         application.cpp
         application.h
@@ -16,4 +18,4 @@ liri_add_qml_plugin(liridbusservice
         Qt5::DBus
 )
 
-liri_finalize_qml_plugin(liridbusservice)
+liri_finalize_qml_plugin(DBusServiceQmlPlugin)
