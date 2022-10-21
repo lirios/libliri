@@ -6,9 +6,7 @@ libliri
 [![GitHub issues](https://img.shields.io/github/issues/lirios/libliri.svg)](https://github.com/lirios/libliri/issues)
 [![CI](https://github.com/lirios/libliri/workflows/CI/badge.svg?branch=develop)](https://github.com/lirios/libliri/actions?query=workflow%3ACI)
 
-Library for Liri apps, including:
-
- * Qt-style API for logind.
+Library for Liri apps.
 
 ## Dependencies
 
@@ -45,7 +43,6 @@ to learn how to enable them.
 
 Available categories:
 
-  * **liri.logind:** Logind wrapper
   * **liri.localdevice.systemd:** systemd support for LiriLocalDevice
   * **liri.xdg:** freedesktop.org desktop entry and menus
 
