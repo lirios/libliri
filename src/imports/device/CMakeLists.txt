@@ -1,19 +1,16 @@
-liri_add_qml_plugin(DeviceQmlPlugin
-    MODULE_PATH
-        "Liri/Device"
+ecm_add_qml_module(DeviceQmlPlugin
+    URI
+        "Liri.Device"
     VERSION
         "1.0"
-    OUTPUT_NAME
-        "lirideviceplugin"
-    SOURCES
-        plugin.cpp
-    QML_FILES
-        qmldir
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
-    PUBLIC_LIBRARIES
+    GENERATE_PLUGIN_SOURCE
+)
+
+target_link_libraries(DeviceQmlPlugin
+    PUBLIC
+        Qt6::Core
+        Qt6::Qml
         Liri::LocalDevice
 )
 
-liri_finalize_qml_plugin(DeviceQmlPlugin)
+ecm_finalize_qml_module(DeviceQmlPlugin)

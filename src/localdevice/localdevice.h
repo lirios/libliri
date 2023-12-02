@@ -24,6 +24,7 @@
 #pragma once
 
 #include <QObject>
+#include <QtQmlIntegration>
 
 #include <LiriLocalDevice/OsRelease>
 
@@ -51,6 +52,7 @@ class LIRILOCALDEVICE_EXPORT LocalDevice : public QObject
     Q_PROPERTY(bool canHibernate READ canHibernate NOTIFY canHibernateChanged)
     Q_PROPERTY(bool canHybridSleep READ canHybridSleep NOTIFY canHybridSleepdChanged)
     Q_PROPERTY(OsRelease *osRelease READ osRelease CONSTANT)
+    QML_ELEMENT
 public:
     enum Chassis {
         UnknownChassis = 0,

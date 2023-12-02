@@ -183,7 +183,7 @@ void MergeProxyModelPrivate::slotDataChanged(const QModelIndex &from, const QMod
 
     const QModelIndex myFrom = q->mapFromSource(from);
     const QModelIndex myTo = q->mapFromSource(to);
-    emit q->dataChanged(myFrom, myTo, roles);
+    Q_EMIT q->dataChanged(myFrom, myTo, roles);
 }
 
 void MergeProxyModelPrivate::slotSourceLayoutAboutToBeChanged(const QList<QPersistentModelIndex> &sourceParents, QAbstractItemModel::LayoutChangeHint hint)
@@ -202,7 +202,7 @@ void MergeProxyModelPrivate::slotSourceLayoutAboutToBeChanged(const QList<QPersi
         parents << mappedParent;
     }
 
-    emit q->layoutAboutToBeChanged(parents, hint);
+    Q_EMIT q->layoutAboutToBeChanged(parents, hint);
 
     const QModelIndexList persistentIndexList = q->persistentIndexList();
     layoutChangePersistentIndexes.reserve(persistentIndexList.size());
@@ -240,7 +240,7 @@ void MergeProxyModelPrivate::slotSourceLayoutChanged(const QList<QPersistentMode
         Q_ASSERT(mappedParent.isValid());
         parents << mappedParent;
     }
-    emit q->layoutChanged(parents, hint);
+    Q_EMIT q->layoutChanged(parents, hint);
 }
 
 void MergeProxyModelPrivate::slotModelAboutToBeReset()

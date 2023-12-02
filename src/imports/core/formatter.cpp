@@ -62,3 +62,11 @@ QString Formatter::formatRelativeDateTime(const QDateTime &dateTime,
 {
     return formatter.formatRelativeDateTime(dateTime, format);
 }
+
+Formatter *Formatter::create(QQmlEngine *engine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(jsEngine)
+
+    return new Formatter();
+}

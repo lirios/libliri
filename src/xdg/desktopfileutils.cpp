@@ -25,6 +25,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QUrl>
 
 #include "desktopfileutils_p.h"
@@ -175,9 +176,9 @@ QString &unEscapeExec(QString &str)
     // The parseCombinedArgString() splits the string by the space symbols,
     // we temporarily replace them on the special characters.
     // Replacement will reverse after the splitting.
-    repl.insert(QLatin1Char(' '), 01); // space
-    repl.insert(QLatin1Char('\t'), 02); // tab
-    repl.insert(QLatin1Char('\n'), 03); // newline,
+    repl.insert(QLatin1Char(' '), QChar(01)); // space
+    repl.insert(QLatin1Char('\t'), QChar(02)); // tab
+    repl.insert(QLatin1Char('\n'), QChar(03)); // newline,
 
     repl.insert(QLatin1Char('"'), QLatin1Char('"')); // double quote,
     repl.insert(QLatin1Char('\''), QLatin1Char('\'')); // single quote ("'"),
@@ -289,8 +290,8 @@ QString expandDynamicUrl(QString url)
 
 void replaceVar(QString &str, const QString &varName, const QString &after)
 {
-    str.replace(QRegExp(QStringLiteral("\\$%1(?!\\w)").arg(varName)), after);
-    str.replace(QRegExp(QStringLiteral("\\$\\{%1\\}").arg(varName)), after);
+    str.replace(QRegularExpression(QStringLiteral("\\$%1(?!\\w)").arg(varName)), after);
+    str.replace(QRegularExpression(QStringLiteral("\\$\\{%1\\}").arg(varName)), after);
 }
 
 QString expandEnvVariables(const QString &str)
@@ -310,7 +311,7 @@ QString expandEnvVariables(const QString &str)
     const QString homeDir = QFile::decodeName(qgetenv("HOME"));
 
     QString res = str;
-    res.replace(QRegExp(QStringLiteral("~(?=$|/)")), homeDir);
+    res.replace(QRegularExpression(QStringLiteral("~(?=$|/)")), homeDir);
 
     replaceVar(res, QStringLiteral("HOME"), homeDir);
     replaceVar(res, QStringLiteral("USER"), QString::fromLocal8Bit(qgetenv("USER")));

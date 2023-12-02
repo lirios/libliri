@@ -25,7 +25,7 @@
 #include <QtDBus/QDBusConnection>
 #include <QtGui/QGuiApplication>
 
-#include "application_adaptor.h"
+#include "applicationadaptor.h"
 #include "dbusservice.h"
 #include "dbusservice_p.h"
 
@@ -42,7 +42,7 @@ QString DBusServicePrivate::getServiceName() const
 
     if (desktopFileName.isEmpty()) {
         const QString domain = QCoreApplication::organizationDomain();
-        const QStringList parts = domain.split(QLatin1Char('.'), QString::SkipEmptyParts);
+        const QStringList parts = domain.split(QLatin1Char('.'), Qt::SkipEmptyParts);
 
         QString reverseDomain;
         if (parts.isEmpty()) {

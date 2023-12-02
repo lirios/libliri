@@ -27,6 +27,7 @@
 
 #include <QObject>
 #include <QFileSystemWatcher>
+#include <QStringList>
 #include <QTimer>
 
 #include "desktopmenu.h"
@@ -43,9 +44,6 @@
 //
 // We mean it.
 //
-
-class QStringList;
-class QString;
 
 namespace Liri {
 

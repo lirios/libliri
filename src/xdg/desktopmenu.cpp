@@ -360,7 +360,7 @@ QDomElement DesktopMenu::findMenu(QDomElement &baseElement, const QString &path,
     if (!createNonExisting)
         return QDomElement();
 
-    const QStringList names = path.split(QLatin1Char('/'), QString::SkipEmptyParts);
+    const QStringList names = path.split(QLatin1Char('/'), Qt::SkipEmptyParts);
     QDomElement el = baseElement;
     for (const QString &name : names) {
         QDomElement p = el;

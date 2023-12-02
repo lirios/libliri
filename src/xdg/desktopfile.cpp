@@ -129,7 +129,7 @@ bool DesktopFilePrivate::readFile()
 
         // Decode lists
         if (value.contains(QLatin1Char(';')))
-            items.insert(key, value.split(QLatin1Char(';'), QString::SkipEmptyParts));
+            items.insert(key, value.split(QLatin1Char(';'), Qt::SkipEmptyParts));
         else
             items.insert(key, value);
     }
@@ -522,11 +522,11 @@ QUrl DesktopFile::url() const
     if (!url.isEmpty())
         return url;
 
-    url = expandDynamicUrl(value(QStringLiteral("URL[$e]")).toString());
+    url = QUrl(expandDynamicUrl(value(QStringLiteral("URL[$e]")).toString()));
     if (!url.isEmpty())
         return url;
 
-    return QString();
+    return QUrl();
 }
 
 bool DesktopFile::runsOnTerminal() const
@@ -636,10 +636,10 @@ bool DesktopFile::save(const QString &fileName)
         QString sect = path.section(QLatin1Char('/'), 0, 0);
         if (sect != section) {
             section = sect;
-            stream << QLatin1Char('[') << section << QLatin1Char(']') << endl;
+            stream << QLatin1Char('[') << section << QLatin1Char(']') << Qt::endl;
         }
         QString key = path.section(QLatin1Char('/'), 1);
-        stream << key << QLatin1Char('=') << it.value().toString() << endl;
+        stream << key << QLatin1Char('=') << it.value().toString() << Qt::endl;
         ++it;
     }
 
@@ -713,9 +713,9 @@ QStringList DesktopFile::expandExecString(const QStringList &urls) const
         // The parseCombinedArgString() splits the string by the space symbols,
         // we temporarily replaced them on the special characters.
         // Now we reverse it.
-        token.replace(01, QLatin1Char(' '));
-        token.replace(02, QLatin1Char('\t'));
-        token.replace(03, QLatin1Char('\n'));
+        token.replace(QChar(01), QLatin1Char(' '));
+        token.replace(QChar(02), QLatin1Char('\t'));
+        token.replace(QChar(03), QLatin1Char('\n'));
 
         // ----------------------------------------------------------
         // A single file name, even if multiple files are selected.

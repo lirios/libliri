@@ -1,19 +1,16 @@
-liri_add_qml_plugin(NotificationsQmlPlugin
-    MODULE_PATH
-        "Liri/Notifications"
+ecm_add_qml_module(NotificationsQmlPlugin
+    URI
+        "Liri.Notifications"
     VERSION
         "1.0"
-    OUTPUT_NAME
-        "lirinotificationsplugin"
-    SOURCES
-        plugin.cpp
-    QML_FILES
-        qmldir
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
-    PUBLIC_LIBRARIES
+    GENERATE_PLUGIN_SOURCE
+)
+
+target_link_libraries(NotificationsQmlPlugin
+    PUBLIC
+        Qt6::Core
+        Qt6::Qml
         Liri::Notifications
 )
 
-liri_finalize_qml_plugin(NotificationsQmlPlugin)
+ecm_finalize_qml_module(NotificationsQmlPlugin)

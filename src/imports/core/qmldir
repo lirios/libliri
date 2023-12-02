@@ -1,4 +1,0 @@
-module Liri.Core
-plugin liricoreplugin
-classname LiriCorePlugin
-typeinfo plugins.qmltypes

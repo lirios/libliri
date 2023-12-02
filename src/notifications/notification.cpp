@@ -21,8 +21,8 @@
  * $END_LICENSE$
  ***************************************************************************/
 
-#include <QtDBus/QDBusInterface>
-#include <QtGui/QGuiApplication>
+#include <QDBusInterface>
+#include <QGuiApplication>
 
 #include "notification.h"
 #include "notification_p.h"

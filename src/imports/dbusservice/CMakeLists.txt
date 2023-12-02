@@ -1,21 +1,22 @@
-liri_add_qml_plugin(DBusServiceQmlPlugin
-    MODULE_PATH
-        "Liri/DBusService"
+ecm_add_qml_module(DBusServiceQmlPlugin
+    URI
+        "Liri.DBusService"
     VERSION
         "1.0"
-    OUTPUT_NAME
-        "liridbusserviceplugin"
-    SOURCES
-        application.cpp
-        application.h
-        plugin.cpp
-    QML_FILES
-        qmldir
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
-    PUBLIC_LIBRARIES
-        Qt5::DBus
+    GENERATE_PLUGIN_SOURCE
 )
 
-liri_finalize_qml_plugin(DBusServiceQmlPlugin)
+target_sources(DBusServiceQmlPlugin
+    PRIVATE
+        application.cpp application.h
+)
+
+target_link_libraries(DBusServiceQmlPlugin
+    PUBLIC
+        Qt6::Core
+        Qt6::DBus
+        Qt6::Qml
+        Liri::Core
+)
+
+ecm_finalize_qml_module(DBusServiceQmlPlugin)

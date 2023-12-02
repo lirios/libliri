@@ -1,21 +1,21 @@
-liri_add_qml_plugin(CoreQmlPlugin
-    MODULE_PATH
-        "Liri/Core"
+ecm_add_qml_module(CoreQmlPlugin
+    URI
+        "Liri.Core"
     VERSION
         "1.0"
-    OUTPUT_NAME
-        "liricoreplugin"
-    SOURCES
-        formatter.cpp
-        formatter.h
-        plugin.cpp
-    QML_FILES
-        qmldir
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
-    PUBLIC_LIBRARIES
+    GENERATE_PLUGIN_SOURCE
+)
+
+target_sources(CoreQmlPlugin
+    PRIVATE
+        formatter.cpp formatter.h
+)
+
+target_link_libraries(CoreQmlPlugin
+    PUBLIC
+        Qt6::Core
+        Qt6::Qml
         Liri::Core
 )
 
-liri_finalize_qml_plugin(CoreQmlPlugin)
+ecm_finalize_qml_module(CoreQmlPlugin)

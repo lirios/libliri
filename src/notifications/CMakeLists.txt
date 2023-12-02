@@ -1,23 +1,27 @@
+set(SOURCES
+    notification.cpp notification.h notification_p.h
+)
+
+qt6_add_dbus_interface(SOURCES
+    org.freedesktop.Notifications.xml
+    notifications_interface
+)
+
 liri_add_module(Notifications
     DESCRIPTION
         "Qt style API for freedesktop.org notifications"
     SOURCES
-        notification.cpp
-        notification.h
-        notification_p.h
-    DBUS_INTERFACE_SOURCES
-        org.freedesktop.Notifications.xml
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
+        ${SOURCES}
     PUBLIC_LIBRARIES
-        Qt5::Core
-        Qt5::DBus
-        Qt5::Gui
+        Qt6::Core
+        Qt6::DBus
+        Qt6::QmlIntegration
+        Qt6::Gui
     PKGCONFIG_DEPENDENCIES
-        Qt5Core
-        Qt5DBus
-        Qt5Gui
+        Qt6Core
+        Qt6DBus
+        Qt6QmlIntegration
+        Qt6Gui
 )
 
 liri_finalize_module(Notifications)

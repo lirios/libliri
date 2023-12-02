@@ -26,6 +26,7 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QtQmlIntegration>
 
 #include <LiriLocalDevice/lirilocaldeviceglobal.h>
 
@@ -56,6 +57,7 @@ class LIRILOCALDEVICE_EXPORT OsRelease : public QObject
     Q_PROPERTY(QString variant READ variant NOTIFY variantChanged)
     Q_PROPERTY(QString variantId READ variantId NOTIFY variantIdChanged)
     Q_PROPERTY(QString logoIconName READ logoIconName NOTIFY logoIconNameChanged)
+    QML_ELEMENT
 public:
     explicit OsRelease(QObject *parent = nullptr);
     ~OsRelease();

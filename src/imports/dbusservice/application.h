@@ -27,12 +27,14 @@
 #include <QObject>
 #include <QUrl>
 #include <QVariantMap>
+#include <QQmlEngine>
 
 class Application : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString serviceName READ serviceName WRITE setServiceName NOTIFY serviceNameChanged)
     Q_PROPERTY(QString objectPath READ objectPath WRITE setObjectPath NOTIFY objectPathChanged)
+    QML_ELEMENT
 public:
     explicit Application(QObject *parent = nullptr);
 

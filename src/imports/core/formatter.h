@@ -23,8 +23,10 @@
 
 #pragma once
 
-#include <QtCore/QLocale>
-#include <QtCore/QObject>
+#include <QLocale>
+#include <QObject>
+#include <QQmlEngine>
+
 #include <LiriCore/kformat.h>
 
 /**
@@ -36,6 +38,8 @@
 class Formatter : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 public:
     /**
      * These binary units are used in KDE by the formatByteSize()
@@ -227,6 +231,8 @@ public:
      */
     Q_INVOKABLE QString formatRelativeDateTime(const QDateTime &dateTime,
                                                QLocale::FormatType format) const;
+
+    static Formatter *create(QQmlEngine *engine, QJSEngine *jsEngine);
 
 private:
     KFormat formatter;

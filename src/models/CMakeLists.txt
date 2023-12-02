@@ -1,20 +1,14 @@
 liri_add_module(Models
     SOURCES
-        mergeproxymodel.cpp
-        mergeproxymodel.h
-        mergeproxymodel_p.h
-        qobjectlistmodel.cpp
-        qobjectlistmodel.h
+        mergeproxymodel.cpp mergeproxymodel.h mergeproxymodel_p.h
+        qobjectlistmodel.cpp qobjectlistmodel.h
         qquicklist.h
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
     PUBLIC_LIBRARIES
-        Qt5::Core
-        Qt5::Qml
+        Qt6::Core
+        Qt6::Qml
     PKGCONFIG_DEPENDENCIES
-        Qt5Core
-        Qt5Qml
+        Qt6Core
+        Qt6Qml
 )
 
 liri_finalize_module(Models)

@@ -1,13 +1,7 @@
-liri_add_executable(liri-notify
-    SOURCES
-        main.cpp
-    DEFINES
-        QT_NO_CAST_FROM_ASCII
-        QT_NO_FOREACH
-        LIBLIRI_VERSION="${PROJECT_VERSION}"
-    LIBRARIES
-        Qt5::Core
-        Liri::Notifications
-)
+qt6_add_executable(liri-notify main.cpp)
 
-liri_finalize_executable(liri-notify)
+target_compile_definitions(liri-notify PRIVATE -DLIBLIRI_VERSION="${PROJECT_VERSION}")
+
+target_link_libraries(liri-notify PRIVATE Qt6::Core Liri::Notifications)
+
+install(TARGETS liri-notify DESTINATION ${KDE_INSTALL_BINDIR})

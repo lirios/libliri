@@ -23,7 +23,8 @@
 
 #pragma once
 
-#include <QtCore/QObject>
+#include <QObject>
+#include <QtQmlIntegration>
 
 #include <LiriNotifications/lirinotificationsglobal.h>
 
@@ -44,6 +45,7 @@ class LIRINOTIFICATIONS_EXPORT Notification : public QObject
     Q_PROPERTY(int timeout READ timeout WRITE setTimeout NOTIFY timeoutChanged)
     Q_PROPERTY(QString defaultAction READ defaultAction WRITE setDefaultAction NOTIFY defaultActionChanged)
     Q_PROPERTY(QString defaultActionTarget READ defaultActionTarget WRITE setDefaultActionTarget NOTIFY defaultActionTargetChanged)
+    QML_ELEMENT
 public:
     enum Urgency {
         UrgencyLow = 0,
