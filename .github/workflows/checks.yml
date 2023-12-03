@@ -18,9 +18,8 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  wip:
-    if: "!contains(github.event.head_commit.message, 'ci skip') && github.event_name == 'pull_request'"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Work in progress
-        uses: wip/action@master
+  checks:
+    uses: lirios/.github/.github/workflows/checks.yml@master
+    with:
+      enable_wip: true
+      enable_reuse: true
