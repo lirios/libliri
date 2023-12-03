@@ -13,10 +13,11 @@ liri_add_module(LocalDevice
     PUBLIC_LIBRARIES
         Qt6::Core
         Qt6::DBus
-        Qt6::QmlIntegration
+        Qt6::Qml
     PKGCONFIG_DEPENDENCIES
         Qt6Core
         Qt6DBus
+        Qt6Qml
 )
 
 liri_finalize_module(LocalDevice)

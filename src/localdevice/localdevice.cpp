@@ -560,4 +560,12 @@ void LocalDevice::hybridSleep()
         d->upower->hybridSleep();
 }
 
+LocalDevice *LocalDevice::create(QQmlEngine *engine, QJSEngine *jsEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(jsEngine);
+
+    return new LocalDevice();
+}
+
 } // namespace Liri

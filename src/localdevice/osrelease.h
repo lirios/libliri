@@ -39,6 +39,7 @@ class LIRILOCALDEVICE_EXPORT OsRelease : public QObject
     Q_PROPERTY(QString variantId READ variantId NOTIFY variantIdChanged)
     Q_PROPERTY(QString logoIconName READ logoIconName NOTIFY logoIconNameChanged)
     QML_ELEMENT
+    QML_UNCREATABLE("Cannot create OsRelease")
 public:
     explicit OsRelease(QObject *parent = nullptr);
     ~OsRelease();
