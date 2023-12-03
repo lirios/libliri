@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+# SPDX-License-Identifier: BSD-3-Clause
+
 ecm_add_qml_module(DeviceQmlPlugin
     URI
         "Liri.Device"

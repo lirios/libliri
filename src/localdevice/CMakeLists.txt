@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+# SPDX-License-Identifier: BSD-3-Clause
+
 liri_add_module(LocalDevice
     DESCRIPTION
         "Operations on local device such as reboot, power off, suspend, etc..."

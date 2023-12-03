@@ -1,0 +1,19 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: libliri
+Source: https://github.com/lirios/libliri
+
+Files: .tag
+Copyright: none
+License: CC0-1.0
+
+Files: .github/workflows/*.yml
+Copyright: none
+License: CC0-1.0
+
+Files: AUTHORS.md
+Copyright: 2023 Pier Luigi Fiorini
+License: CC0-1.0
+
+Files: README.md
+Copyright: 2023 Pier Luigi Fiorini
+License: CC0-1.0

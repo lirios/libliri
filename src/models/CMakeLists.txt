@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2023 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+# SPDX-License-Identifier: BSD-3-Clause
+
 liri_add_module(Models
     SOURCES
         mergeproxymodel.cpp mergeproxymodel.h mergeproxymodel_p.h
