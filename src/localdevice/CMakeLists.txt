@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+# SPDX-FileCopyrightText: 2024 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 # SPDX-License-Identifier: BSD-3-Clause
 
 liri_add_module(LocalDevice
@@ -19,5 +19,11 @@ liri_add_module(LocalDevice
         Qt6DBus
         Qt6Qml
 )
-
 liri_finalize_module(LocalDevice)
+
+ecm_add_qml_module(LocalDevice
+    URI Liri.Device
+    VERSION 1.0
+    GENERATE_PLUGIN_SOURCE
+)
+ecm_finalize_qml_module(LocalDevice)

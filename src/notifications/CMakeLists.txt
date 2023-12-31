@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2023 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
+# SPDX-FileCopyrightText: 2024 Pier Luigi Fiorini <pierluigi.fiorini@gmail.com>
 # SPDX-License-Identifier: BSD-3-Clause
 
 set(SOURCES
@@ -26,5 +26,11 @@ liri_add_module(Notifications
         Qt6QmlIntegration
         Qt6Gui
 )
-
 liri_finalize_module(Notifications)
+
+ecm_add_qml_module(Notifications
+    URI Liri.Notifications
+    VERSION 1.0
+    GENERATE_PLUGIN_SOURCE
+)
+ecm_finalize_qml_module(Notifications)
