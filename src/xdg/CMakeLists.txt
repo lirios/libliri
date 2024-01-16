@@ -26,6 +26,7 @@ liri_add_module(Xdg
         Qt6::Xml
     PKGCONFIG_DEPENDENCIES
         Qt6Core
+        Qt6Core5Compat
         Qt6DBus
         Qt6Xml
 )
