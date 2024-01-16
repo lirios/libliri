@@ -5,7 +5,8 @@
 include(FeatureSummary)
 
 ## Find Qt:
-find_package(Qt6
+set(QT_MIN_VERSION "6.6.0")
+find_package(Qt6 "${QT_MIN_VERSION}"
     REQUIRED
     COMPONENTS
         Core
