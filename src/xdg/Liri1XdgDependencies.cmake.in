@@ -4,6 +4,6 @@
 include(CMakeFindDependencyMacro)
 
 find_dependency(Qt6Core "@QT_MIN_VERSION@" REQUIRED)
-find_dependency(Qt6CoreCompat "@QT_MIN_VERSION@" REQUIRED)
+find_dependency(Qt6Core5Compat "@QT_MIN_VERSION@" REQUIRED)
 find_dependency(Qt6DBus "@QT_MIN_VERSION@" REQUIRED)
 find_dependency(Qt6Xml "@QT_MIN_VERSION@" REQUIRED)
