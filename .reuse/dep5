@@ -6,6 +6,18 @@ Files: .tag
 Copyright: none
 License: CC0-1.0
 
+Files: .gitattributes
+Copyright: none
+License: CC0-1.0
+
+Files: .gitignore
+Copyright: none
+License: CC0-1.0
+
+Files: .mailmap
+Copyright: none
+License: CC0-1.0
+
 Files: .github/workflows/*.yml
 Copyright: none
 License: CC0-1.0
